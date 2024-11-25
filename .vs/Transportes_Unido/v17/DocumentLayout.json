@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\usuario\\Desktop\\Cuarto\\1er cuatri\\DIA\\Proyecto\\Transportes_Unido\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2770F6F1-BB9F-48D0-B2EA-E5ED1EE6E8A7}|Transportes\\Transportes.csproj|c:\\users\\usuario\\desktop\\cuarto\\1er cuatri\\dia\\proyecto\\transportes_unido\\transportes\\transportes.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2770F6F1-BB9F-48D0-B2EA-E5ED1EE6E8A7}|Transportes\\Transportes.csproj|solutionrelative:transportes\\transportes.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Transportes",
+              "DocumentMoniker": "C:\\Users\\usuario\\Desktop\\Cuarto\\1er cuatri\\DIA\\Proyecto\\Transportes_Unido\\Transportes\\Transportes.csproj",
+              "RelativeDocumentMoniker": "Transportes\\Transportes.csproj",
+              "ToolTip": "C:\\Users\\usuario\\Desktop\\Cuarto\\1er cuatri\\DIA\\Proyecto\\Transportes_Unido\\Transportes\\Transportes.csproj",
+              "RelativeToolTip": "Transportes\\Transportes.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-11-25T16:03:51.068Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
