@@ -1,0 +1,31 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Transportes.UI.TransportDetailsWindow"
+        Title="Detalles del Transporte"
+        Width="400" Height="600">
+    <StackPanel Margin="20" Spacing="10">
+        <TextBlock Text="Detalles del Transporte" FontSize="20" FontWeight="Bold" TextAlignment="Center" Margin="0 0 0 20"/>
+        
+        <TextBlock Text="ID:" FontWeight="Bold"/>
+        <TextBlock Text="{Binding Id}"/>
+
+        <TextBlock Text="Tipo de Transporte:" FontWeight="Bold"/>
+        <TextBlock Text="{Binding Tipo}"/>
+
+        <TextBlock Text="Cliente:" FontWeight="Bold"/>
+        <TextBlock Text="{Binding Cliente.Nombre}"/>
+
+        <TextBlock Text="Vehículo:" FontWeight="Bold"/>
+        <TextBlock Text="{Binding Vehiculo.Marca}" />
+
+        <TextBlock Text="Fecha de Contratación:" FontWeight="Bold"/>
+        <TextBlock Text="{Binding FechaContratacion, StringFormat={}{0:dd/MM/yyyy}}"/>
+
+        <TextBlock Text="Precio:" FontWeight="Bold"/>
+        <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"/>
+
+        <!-- Más campos según tus necesidades -->
+
+        <Button Content="Cerrar" HorizontalAlignment="Center" Width="100" Margin="0 20 0 0" Click="CloseButton_Click"/>
+    </StackPanel>
+</Window>
