@@ -108,6 +108,7 @@ namespace Transportes
             var graficosButton = this.FindControl<Button>("GraficosButton");
             var addTransportButton  = this.FindControl<Button>("AddTransportButton");
             var consultTransportButton = this.FindControl<Button>("ConsultTransportButton");
+            var dgrid = this.FindControl<DataGrid>("Dgrid");
             
             if (clientesButton != null)
                 clientesButton.Click += (sender, e) => OnClientesClick();
@@ -131,6 +132,11 @@ namespace Transportes
             if (consultTransportButton != null)
             {
                 consultTransportButton.Click += ConsultTransport_Click;
+            }
+            if (dgrid != null)
+            {
+                dgrid.ItemsSource = Transportes;
+                dgrid.SelectionChanged += Dgrid_SelectionChanged;
             }
         }
 
@@ -186,6 +192,19 @@ namespace Transportes
             var consultTransportWindow = new ConsultTransportWindow(Transportes.ToList());
             await consultTransportWindow.ShowDialog(this);
         }
+        private async void Dgrid_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            if (sender is DataGrid dataGrid && dataGrid.SelectedItem is Transporte selectedTransporte)
+            {
+                // Abre una nueva ventana con los detalles del transporte seleccionado
+                var transportDetailsWindow = new TransportDetailsWindow(selectedTransporte);
+                await transportDetailsWindow.ShowDialog(this);
+
+                // Limpia la selección después de abrir la ventana
+                dataGrid.SelectedItem = null;
+            }
+        }
+
 
     }
 }

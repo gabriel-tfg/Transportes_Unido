@@ -42,5 +42,8 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/usuario/Desktop/Cuarto/1er cuatri/DIA/Proyecto/Transportes_Unido/Transportes/UI/ModifyTransportWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/usuario/Desktop/Cuarto/1er cuatri/DIA/Proyecto/Transportes_Unido/Transportes/UI/TransportDetailsWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/usuario/Desktop/Cuarto/1er cuatri/DIA/Proyecto/Transportes_Unido/Transportes/UI/ViewTransportsWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

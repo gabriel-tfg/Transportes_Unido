@@ -13,6 +13,7 @@
         <entry key="Transportes/UI/MainWindow.axaml" value="Transportes/Transportes.csproj" />
         <entry key="Transportes/UI/ModifyTransportWindow.axaml" value="Transportes/Transportes.csproj" />
         <entry key="Transportes/UI/Tranportewindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/TransportDetailsWindow.axaml" value="Transportes/Transportes.csproj" />
         <entry key="Transportes/UI/TransporteViewModel.axaml" value="Transportes/Transportes.csproj" />
         <entry key="Transportes/UI/ViewTransportsWindow.axaml" value="Transportes/Transportes.csproj" />
         <entry key="Transportes/UI/Window1.axaml" value="Transportes/Transportes.csproj" />
