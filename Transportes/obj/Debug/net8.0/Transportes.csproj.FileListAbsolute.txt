@@ -136,3 +136,4 @@ C:\Users\usuario\Desktop\Cuarto\1er cuatri\DIA\Proyecto\Transportes_Unido\Transp
 C:\Users\usuario\Desktop\Cuarto\1er cuatri\DIA\Proyecto\Transportes_Unido\Transportes\obj\Debug\net8.0\Transpor.124D13F3.Up2Date
 C:\Users\usuario\Desktop\Cuarto\1er cuatri\DIA\Proyecto\Transportes_Unido\Transportes\obj\Debug\net8.0\Transportes.genruntimeconfig.cache
 C:\Users\usuario\Desktop\Cuarto\1er cuatri\DIA\Proyecto\Transportes_Unido\Transportes\obj\Debug\net8.0\ref\Transportes.dll
+C:\Users\usuario\Desktop\Cuarto\1er cuatri\DIA\Proyecto\Transportes_Unido\Transportes\obj\Debug\net8.0\Transportes.sourcelink.json

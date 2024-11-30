@@ -1,9 +1,14 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using Avalonia.Interactivity;
 using Transportes;
 using Transportes.Core;
+using Transportes.UI;
 
 namespace Transportes
 {
@@ -11,8 +16,8 @@ namespace Transportes
     {
         // Colecciones de datos
         public ObservableCollection<Transporte> Transportes { get; set; }
-        public ObservableCollection<Cliente> Clientes { get; set; }
-        public ObservableCollection<Vehiculo> Vehiculos { get; set; }
+        public List<Cliente> Clientes { get; set; }
+        public List<Vehiculo> Vehiculos { get; set; }
 
         // Fuente de datos dinámica
         public object ItemsSource { get; set; }
@@ -22,7 +27,7 @@ namespace Transportes
             InitializeComponent();
 
             // Inicializar datos
-            Clientes = new ObservableCollection<Cliente>
+            Clientes = new List<Cliente>
             {
                 new Cliente("1A", "Juan Pérez", "123456789", "juan@example.com", "Calle Falsa 123"),
                 new Cliente("2B", "Ana García", "987654321", "ana@example.com", "Avenida Siempreviva 742"),
@@ -34,7 +39,7 @@ namespace Transportes
                 new Cliente("8H", "Elena Rodríguez", "987321654", "elena@example.com", "Paseo de las Flores 15")
             };
 
-            Vehiculos = new ObservableCollection<Vehiculo>
+            Vehiculos = new List<Vehiculo>
             {
                 new Vehiculo("1234ABC", TipoVehiculo.Furgoneta, "Ford", "Transit", 8.5, DateTime.Now.AddYears(-2), DateTime.Now.AddYears(-3)),
                 new Vehiculo("5678DEF", TipoVehiculo.Camion, "Mercedes", "Actros", 25.0, DateTime.Now.AddYears(-5), DateTime.Now.AddYears(-6)),
@@ -84,7 +89,7 @@ namespace Transportes
             };
 
             // Mostrar transportes al iniciar
-            ItemsSource = Transportes;
+            //ItemsSource = Transportes;
 
             // Vincular DataGrid
             var dgrid = this.FindControl<DataGrid>("Dgrid");
@@ -101,7 +106,9 @@ namespace Transportes
             var datosButton = this.FindControl<Button>("DatosButton");
             var transportesButton = this.FindControl<Button>("TransportesButton");
             var graficosButton = this.FindControl<Button>("GraficosButton");
-
+            var addTransportButton  = this.FindControl<Button>("AddTransportButton");
+            var consultTransportButton = this.FindControl<Button>("ConsultTransportButton");
+            
             if (clientesButton != null)
                 clientesButton.Click += (sender, e) => OnClientesClick();
 
@@ -116,6 +123,15 @@ namespace Transportes
 
             if (graficosButton != null)
                 graficosButton.Click += (sender, e) => OnGraficosClick();
+            
+            if (addTransportButton != null)
+            {
+                addTransportButton.Click += AddTransport_Click;
+            }
+            if (consultTransportButton != null)
+            {
+                consultTransportButton.Click += ConsultTransport_Click;
+            }
         }
 
         private void UpdateDataGrid()
@@ -152,5 +168,24 @@ namespace Transportes
         {
             // Lógica para el botón Gráficos
         }
+        private async void AddTransport_Click(object? sender, RoutedEventArgs e)
+        {
+            // Crea y muestra la ventana para añadir transportes
+            var addTransportWindow = new AddTransportWindow(Transportes.ToList(), Clientes, Vehiculos);
+            await addTransportWindow.ShowDialog(this);
+
+            // Si se añadió un nuevo transporte, actualiza el estado
+            if (addTransportWindow.NuevoTransporte != null)
+            {
+                Transportes.Add(addTransportWindow.NuevoTransporte);
+            }
+        }
+        private async void ConsultTransport_Click(object? sender, RoutedEventArgs e)
+        {
+            // Crea y muestra la ventana de consulta
+            var consultTransportWindow = new ConsultTransportWindow(Transportes.ToList());
+            await consultTransportWindow.ShowDialog(this);
+        }
+
     }
 }
