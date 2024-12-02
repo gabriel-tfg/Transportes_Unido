@@ -8,11 +8,6 @@
         <TextBlock Text="Generar Factura" FontSize="24" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,0,0,20" HorizontalAlignment="Center"/>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="ID del Transporte:" Width="150" VerticalAlignment="Center" Foreground="#6B7280"/>
-            <TextBox x:Name="TransportIdTextBox" Width="200" Background="White" Foreground="#1F2937"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock Text="Precio del Combustible (€):" Width="150" VerticalAlignment="Center" Foreground="#6B7280"/>
             <TextBox x:Name="FuelPriceTextBox" Width="200" Background="White" Foreground="#1F2937"/>
         </StackPanel>

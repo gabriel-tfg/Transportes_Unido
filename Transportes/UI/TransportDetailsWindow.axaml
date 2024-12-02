@@ -1,31 +1,36 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Transportes.UI.TransportDetailsWindow"
-        Title="Detalles del Transporte"
-        Width="400" Height="600">
-    <StackPanel Margin="20" Spacing="10">
-        <TextBlock Text="Detalles del Transporte" FontSize="20" FontWeight="Bold" TextAlignment="Center" Margin="0 0 0 20"/>
-        
-        <TextBlock Text="ID:" FontWeight="Bold"/>
-        <TextBlock Text="{Binding Id}"/>
-
-        <TextBlock Text="Tipo de Transporte:" FontWeight="Bold"/>
-        <TextBlock Text="{Binding Tipo}"/>
-
-        <TextBlock Text="Cliente:" FontWeight="Bold"/>
-        <TextBlock Text="{Binding Cliente.Nombre}"/>
-
-        <TextBlock Text="Vehículo:" FontWeight="Bold"/>
-        <TextBlock Text="{Binding Vehiculo.Marca}" />
-
-        <TextBlock Text="Fecha de Contratación:" FontWeight="Bold"/>
-        <TextBlock Text="{Binding FechaContratacion, StringFormat={}{0:dd/MM/yyyy}}"/>
-
-        <TextBlock Text="Precio:" FontWeight="Bold"/>
-        <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"/>
-
-        <!-- Más campos según tus necesidades -->
-
-        <Button Content="Cerrar" HorizontalAlignment="Center" Width="100" Margin="0 20 0 0" Click="CloseButton_Click"/>
+        Title="Detalles del Transporte" Width="400" Height="600">
+    <StackPanel Margin="20">
+        <TextBlock Text="Detalles del Transporte" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
+        <TextBlock Text="ID:" />
+        <TextBlock Name="IdTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Tipo:" />
+        <TextBlock Name="TipoTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Cliente:" />
+        <TextBlock Name="ClienteTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Vehículo:" />
+        <TextBlock Name="VehiculoTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Fecha de Contratación:" />
+        <TextBlock Name="FechaContratacionTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Fecha de Salida:" />
+        <TextBlock Name="FechaSalidaTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Fecha de Entrega:" />
+        <TextBlock Name="FechaEntregaTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Kilómetros Recorridos:" />
+        <TextBlock Name="KilometrosTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Importe por Día:" />
+        <TextBlock Name="ImportePorDiaTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Importe por Kilómetro:" />
+        <TextBlock Name="ImportePorKilometroTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="IVA Aplicado:" />
+        <TextBlock Name="IvaTextBlock" Margin="0,0,0,10" />
+        <TextBlock Text="Total con IVA:" />
+        <TextBlock Name="TotalConIvaTextBlock" Margin="0,0,0,20" />
+        <Button Name="GenerateInvoiceButton" Content="Generar Factura" Margin="0,0,0,10" />
+        <Button Name="DeleteButton" Content="Eliminar Transporte" Background="Red" Foreground="White" Margin="0,0,0,10" />
+        <Button Name="ModifyButton" Content="Modificar Transporte" Margin="0,0,0,10" />
+        <Button Name="CloseButton" Content="Cerrar" />
     </StackPanel>
 </Window>

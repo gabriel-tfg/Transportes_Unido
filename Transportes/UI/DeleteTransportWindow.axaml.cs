@@ -1,41 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
+using System;
 using Transportes.Core;
 
-namespace Transportes.UI;
-
-public partial class DeleteTransportWindow : Window
+namespace Transportes.UI
 {
-    private List<Transporte> _transportes;
-
-    // Evento para notificar la eliminación de un transporte
-    public event Action? TransporteEliminado;
-
-    public DeleteTransportWindow(List<Transporte> transportes)
+    public partial class DeleteTransportWindow : Window
     {
-        InitializeComponent();
-        _transportes = transportes;
-        DeleteButton.Click += DeleteButton_Click;
-    }
+        private readonly Transporte _transporte;
+        private readonly Action<Transporte> _onDelete;
 
-    private void DeleteButton_Click(object? sender, RoutedEventArgs e)
-    {
-        string? id = TransportIdTextBox.Text;
-
-        try
+        public DeleteTransportWindow(Transporte transporte, Action<Transporte> onDelete)
         {
-            var transporte = _transportes.Find(t => t.Id == id) ?? throw new Exception("Transporte no encontrado");
-            _transportes.Remove(transporte);
-            StatusTextBlock.Text = "Transporte eliminado correctamente";
+            InitializeComponent();
+            _transporte = transporte ?? throw new ArgumentNullException(nameof(transporte));
+            _onDelete = onDelete ?? throw new ArgumentNullException(nameof(onDelete));
 
-            // Invocar el evento para notificar la eliminación
-            TransporteEliminado?.Invoke();
+            ConfirmButton.Click += ConfirmButton_Click;
+            CancelButton.Click += CancelButton_Click;
         }
-        catch (Exception ex)
+
+        private void ConfirmButton_Click(object? sender, RoutedEventArgs e)
         {
-            StatusTextBlock.Text = ex.Message;
+            _onDelete(_transporte);
+            Close();
+        }
+
+        private void CancelButton_Click(object? sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

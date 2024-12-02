@@ -94,6 +94,8 @@ namespace Transportes
             // Vincular DataGrid
             var dgrid = this.FindControl<DataGrid>("Dgrid");
             dgrid.ItemsSource = Transportes;
+            
+            dgrid.SelectionChanged += Dgrid_SelectionChanged;
 
             // Configurar eventos de botones
             ConfigureButtonEvents();
@@ -101,110 +103,60 @@ namespace Transportes
 
         private void ConfigureButtonEvents()
         {
-            var clientesButton = this.FindControl<Button>("ClientesButton");
-            var flotaButton = this.FindControl<Button>("FlotaButton");
-            var datosButton = this.FindControl<Button>("DatosButton");
-            var transportesButton = this.FindControl<Button>("TransportesButton");
-            var graficosButton = this.FindControl<Button>("GraficosButton");
-            var addTransportButton  = this.FindControl<Button>("AddTransportButton");
+            var addTransportButton = this.FindControl<Button>("AddTransportButton");
             var consultTransportButton = this.FindControl<Button>("ConsultTransportButton");
-            var dgrid = this.FindControl<DataGrid>("Dgrid");
-            
-            if (clientesButton != null)
-                clientesButton.Click += (sender, e) => OnClientesClick();
 
-            if (flotaButton != null)
-                flotaButton.Click += (sender, e) => OnFlotaClick();
-
-            if (datosButton != null)
-                datosButton.Click += (sender, e) => OnDatosClick();
-
-            if (transportesButton != null)
-                transportesButton.Click += (sender, e) => OnTransportesClick();
-
-            if (graficosButton != null)
-                graficosButton.Click += (sender, e) => OnGraficosClick();
-            
             if (addTransportButton != null)
-            {
                 addTransportButton.Click += AddTransport_Click;
-            }
+
             if (consultTransportButton != null)
-            {
                 consultTransportButton.Click += ConsultTransport_Click;
-            }
-            if (dgrid != null)
+        }
+
+        private async void AddTransport_Click(object? sender, RoutedEventArgs e)
+        {
+            var addTransportWindow = new AddTransportWindow(Transportes.ToList(), Clientes, Vehiculos);
+            await addTransportWindow.ShowDialog(this);
+
+            if (addTransportWindow.NuevoTransporte != null)
             {
-                dgrid.ItemsSource = Transportes;
-                dgrid.SelectionChanged += Dgrid_SelectionChanged;
+                Transportes.Add(addTransportWindow.NuevoTransporte);
             }
         }
 
-        private void UpdateDataGrid()
+        private async void ConsultTransport_Click(object? sender, RoutedEventArgs e)
         {
-            var dgrid = this.FindControl<DataGrid>("Dgrid");
-            if (dgrid != null) dgrid.ItemsSource = Transportes;
+            var consultTransportWindow = new ConsultTransportWindow(Transportes.ToList());
+            await consultTransportWindow.ShowDialog(this);
+        }
+
+        private async void Dgrid_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            if (sender is DataGrid dataGrid && dataGrid.SelectedItem is Transporte selectedTransporte)
+            {
+                var transportDetailsWindow = new TransportDetailsWindow(selectedTransporte, Transportes, modifiedTransporte =>
+                {
+                    if (modifiedTransporte == null)
+                    {
+                        Transportes.Remove(selectedTransporte);
+                    }
+                    else
+                    {
+                        int index = Transportes.IndexOf(selectedTransporte);
+                        if (index >= 0)
+                            Transportes[index] = modifiedTransporte;
+                    }
+                });
+
+                await transportDetailsWindow.ShowDialog(this);
+
+                dataGrid.SelectedItem = null;
+            }
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
         }
-        private void OnClientesClick()
-        {
-            // Lógica para el botón Clientes
-        }
-
-        private void OnFlotaClick()
-        {
-            // Lógica para el botón Flota
-        }
-
-        private void OnDatosClick()
-        {
-            // Lógica para el botón Datos
-        }
-
-        private void OnTransportesClick()
-        {
-            // Lógica para el botón Transportes
-        }
-
-        private void OnGraficosClick()
-        {
-            // Lógica para el botón Gráficos
-        }
-        private async void AddTransport_Click(object? sender, RoutedEventArgs e)
-        {
-            // Crea y muestra la ventana para añadir transportes
-            var addTransportWindow = new AddTransportWindow(Transportes.ToList(), Clientes, Vehiculos);
-            await addTransportWindow.ShowDialog(this);
-
-            // Si se añadió un nuevo transporte, actualiza el estado
-            if (addTransportWindow.NuevoTransporte != null)
-            {
-                Transportes.Add(addTransportWindow.NuevoTransporte);
-            }
-        }
-        private async void ConsultTransport_Click(object? sender, RoutedEventArgs e)
-        {
-            // Crea y muestra la ventana de consulta
-            var consultTransportWindow = new ConsultTransportWindow(Transportes.ToList());
-            await consultTransportWindow.ShowDialog(this);
-        }
-        private async void Dgrid_SelectionChanged(object? sender, SelectionChangedEventArgs e)
-        {
-            if (sender is DataGrid dataGrid && dataGrid.SelectedItem is Transporte selectedTransporte)
-            {
-                // Abre una nueva ventana con los detalles del transporte seleccionado
-                var transportDetailsWindow = new TransportDetailsWindow(selectedTransporte);
-                await transportDetailsWindow.ShowDialog(this);
-
-                // Limpia la selección después de abrir la ventana
-                dataGrid.SelectedItem = null;
-            }
-        }
-
-
     }
 }
