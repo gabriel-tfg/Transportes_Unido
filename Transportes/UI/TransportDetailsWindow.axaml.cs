@@ -26,6 +26,7 @@ namespace Transportes.UI
             GenerateInvoiceButton.Click += GenerateInvoiceButton_Click;
             CloseButton.Click += CloseButton_Click;
             DeleteButton.Click += DeleteButton_Click;
+            ModifyButton.Click += ModifyButton_Click;
         }
 
         private void GenerateInvoiceButton_Click(object? sender, RoutedEventArgs e)
@@ -61,7 +62,7 @@ namespace Transportes.UI
 
             await deleteWindow.ShowDialog(this); // Mostrar como ventana modal
         }
-/*
+
         private void ModifyButton_Click(object? sender, RoutedEventArgs e)
         {
             var modifyTransportWindow = new ModifyTransportWindow(_transporte, updatedTransporte =>
@@ -113,6 +114,6 @@ namespace Transportes.UI
                                  (_transporte.KilometrosRecorridos * _transporte.ImportePorKilometro);
             double totalConIva = totalSinIva * (1 + _transporte.IvaAplicado);
             TotalConIvaTextBlock.Text = $"{totalConIva:0.00} €";
-        }*/
+        }
     }
 }

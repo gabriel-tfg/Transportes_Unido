@@ -5,45 +5,55 @@
         Width="800"
         Height="600">
     <StackPanel Margin="10">
-        <TextBlock Text="Detalles del Transporte" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" />
+        <!-- Contenedor para los detalles del transporte -->
+        <Border BorderBrush="#D1D5DB" BorderThickness="1" CornerRadius="5" Padding="10" Margin="0,0,0,10">
+            <StackPanel>
+                <TextBlock Text="Detalles del Transporte" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
 
-        <Border BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="10" Padding="10">
-            <ScrollViewer Height="400">
-                <DataGrid x:Name="TransportDataGrid"
-                          AutoGenerateColumns="False"
-                          IsReadOnly="False"
-                          CanUserResizeColumns="True"
-                          CanUserSortColumns="True"
-                          RowBackground="#F9FAFB"
-                          Foreground="#1F2937"
-                          HorizontalScrollBarVisibility="Auto"
-                          VerticalScrollBarVisibility="Auto"
-                          Background="#FFFFFF">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
-                        <DataGridTextColumn Header="Tipo Transporte" Binding="{Binding Tipo}" Width="*"/>
-                        <DataGridTextColumn Header="Cliente (NIF)" Binding="{Binding Cliente.Nif}" Width="*"/>
-                        <DataGridTextColumn Header="Cliente (Nombre)" Binding="{Binding Cliente.Nombre}" Width="*"/>
-                        <DataGridTextColumn Header="Vehículo (Matrícula)" Binding="{Binding Vehiculo.Matricula}" Width="*"/>
-                        <DataGridTextColumn Header="Vehículo (Modelo)" Binding="{Binding Vehiculo.Modelo}" Width="*"/>
-                        <DataGridTextColumn Header="Fecha Contratación" Binding="{Binding FechaContratacion, StringFormat='dd/MM/yyyy'}" Width="*"/>
-                        <DataGridTextColumn Header="Fecha Salida" Binding="{Binding FechaSalida, StringFormat='dd/MM/yyyy'}" Width="*"/>
-                        <DataGridTextColumn Header="Fecha Entrega" Binding="{Binding FechaEntrega, StringFormat='dd/MM/yyyy'}" Width="*"/>
-                        <DataGridTextColumn Header="Kilómetros Recorridos" Binding="{Binding KilometrosRecorridos}" Width="*"/>
-                        <DataGridTextColumn Header="Importe por Día" Binding="{Binding ImportePorDia, StringFormat='C'}" Width="*"/>
-                        <DataGridTextColumn Header="Importe por Kilómetro" Binding="{Binding ImportePorKilometro, StringFormat='C'}" Width="*"/>
-                        <DataGridTextColumn Header="IVA Aplicado" Binding="{Binding IvaAplicado, StringFormat='P'}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </ScrollViewer>
+                <TextBlock Text="ID:" FontWeight="Bold"/>
+                <TextBlock x:Name="IdTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Tipo de Transporte:" FontWeight="Bold"/>
+                <TextBlock x:Name="TipoTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Cliente:" FontWeight="Bold"/>
+                <TextBlock x:Name="ClienteTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Vehículo:" FontWeight="Bold"/>
+                <TextBlock x:Name="VehiculoTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Fecha Contratación:" FontWeight="Bold"/>
+                <TextBlock x:Name="FechaContratacionTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Fecha Salida:" FontWeight="Bold"/>
+                <TextBlock x:Name="FechaSalidaTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Fecha Entrega:" FontWeight="Bold"/>
+                <TextBlock x:Name="FechaEntregaTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Kilómetros Recorridos:" FontWeight="Bold"/>
+                <TextBlock x:Name="KilometrosTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Importe por Día:" FontWeight="Bold"/>
+                <TextBlock x:Name="ImportePorDiaTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Importe por Kilómetro:" FontWeight="Bold"/>
+                <TextBlock x:Name="ImportePorKilometroTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="IVA Aplicado:" FontWeight="Bold"/>
+                <TextBlock x:Name="IvaTextBlock" Margin="0,0,0,10"/>
+
+                <TextBlock Text="Total con IVA:" FontWeight="Bold"/>
+                <TextBlock x:Name="TotalConIvaTextBlock" Margin="0,0,0,10"/>
+            </StackPanel>
         </Border>
 
-        <!-- Botones -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Name="GenerateInvoiceButton" Content="Generar Factura" Margin="0,0,10,0" />
-            <Button Name="DeleteButton" Content="Eliminar Transporte" Background="Red" Foreground="White" Margin="0,0,10,0" />
-            <Button Name="CloseButton" Content="Cerrar" />
+        <!-- Botones de acción -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+            <Button Name="GenerateInvoiceButton" Content="Generar Factura"/>
+            <Button Name="ModifyButton" Content="Modificar Factura"/>
+            <Button Name="DeleteButton" Content="Eliminar Transporte" Background="Red" Foreground="White"/>
+            <Button Name="CloseButton" Content="Cerrar"/>
         </StackPanel>
     </StackPanel>
 </Window>
-

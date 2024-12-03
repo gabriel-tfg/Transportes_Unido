@@ -110,8 +110,8 @@
 
                 <!-- Barra de botones horizontales -->
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0 10 0 0" HorizontalAlignment="Left">
-                    <Button Content="🔍 Buscar" Background="#A8DADC" Foreground="#1D3557" Width="100" Height="35" CornerRadius="10"/> <!-- Botón redondeado -->
-                    <Button Content="+ Añadir" Background="#F4A261" Foreground="#1D3557" Width="100" Height="35" CornerRadius="10"/> <!-- Botón redondeado -->
+                    <Button x:Name="ConsultTransportButton" Content="🔍 Buscar" Background="#A8DADC" Foreground="#1D3557" Width="100" Height="35" CornerRadius="10"/> <!-- Botón redondeado -->
+                    <Button x:Name="AddTransportButton" Content="+ Añadir" Background="#F4A261" Foreground="#1D3557" Width="100" Height="35" CornerRadius="10"/> <!-- Botón redondeado -->
                 </StackPanel>
             </Grid>
         </Border>
