@@ -10,25 +10,22 @@ namespace Transportes.UI
     {
         private Transporte _transporte;
         private readonly Action<Transporte?> _onTransportModified;
-        public ObservableCollection<Transporte> Transportes { get; set; } = new ObservableCollection<Transporte>();
-
+        public ObservableCollection<Transporte> Transportes { get; set; }
 
         public TransportDetailsWindow(Transporte transporte, ObservableCollection<Transporte> transportes, Action<Transporte?> onTransportModified)
         {
             InitializeComponent();
             _transporte = transporte;
             Transportes = transportes;
-
             _onTransportModified = onTransportModified;
 
             // Mostrar los datos del transporte
-            UpdateTransportDetails();
+            //UpdateTransportDetails();
 
             // Configurar eventos de botones
             GenerateInvoiceButton.Click += GenerateInvoiceButton_Click;
             CloseButton.Click += CloseButton_Click;
             DeleteButton.Click += DeleteButton_Click;
-            ModifyButton.Click += ModifyButton_Click;
         }
 
         private void GenerateInvoiceButton_Click(object? sender, RoutedEventArgs e)
@@ -46,42 +43,63 @@ namespace Transportes.UI
         {
             if (_transporte == null)
             {
-                // Si no hay un transporte seleccionado, no hacemos nada.
+                // Si no hay un transporte seleccionado, no hacemos nada
                 return;
             }
 
-            // Crear y mostrar la ventana de eliminación
+            // Crear y mostrar la ventana de confirmación de eliminación
             var deleteWindow = new DeleteTransportWindow(_transporte, transporteEliminado =>
             {
-                // Eliminar el transporte de la colección y notificar la modificación
-                Transportes.Remove(transporteEliminado);
-                _onTransportModified(null); // Notificar que se eliminó el transporte
+                if (transporteEliminado != null)
+                {
+                    // Eliminar el transporte de la colección y notificar
+                    Transportes.Remove(transporteEliminado);
+                    _onTransportModified(null); // Notificar que el transporte fue eliminado
+                    Close(); // Cerrar esta ventana después de confirmar la eliminación
+                }
             });
 
             await deleteWindow.ShowDialog(this); // Mostrar como ventana modal
         }
-
-
-
+/*
         private void ModifyButton_Click(object? sender, RoutedEventArgs e)
         {
             var modifyTransportWindow = new ModifyTransportWindow(_transporte, updatedTransporte =>
             {
-                // Actualizar transporte y notificar
-                _transporte = updatedTransporte;
-                _onTransportModified(_transporte);
-                UpdateTransportDetails();
+                if (updatedTransporte != null)
+                {
+                    // Buscar el índice del transporte actual en la colección
+                    int index = Transportes.IndexOf(_transporte);
+                    if (index >= 0)
+                    {
+                        // Reemplazar el transporte modificado en la colección
+                        Transportes[index] = updatedTransporte;
+                    }
+
+                    // Actualizar la referencia local y los detalles mostrados
+                    _transporte = updatedTransporte;
+                    UpdateTransportDetails();
+
+                    // Notificar a través del callback
+                    _onTransportModified(_transporte);
+                }
             });
 
             modifyTransportWindow.ShowDialog(this);
         }
 
+
         private void UpdateTransportDetails()
         {
-            IdTextBlock.Text = _transporte.Id;
+            if (_transporte == null) return;
+
+            IdTextBlock.Text = _transporte.Id ?? "N/A";
             TipoTextBlock.Text = _transporte.Tipo.ToString();
             ClienteTextBlock.Text = _transporte.Cliente?.Nombre ?? "Sin cliente asignado";
-            VehiculoTextBlock.Text = $"{_transporte.Vehiculo?.Tipo} ({_transporte.Vehiculo?.Matricula})";
+            VehiculoTextBlock.Text = _transporte.Vehiculo != null
+                ? $"{_transporte.Vehiculo.Tipo} ({_transporte.Vehiculo.Matricula})"
+                : "Sin vehículo asignado";
+
             FechaContratacionTextBlock.Text = _transporte.FechaContratacion.ToString("dd/MM/yyyy");
             FechaSalidaTextBlock.Text = _transporte.FechaSalida.ToString("dd/MM/yyyy");
             FechaEntregaTextBlock.Text = _transporte.FechaEntrega.ToString("dd/MM/yyyy");
@@ -95,6 +113,6 @@ namespace Transportes.UI
                                  (_transporte.KilometrosRecorridos * _transporte.ImportePorKilometro);
             double totalConIva = totalSinIva * (1 + _transporte.IvaAplicado);
             TotalConIvaTextBlock.Text = $"{totalConIva:0.00} €";
-        }
+        }*/
     }
 }

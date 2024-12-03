@@ -134,25 +134,32 @@ namespace Transportes
         {
             if (sender is DataGrid dataGrid && dataGrid.SelectedItem is Transporte selectedTransporte)
             {
-                var transportDetailsWindow = new TransportDetailsWindow(selectedTransporte, Transportes, modifiedTransporte =>
-                {
-                    if (modifiedTransporte == null)
+                // Inicializamos la ventana antes del ShowDialog
+                var transportDetailsWindow = new TransportDetailsWindow(
+                    selectedTransporte,
+                    Transportes,
+                    modifiedTransporte =>
                     {
-                        Transportes.Remove(selectedTransporte);
-                    }
-                    else
-                    {
-                        int index = Transportes.IndexOf(selectedTransporte);
-                        if (index >= 0)
-                            Transportes[index] = modifiedTransporte;
-                    }
-                });
+                        if (modifiedTransporte == null)
+                        {
+                            Transportes.Remove(selectedTransporte); // Eliminar transporte
+                        }
+                        else
+                        {
+                            int index = Transportes.IndexOf(selectedTransporte);
+                            if (index >= 0)
+                                Transportes[index] = modifiedTransporte; // Actualizar transporte
+                        }
+                    });
 
+                // Mostrar ventana de detalles como diálogo
                 await transportDetailsWindow.ShowDialog(this);
 
+                // Limpiar selección
                 dataGrid.SelectedItem = null;
             }
         }
+
 
         private void InitializeComponent()
         {
