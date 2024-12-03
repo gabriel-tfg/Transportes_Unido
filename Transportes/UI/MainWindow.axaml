@@ -1,88 +1,120 @@
-<Window xmlns="https://github.com/avaloniaui"
+<Window Background="#1D3557"
+        xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Transportes.MainWindow"
         Title="Transportes"
         Width="1000" Height="700">
 
-    <Grid>
-        <!-- Definición de filas y columnas principales -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60"/> <!-- Barra superior -->
-            <RowDefinition Height="1"/>  <!-- Línea divisoria -->
-            <RowDefinition Height="*"/> <!-- Contenido principal -->
-        </Grid.RowDefinitions>
-
+    <!-- Contenido principal -->
+    <Grid Grid.Row="2" Background="#fceac8"> <!-- Fondo pastel claro -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/> <!-- Principal -->
-            <ColumnDefinition Width="1*"/> <!-- Filtros -->
+            <ColumnDefinition Width="*" /> <!-- Tabla -->
+            <ColumnDefinition Width="250" /> <!-- Área de filtros -->
         </Grid.ColumnDefinitions>
 
-        <!-- Barra superior -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#D3D3D3" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="30">
-            <Button x:Name="ClientesButton" Content="Clientes" Width="100" Height="30"/>
-            <Button x:Name="FlotaButton" Content="Flota" Width="100" Height="30"/>
-            <Button x:Name="DatosButton" Content="Datos" Width="100" Height="30"/>
-            <Button x:Name="TransportesButton" Content="Transportes" Width="120" Height="30"/>
-            <Button x:Name="GraficosButton" Content="Gráficos" Width="100" Height="30"/>
+        <!-- Parte izquierda (tabla y controles) -->
+        <StackPanel Grid.Column="0" Margin="10">
+
+
+            <!-- TabControl para mostrar las pestañas -->
+            <TabControl>
+                <!-- Tab para Transportes -->
+                <TabItem Header="Transportes">
+                    <TabItem.Background>
+                        <SolidColorBrush Color="#BDE0FE"/> <!-- Verde agua pastel -->
+                    </TabItem.Background>
+                    <DataGrid x:Name="Dgrid"
+                              Foreground="Black"  
+                              AutoGenerateColumns="False"
+                              IsReadOnly="False"
+                              BorderBrush="#BDE0FE"
+                              BorderThickness="1"
+                              HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto"
+                              Background="#FFFFFF"
+                              Margin="0 10 0 0"
+                              Height="500"
+                              >
+                        <DataGrid.Styles>
+                            <!-- Estilo para los encabezados de columna -->
+                            <Style Selector="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#ADD8E6"/> <!-- Fondo azul claro -->
+                                <Setter Property="Foreground" Value="Black"/>   <!-- Texto blanco -->
+                                <Setter Property="FontWeight" Value="Bold"/>    <!-- Texto en negrita -->
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/> <!-- Centrado -->
+                            </Style>
+                        </DataGrid.Styles>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="200"/>
+                            <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="200"/>
+                            <DataGridTextColumn Header="Cliente" Binding="{Binding Cliente.Nombre}" Width="200"/>
+                            <DataGridTextColumn Header="Vehículo" Binding="{Binding Vehiculo.Tipo}" Width="200"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+
+                <!-- Tab para Clientes -->
+                <TabItem Header="Clientes">
+                    <TabItem.Background>
+                        <SolidColorBrush Color="#BDE0FE"/> <!-- Salmón pastel -->
+                    </TabItem.Background>
+                    <TextBlock Text="Contenido de Clientes" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1D3557"/>
+                </TabItem>
+
+                <!-- Tab para Flota -->
+                <TabItem Header="Flota">
+                    <TabItem.Background>
+                        <SolidColorBrush Color="#BDE0FE"/> <!-- Amarillo pastel -->
+                    </TabItem.Background>
+                    <TextBlock Text="Contenido de Flota" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1D3557"/>
+                </TabItem>
+
+                <!-- Tab para Datos -->
+                <TabItem Header="Datos">
+                    <TabItem.Background>
+                        <SolidColorBrush Color="#BDE0FE"/> <!-- Azul pastel claro -->
+                    </TabItem.Background>
+                    <TextBlock Text="Contenido de Datos" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1D3557"/>
+                </TabItem>
+
+                <!-- Tab para Gráficos -->
+                <TabItem Header="Gráficos">
+                    <TabItem.Background>
+                        <SolidColorBrush Color="#BDE0FE"/> <!-- Turquesa pastel -->
+                    </TabItem.Background>
+                    <TextBlock Text="Contenido de Gráficos" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1D3557"/>
+                </TabItem>
+            </TabControl>
         </StackPanel>
 
-        <!-- Línea divisoria -->
-        <Border Grid.Row="1" Grid.ColumnSpan="2" Background="#000" Height="1"/>
+        <!-- Parte derecha (filtros) -->
+        <Border Grid.Column="1" Background="#FAD5A5" CornerRadius="20" Padding="20"> <!-- Fondo amarillo pastel con bordes más redondeados -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Filtros -->
+                    <RowDefinition Height="Auto"/> <!-- Botones -->
+                </Grid.RowDefinitions>
 
-        <!-- Contenido principal -->
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" /> <!-- Tabla -->
-                <ColumnDefinition Width="200" /> <!-- Área de filtros -->
-            </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Filtros" FontSize="18" FontWeight="Bold" Margin="0 0 0 15" Foreground="#1D3557"/>
 
-            <!-- Parte izquierda (tabla y controles) -->
-            <StackPanel Grid.Column="0" Margin="10">
-                <!-- Barra de búsqueda -->
-                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0 0 0 10">
-                    <Button Content="🔍 Buscar" Background="#007BFF" Foreground="White" Width="100" Height="30"/>
-                    <Button Content="+ Añadir" Background="#007BFF" Foreground="White" Width="100" Height="30"/>
-                </StackPanel>
-
-                <!-- DataGrid para la lista de transportes -->
-                <DataGrid x:Name="Dgrid"
-                          AutoGenerateColumns="False"
-                          IsReadOnly="False"
-                          RowBackground="#F9FAFB"
-                          Foreground="#1F2937"
-                          HorizontalScrollBarVisibility="Auto"
-                          VerticalScrollBarVisibility="Auto"
-                          Background="#FFFFFF"
-                          Margin="0 10 0 0"
-                          Height="500">
-                    <DataGrid.Columns>
-                        <!-- ID -->
-                        <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="200"/>
-                        <!-- Tipo de Transporte -->
-                        <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="200"/>
-                        <!-- Cliente -->
-                        <DataGridTextColumn Header="Cliente" Binding="{Binding Cliente.Nombre}" Width="200"/>
-                        <!-- Vehículo -->
-                        <DataGridTextColumn Header="Vehículo" Binding="{Binding Vehiculo.Tipo}" Width="200"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
-
-            <!-- Parte derecha (filtros) -->
-            <Border Grid.Column="1" Background="#C0C0C0" Padding="10"> <!-- Fondo gris más oscuro -->
-                <StackPanel>
-                    <TextBlock Text="Filtros" FontSize="18" FontWeight="Bold" Margin="0 0 0 10"/>
                     <!-- Controles para los filtros -->
-                    <TextBlock Text="Por tipo:" FontSize="14" Margin="0 5"/>
-                    <ComboBox x:Name="TipoFiltroComboBox" Width="150" Margin="0 5"/>
-                    
-                    <TextBlock Text="Por cliente:" FontSize="14" Margin="0 5"/>
-                    <TextBox x:Name="ClienteFiltroTextBox" Width="150" Margin="0 5"/>
-                    
-                    <Button Content="Aplicar Filtros" Background="#007BFF" Foreground="White" Width="150" Height="30" Margin="0 10"/>
+                    <TextBlock Text="Por tipo:" FontSize="14" Margin="0 5" Foreground="#1D3557"/>
+                    <ComboBox x:Name="TipoFiltroComboBox" Width="200" Margin="0 5" Background="#FFF5E1" Foreground="#1D3557" BorderBrush="#1D3557" BorderThickness="1" CornerRadius="10"/> <!-- ComboBox redondeado -->
+
+                    <TextBlock Text="Por cliente:" FontSize="14" Margin="10 5" Foreground="#1D3557"/>
+                    <TextBox x:Name="ClienteFiltroTextBox" Width="200" Margin="0 5" Background="#FFF5E1" Foreground="#1D3557" BorderBrush="#1D3557" BorderThickness="1" CornerRadius="10"/> <!-- TextBox redondeado -->
+
+                    <Button Content="Aplicar Filtros" Background="#A8DADC" Foreground="#1D3557" Width="200" Height="35" CornerRadius="10" Margin="0 15"/> <!-- Botón redondeado -->
                 </StackPanel>
-            </Border>
-        </Grid>
+
+                <!-- Barra de botones horizontales -->
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0 10 0 0" HorizontalAlignment="Left">
+                    <Button Content="🔍 Buscar" Background="#A8DADC" Foreground="#1D3557" Width="100" Height="35" CornerRadius="10"/> <!-- Botón redondeado -->
+                    <Button Content="+ Añadir" Background="#F4A261" Foreground="#1D3557" Width="100" Height="35" CornerRadius="10"/> <!-- Botón redondeado -->
+                </StackPanel>
+            </Grid>
+        </Border>
+
     </Grid>
 </Window>
-
