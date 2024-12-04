@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Clientes>
+  <Cliente>
+    <NIF>12345678A</NIF>
+    <Nombre>Juan Pérez</Nombre>
+    <Telefono>123456789</Telefono>
+    <Email>juan@example.com</Email>
+    <Direccion>Calle Falsa 123</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>87654321B</NIF>
+    <Nombre>Maria García</Nombre>
+    <Telefono>987654321</Telefono>
+    <Email>maria@example.com</Email>
+    <Direccion>Avenida Siempre Viva 742</Direccion>
+  </Cliente>
+</Clientes>

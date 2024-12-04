@@ -4,13 +4,13 @@ namespace Transportes.Core;
 public enum TipoTransporte
     {
         Mudanza,
-        Mercancias,
-        Vehiculos
+        Mercancia,
+        Vehiculo
     }
-
+    
     public class Transporte
     {
-        public string Id { get; private set; }
+        public string Id { get;  set; }
         public TipoTransporte Tipo { get; set; }
         public Cliente Cliente { get; set; }
         public Vehiculo Vehiculo { get; set; }
@@ -22,7 +22,10 @@ public enum TipoTransporte
         public double ImportePorKilometro { get; set; }
         public double IvaAplicado { get; set; }
 
-        
+        public Transporte()
+        {
+        }
+
         public Transporte(TipoTransporte tipo, Cliente cliente, Vehiculo vehiculo, DateTime fechaContratacion, double kilometrosRecorridos, DateTime fechaSalida, DateTime fechaEntrega, double importePorDia, double importePorKilometro, double ivaAplicado)
         {
             Id = GenerarIdTransporte(vehiculo.Matricula, fechaContratacion);

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Transportes>
+  <Transporte>
+    <Id>1234ABC20241103</Id>
+    <Tipo>Mudanza</Tipo>
+    <FechaContratacion>2024-12-04</FechaContratacion>
+    <KilometrosRecorridos>250</KilometrosRecorridos>
+    <FechaSalida>2024-12-03</FechaSalida>
+    <FechaEntrega>2024-12-04</FechaEntrega>
+    <ImportePorDia>100</ImportePorDia>
+    <ImportePorKilometro>0.5</ImportePorKilometro>
+    <IVA>21</IVA>
+    <Cliente>
+      <NIF>12345678A</NIF>
+      <Nombre>Juan Pérez</Nombre>
+      <Telefono>123456789</Telefono>
+      <Email>juan@example.com</Email>
+      <Direccion>Calle Falsa 123</Direccion>
+    </Cliente>
+  </Transporte>
+  <Transporte>
+    <Id>9876DFG20231205</Id>
+    <Tipo>Mercancia</Tipo>
+    <FechaContratacion>2024-12-04</FechaContratacion>
+    <KilometrosRecorridos>500</KilometrosRecorridos>
+    <FechaSalida>2024-12-02</FechaSalida>
+    <FechaEntrega>2024-12-03</FechaEntrega>
+    <ImportePorDia>150</ImportePorDia>
+    <ImportePorKilometro>0.7</ImportePorKilometro>
+    <IVA>21</IVA>
+    <Cliente>
+      <NIF>87654321B</NIF>
+      <Nombre>Maria García</Nombre>
+      <Telefono>987654321</Telefono>
+      <Email>maria@example.com</Email>
+      <Direccion>Avenida Siempre Viva 742</Direccion>
+    </Cliente>
+  </Transporte>
+</Transportes>

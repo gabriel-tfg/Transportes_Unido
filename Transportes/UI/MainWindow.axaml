@@ -6,7 +6,7 @@
         Width="1000" Height="700">
 
     <!-- Contenido principal -->
-    <Grid Grid.Row="2" Background="#fceac8"> <!-- Fondo pastel claro -->
+    <Grid Background="#fceac8"> <!-- Fondo pastel claro -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" /> <!-- Tabla -->
             <ColumnDefinition Width="250" /> <!-- Área de filtros -->
@@ -48,7 +48,8 @@
                             <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="200"/>
                             <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="200"/>
                             <DataGridTextColumn Header="Cliente" Binding="{Binding Cliente.Nombre}" Width="200"/>
-                            <DataGridTextColumn Header="Vehículo" Binding="{Binding Vehiculo.Tipo}" Width="200"/>
+                            <DataGridTextColumn Header="Salida" Binding="{Binding FechaSalida,StringFormat=d}" Width="200"/>
+                            <DataGridTextColumn Header="Entrega" Binding="{Binding FechaEntrega,StringFormat=d}" Width="200"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
