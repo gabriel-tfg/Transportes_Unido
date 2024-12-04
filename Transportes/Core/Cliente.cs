@@ -16,4 +16,9 @@ public class Cliente
         Email = email;
         DireccionPostal = direccionPostal;
     }
+
+    public Cliente()
+    {
+        
+    }
 }

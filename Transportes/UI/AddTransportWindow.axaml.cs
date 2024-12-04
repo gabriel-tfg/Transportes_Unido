@@ -48,7 +48,7 @@ namespace Transportes.UI
             TipoVehiculo tipoVehiculoRequerido = tipoTransporte switch
             {
                 TipoTransporte.Mudanza => TipoVehiculo.Furgoneta,
-                TipoTransporte.Mercancias or TipoTransporte.Vehiculos => TipoVehiculo.Camion,
+                TipoTransporte.Mercancia or TipoTransporte.Vehiculo => TipoVehiculo.Camion,
                 _ => throw new InvalidOperationException("Tipo de transporte no soportado.")
             };
 
