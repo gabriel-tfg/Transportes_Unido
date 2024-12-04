@@ -2,31 +2,45 @@
 using Avalonia.Interactivity;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Transportes.Core;
 
 namespace Transportes.UI
 {
-    public partial class TransportDetailsWindow : Window
+    public partial class TransportDetailsWindow : Window, INotifyPropertyChanged
     {
+        private ObservableCollection<Transporte> _selectedTransport;
+        public ObservableCollection<Transporte> SelectedTransport
+        {
+            get => _selectedTransport;
+            set
+            {
+                _selectedTransport = value;
+                OnPropertyChanged();
+            }
+        }
+
         private Transporte _transporte;
         private readonly Action<Transporte?> _onTransportModified;
-        public ObservableCollection<Transporte> Transportes { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public TransportDetailsWindow(Transporte transporte, ObservableCollection<Transporte> transportes, Action<Transporte?> onTransportModified)
         {
             InitializeComponent();
+            DataContext = this;
+
             _transporte = transporte;
-            Transportes = transportes;
             _onTransportModified = onTransportModified;
 
-            // Mostrar los datos del transporte
-            //UpdateTransportDetails();
+            // Inicializar la colección con el transporte seleccionado
+            SelectedTransport = new ObservableCollection<Transporte> { _transporte };
 
             // Configurar eventos de botones
             GenerateInvoiceButton.Click += GenerateInvoiceButton_Click;
             CloseButton.Click += CloseButton_Click;
             DeleteButton.Click += DeleteButton_Click;
-            ModifyButton.Click += ModifyButton_Click;
         }
 
         private void GenerateInvoiceButton_Click(object? sender, RoutedEventArgs e)
@@ -42,27 +56,28 @@ namespace Transportes.UI
 
         private async void DeleteButton_Click(object? sender, RoutedEventArgs e)
         {
-            if (_transporte == null)
-            {
-                // Si no hay un transporte seleccionado, no hacemos nada
-                return;
-            }
+            if (_transporte == null) return;
 
-            // Crear y mostrar la ventana de confirmación de eliminación
             var deleteWindow = new DeleteTransportWindow(_transporte, transporteEliminado =>
             {
                 if (transporteEliminado != null)
                 {
-                    // Eliminar el transporte de la colección y notificar
-                    Transportes.Remove(transporteEliminado);
-                    _onTransportModified(null); // Notificar que el transporte fue eliminado
-                    Close(); // Cerrar esta ventana después de confirmar la eliminación
+                    _onTransportModified(null);
+                    Close();
                 }
             });
 
-            await deleteWindow.ShowDialog(this); // Mostrar como ventana modal
+            await deleteWindow.ShowDialog(this);
         }
 
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}
+
+/*
         private void ModifyButton_Click(object? sender, RoutedEventArgs e)
         {
             var modifyTransportWindow = new ModifyTransportWindow(_transporte, updatedTransporte =>
@@ -114,6 +129,4 @@ namespace Transportes.UI
                                  (_transporte.KilometrosRecorridos * _transporte.ImportePorKilometro);
             double totalConIva = totalSinIva * (1 + _transporte.IvaAplicado);
             TotalConIvaTextBlock.Text = $"{totalConIva:0.00} €";
-        }
-    }
-}
+        }*/
