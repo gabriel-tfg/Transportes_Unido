@@ -4,8 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Transportes;
+using System.Linq;
 using Transportes.Core;
 using System.IO;
+using Avalonia.Interactivity;
+using Transportes.UI;
 
 
 namespace Transportes
@@ -16,7 +19,7 @@ namespace Transportes
         public ObservableCollection<Transporte> Transportes { get; set; }
         public ObservableCollection<Cliente> Clientes { get; set; }
         public ObservableCollection<Vehiculo> Vehiculos { get; set; }
-        
+
         string rutaXml = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
 
         // Fuente de datos dinámica
@@ -27,20 +30,24 @@ namespace Transportes
             InitializeComponent();
             XmlImporter importer = new XmlImporter();
             // Inicializar datos
-            Clientes  = new ObservableCollection<Cliente>(importer.CargarClientesXML(Path.Combine(rutaXml, "clientes.xml")));
+            Clientes = new ObservableCollection<Cliente>(
+                importer.CargarClientesXML(Path.Combine(rutaXml, "clientes.xml")));
 
-            Vehiculos  = new ObservableCollection<Vehiculo>(importer.CargarFlotaXML(Path.Combine(rutaXml, "flota.xml")));
+            Vehiculos = new ObservableCollection<Vehiculo>(importer.CargarFlotaXML(Path.Combine(rutaXml, "flota.xml")));
 
-            Transportes = new ObservableCollection<Transporte>(importer.CargarTransportesXML(Path.Combine(rutaXml, "transportes.xml")));
-               
+            Transportes =
+                new ObservableCollection<Transporte>(
+                    importer.CargarTransportesXML(Path.Combine(rutaXml, "transportes.xml")));
             
-
             // Mostrar transportes al iniciar
             //ItemsSource = Transportes;
 
             // Vincular DataGrid
             var dgrid = this.FindControl<DataGrid>("Dgrid");
             if (dgrid != null) dgrid.ItemsSource = Transportes;
+            //Vincular DataGrid Clientes
+            var dgridcliente = this.FindControl<DataGrid>("DgridCliente");
+            if (dgridcliente != null) dgridcliente.ItemsSource = Clientes;
 
             // Configurar eventos de botones
             ConfigureButtonEvents();
@@ -48,26 +55,12 @@ namespace Transportes
 
         private void ConfigureButtonEvents()
         {
-            var clientesButton = this.FindControl<Button>("ClientesButton");
-            var flotaButton = this.FindControl<Button>("FlotaButton");
-            var datosButton = this.FindControl<Button>("DatosButton");
-            var transportesButton = this.FindControl<Button>("TransportesButton");
-            var graficosButton = this.FindControl<Button>("GraficosButton");
+            var anadirButton = this.FindControl<Button>("AnadirButton");
+            if (anadirButton != null)
+            {
+                anadirButton.Click += AnadirButton_Click;
+            }
 
-            if (clientesButton != null)
-                clientesButton.Click += (sender, e) => OnClientesClick();
-
-            if (flotaButton != null)
-                flotaButton.Click += (sender, e) => OnFlotaClick();
-
-            if (datosButton != null)
-                datosButton.Click += (sender, e) => OnDatosClick();
-
-            if (transportesButton != null)
-                transportesButton.Click += (sender, e) => OnTransportesClick();
-
-            if (graficosButton != null)
-                graficosButton.Click += (sender, e) => OnGraficosClick();
         }
 
         private void UpdateDataGrid()
@@ -78,31 +71,40 @@ namespace Transportes
 
         private void InitializeComponent()
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             AvaloniaXamlLoader.Load(this);
         }
-        private void OnClientesClick()
-        {
-            // Lógica para el botón Clientes
-        }
 
-        private void OnFlotaClick()
+        private async void AnadirButton_Click(object? sender, RoutedEventArgs e)
         {
-            // Lógica para el botón Flota
-        }
+            var tabcontrol = this.FindControl<TabControl>("TabControl");
+            int activeTab = tabcontrol.SelectedIndex;
+            switch (activeTab)
+            {
+                case 0: // Transportes
+                    var transportesWindow = new AddTransportWindow(Transportes.ToList(), Clientes.ToList(), Vehiculos.ToList());
+                    await transportesWindow.ShowDialog(this);
+                    if (transportesWindow.NuevoTransporte != null)
+                    {
+                        Transportes.Add(transportesWindow.NuevoTransporte);
+                    }
+                    break;
 
-        private void OnDatosClick()
-        {
-            // Lógica para el botón Datos
-        }
+                case 1: // Clientes
+                    var clientesaddwindow = new AddClienteWindow();
+                    await clientesaddwindow.ShowDialog(this);
+                    if (!clientesaddwindow.IsCancelled)
+                    {
+                        Clientes.Add(new Cliente(){Nif=clientesaddwindow.Nif, DireccionPostal = clientesaddwindow.DireccionPostal, Nombre = clientesaddwindow.Nombre, Telefono = clientesaddwindow.Telefono, Email = clientesaddwindow.Email});
+                    }
+                    break;
 
-        private void OnTransportesClick()
-        {
-            // Lógica para el botón Transportes
-        }
-
-        private void OnGraficosClick()
-        {
-            // Lógica para el botón Gráficos
+                case 2: // Flota
+                    //var flotaWindow = new FlotaWindow(); // FlotaWindow.axaml.cs
+                    //flotaWindow.Show();
+                    break;
+            }
         }
     }
+
 }

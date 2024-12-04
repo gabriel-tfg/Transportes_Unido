@@ -19,6 +19,9 @@ build_property.ProjectDir = C:\Users\antia\OneDrive\Escritorio\Transportes\Trans
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
+[C:/Users/antia/OneDrive/Escritorio/Transportes/Transportes/UI/AddClienteWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/antia/OneDrive/Escritorio/Transportes/Transportes/UI/AddTransportWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
