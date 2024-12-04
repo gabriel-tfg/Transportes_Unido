@@ -38,7 +38,7 @@ namespace Transportes
             Transportes =
                 new ObservableCollection<Transporte>(
                     importer.CargarTransportesXML(Path.Combine(rutaXml, "transportes.xml")));
-            
+
             // Mostrar transportes al iniciar
             //ItemsSource = Transportes;
 
@@ -48,6 +48,7 @@ namespace Transportes
             //Vincular DataGrid Clientes
             var dgridcliente = this.FindControl<DataGrid>("DgridCliente");
             if (dgridcliente != null) dgridcliente.ItemsSource = Clientes;
+            dgridcliente.SelectionChanged += DgridCliente_SelectionChanged;
 
             // Configurar eventos de botones
             ConfigureButtonEvents();
@@ -67,6 +68,11 @@ namespace Transportes
         {
             var dgrid = this.FindControl<DataGrid>("Dgrid");
             if (dgrid != null) dgrid.ItemsSource = Transportes;
+            
+            //actualizar clientes
+            var dgridcliente = this.FindControl<DataGrid>("DgridCliente");
+            if (dgridcliente != null) dgridcliente.ItemsSource = null;
+            dgridcliente.ItemsSource = Clientes;
         }
 
         private void InitializeComponent()
@@ -82,12 +88,14 @@ namespace Transportes
             switch (activeTab)
             {
                 case 0: // Transportes
-                    var transportesWindow = new AddTransportWindow(Transportes.ToList(), Clientes.ToList(), Vehiculos.ToList());
+                    var transportesWindow =
+                        new AddTransportWindow(Transportes.ToList(), Clientes.ToList(), Vehiculos.ToList());
                     await transportesWindow.ShowDialog(this);
                     if (transportesWindow.NuevoTransporte != null)
                     {
                         Transportes.Add(transportesWindow.NuevoTransporte);
                     }
+
                     break;
 
                 case 1: // Clientes
@@ -95,8 +103,14 @@ namespace Transportes
                     await clientesaddwindow.ShowDialog(this);
                     if (!clientesaddwindow.IsCancelled)
                     {
-                        Clientes.Add(new Cliente(){Nif=clientesaddwindow.Nif, DireccionPostal = clientesaddwindow.DireccionPostal, Nombre = clientesaddwindow.Nombre, Telefono = clientesaddwindow.Telefono, Email = clientesaddwindow.Email});
+                        Clientes.Add(new Cliente()
+                        {
+                            Nif = clientesaddwindow.Nif, DireccionPostal = clientesaddwindow.DireccionPostal,
+                            Nombre = clientesaddwindow.Nombre, Telefono = clientesaddwindow.Telefono,
+                            Email = clientesaddwindow.Email
+                        });
                     }
+
                     break;
 
                 case 2: // Flota
@@ -105,6 +119,22 @@ namespace Transportes
                     break;
             }
         }
-    }
 
+        private async void DgridCliente_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            if (sender is DataGrid dataGrid && dataGrid.SelectedItem is Cliente selectedCliente)
+            {
+                var clienteDetailsWindow = new ClienteDetailWindow(selectedCliente, Transportes);
+                await clienteDetailsWindow.ShowDialog(this);
+
+                if (!clienteDetailsWindow.IsCancelled)
+                {
+                    UpdateDataGrid();
+                }
+                // Limpiar selección
+                dataGrid.SelectedItem = null;
+            }
+        }
+    }
+    
 }

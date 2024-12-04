@@ -1,6 +1,6 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="Transportes.UI.AddClienteWindow"
+        x:Class="Transportes.UI.ClienteDetailWindow"
         Title="Añadir Transporte" Width="700" Height="750"
         Background="Black">
     <DockPanel>
@@ -8,12 +8,12 @@
             <Button Name="BtCancel" Margin="20">
                 <Image Width="15" Height="15" Source="/Res/cancel.png"/>
             </Button> 
-            <Button Name="BtOk" Margin="10">
-                <Image Width="15" Height="15" Source="/Res/add.png"/>
+            <Button Name="BtSave" Margin="10">
+                <Image Width="15" Height="15" Source="/Res/save.png"/>
             </Button>       
         </StackPanel>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">
-            <TextBlock HorizontalAlignment="Center" >Rellena los datos del Cliente: </TextBlock>
+            <TextBlock HorizontalAlignment="Center" >Datos del Cliente: </TextBlock>
             <Label Content="NIF"/>
             <TextBox Name = "EdNif"/>
             <Label Content="Nombre"/>
