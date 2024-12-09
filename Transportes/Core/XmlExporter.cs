@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Xml.Linq;
 namespace Transportes.Core;
 
 public class XmlExporter
 {
-    public void ExportarClientesXML(List<Cliente> _clientes, string rutaArchivo)
+    public void ExportarClientesXML(ObservableCollection<Cliente> _clientes, string rutaArchivo)
     {
         var raiz = new XElement("Clientes");
 
@@ -23,7 +24,7 @@ public class XmlExporter
         raiz.Save(rutaArchivo);
     }
     
-    public void ExportarFlotaXML(List<Vehiculo> _flota, string rutaArchivo)
+    public void ExportarFlotaXML(ObservableCollection<Vehiculo> _flota, string rutaArchivo)
     {
         var raiz = new XElement("Vehiculos");
 
@@ -52,7 +53,7 @@ public class XmlExporter
         raiz.Save(rutaArchivo);
     }
 
-    public void ExportarTransportesXML(List<Transporte> transportes, string rutaArchivo)
+    public void ExportarTransportesXML(ObservableCollection<Transporte> transportes, string rutaArchivo)
     {
         var raiz = new XElement("Transportes");
 
