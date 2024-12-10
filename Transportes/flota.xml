@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Vehiculos>
   <Vehiculo>
-    <Matricula>ABC123</Matricula>
+    <Matricula>ABC 1234</Matricula>
     <Tipo>Furgoneta</Tipo>
     <Marca>Ford</Marca>
     <Modelo>Transit</Modelo>
@@ -14,7 +14,7 @@
     </Comodidades>
   </Vehiculo>
   <Vehiculo>
-    <Matricula>XYZ987</Matricula>
+    <Matricula>DEF 5678</Matricula>
     <Tipo>Camion</Tipo>
     <Marca>Mercedes</Marca>
     <Modelo>Actros</Modelo>

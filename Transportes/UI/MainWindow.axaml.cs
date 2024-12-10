@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Transportes.Core;
 using System.IO;
@@ -17,6 +18,8 @@ namespace Transportes
         public ObservableCollection<Transporte> Transportes { get; set; }
         public ObservableCollection<Cliente> Clientes { get; set; }
         public ObservableCollection<Vehiculo> Vehiculos { get; set; }
+        
+        private readonly BusquedaService busqueda;
 
         string rutaXml = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
 
@@ -26,6 +29,8 @@ namespace Transportes
         public MainWindow()
         {
             InitializeComponent();
+            var opcionesCmbn=this.FindControl<ComboBox>("OpcionesComboBox1");
+            var busquedaComb=this.FindControl<ComboBox>("BusquedaComboBox");
             XmlImporter importer = new XmlImporter();
             Clientes = new ObservableCollection<Cliente>(
                 importer.CargarClientesXML(Path.Combine(rutaXml, "clientes.xml")));
@@ -36,7 +41,11 @@ namespace Transportes
             var tabC = this.FindControl<TabControl>("tabControlMenu");
             tabC.SelectionChanged += (s, e) => TabControl_SelectionChanged(s, e);
             UpdateDataGrid(Transportes, "DgridTransporte");
+            if (opcionesCmbn != null) opcionesCmbn.SelectionChanged += (s, e) => SelectionChanged(s, e);
+            if (busquedaComb != null) busquedaComb.SelectionChanged += (s, e) => BusquedaComboBox_SelectionChanged(s, e);
+            busqueda = new BusquedaService(Transportes, Vehiculos, Clientes);
         }
+        
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -63,7 +72,6 @@ namespace Transportes
                             break;
 
                         default:
-                            Console.WriteLine($"No hay datos para la pestaña: {header}");
                             break;
                     }
                 }
@@ -108,7 +116,6 @@ namespace Transportes
         {
             XmlExporter xmlExporter = new XmlExporter();
             xmlExporter.ExportarClientesXML(Clientes, Path.Combine(rutaXml, "clientes.xml"));
-
         }
 
         private void ExportarFlota_Click(object? sender, RoutedEventArgs e)
@@ -201,14 +208,12 @@ namespace Transportes
             {
                 XmlImporter importer = new XmlImporter();
                 Clientes = new ObservableCollection<Cliente>(
-                    importer.CargarClientesXML(archivo)); 
+                    importer.CargarClientesXML(archivo));
             }
             else
             {
                 MostrarErrorSeleccionArchivo();
             }
-
-         
         }
 
         private async void RestaurarFlota_Click(object? sender, RoutedEventArgs e)
@@ -219,7 +224,7 @@ namespace Transportes
             {
                 XmlImporter importer = new XmlImporter();
                 Vehiculos = new ObservableCollection<Vehiculo>(
-                    importer.CargarFlotaXML(archivo)); 
+                    importer.CargarFlotaXML(archivo));
             }
             else
             {
@@ -235,7 +240,7 @@ namespace Transportes
             {
                 XmlImporter importer = new XmlImporter();
                 Transportes = new ObservableCollection<Transporte>(
-                    importer.CargarTransportesXML(archivo)); 
+                    importer.CargarTransportesXML(archivo));
             }
             else
             {
@@ -261,5 +266,112 @@ namespace Transportes
 
             messageWindow.ShowDialog(this); // Mostrar la ventana
         }
+
+        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Verificar si el ComboBox y el elemento seleccionado son válidos
+            var opcionesCmbn=this.FindControl<ComboBox>("OpcionesComboBox1");
+            if (opcionesCmbn.SelectedItem is ComboBoxItem selectedItem)
+            {
+                // Obtener el texto de la opción seleccionada
+                string seleccion = selectedItem.Content.ToString();
+
+                // Tomar acciones según la selección
+                switch (seleccion)
+                {
+                    case "Transportes pendientes":
+                        var stackPanel = this.FindControl<StackPanel>("transportePendiente");
+                        if (stackPanel != null) stackPanel.IsVisible = true;
+                        
+                        Console.WriteLine("Opción seleccionada: Transportes pendientes");
+                        break;
+
+                    case "Disponibilidad":
+                        Console.WriteLine("Opción seleccionada: Disponibilidad");
+                        break;
+
+                    case "Reservas pasadas o pendientes":
+                        Console.WriteLine("Opción seleccionada: Reservas pasadas o pendientes");
+                        break;
+
+                    case "Reservas por camión":
+                        Console.WriteLine("Opción seleccionada: Reservas por camión");
+                        break;
+
+                    case "Reservas pendientes":
+                        Console.WriteLine("Opción seleccionada: Reservas pendientes");
+                        break;
+
+                    case "Ocupación":
+                        Console.WriteLine("Opción seleccionada: Ocupación");
+                        break;
+
+                    default:
+                        Console.WriteLine("Opción no reconocida.");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("No se seleccionó una opción válida.");
+            }
+            
+            
+        }
+
+        
+        private void BusquedaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var opcionesCmbn=this.FindControl<ComboBox>("BusquedaComboBox");
+            var opcionesCmbn2=this.FindControl<ComboBox>("TipoCamionComboBox");
+            var TipoCamionLabel=this.FindControl<Label>("TipoCamionLabel");
+            
+            if (opcionesCmbn?.SelectedItem is ComboBoxItem selectedItem)
+            {
+                string seleccion = selectedItem.Content?.ToString();
+                if (string.IsNullOrEmpty(seleccion))
+                {
+                    Console.WriteLine("No se seleccionó un valor válido.");
+                }
+                else
+                {
+                    bool esBusquedaPorCamion = seleccion == "Vehiculo"; // esBusquedaPorCamion será true solo si "Camión" está seleccionado
+                    opcionesCmbn2.IsVisible = esBusquedaPorCamion;
+                    TipoCamionLabel.IsVisible = esBusquedaPorCamion;
+                    Console.WriteLine($"Selección válida: {seleccion}");
+                    // Lógica adicional basada en 'seleccion'.
+                }
+            }
+            else
+            {
+                Console.WriteLine("No se ha seleccionado ningún elemento en el ComboBox.");
+            }
+            // Determina si el usuario seleccionó "Camión" para mostrar el ComboBox de TipoCamion
+            
+        }
+
+        private void BuscarButton_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            // Determina si la búsqueda es por flota o por vehiculo
+            
+            var tipoSeleccionado=this.FindControl<ComboBox>("TipoCamionComboBox");
+            var listBox2=this.FindControl<ListBox>("ResultadosListBox");
+           
+            TipoVehiculo? tipoVehiculo = tipoSeleccionado.SelectedItem switch
+            {
+                "Furgoneta" => TipoVehiculo.Furgoneta,
+                "Camión" => TipoVehiculo.Camion,
+                "Camión Articulado" => TipoVehiculo.CamionArticulado,
+                _ => null // "Todos" o ninguna selección aplica null para obtener todos los tipos
+            };
+
+            // Busca camiones que no tengan transportes pendientes (considerados como "libres")
+            var resultados = busqueda.BuscarDisponibilidad(tipoVehiculo);
+
+            // Mostrar los resultados en el ListBox
+            UpdateDataGrid(resultados, "DgridTransporte");
+        }
+
+        
     }
 }
