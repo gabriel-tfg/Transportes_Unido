@@ -28,7 +28,4 @@
             <SubType>Code</SubType>
         </Compile>
     </ItemGroup>
-    <ItemGroup>
-        <AvaloniaResource Include="Res\**"/>
-    </ItemGroup>
 </Project>

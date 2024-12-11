@@ -1,149 +1,362 @@
-<Window Background="#1D3557"
+<Window Background="Cornsilk"
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Transportes.MainWindow"
         Title="Transportes"
-        Width="1300" Height="700">
+        Width="1500" Height="700">
 
-    <!-- Contenido principal -->
-    <Grid Background="#fceac8"> <!-- Fondo pastel claro -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" /> <!-- Tabla -->
-            <ColumnDefinition Width="250" /> <!-- Área de filtros -->
-        </Grid.ColumnDefinitions>
+    <!-- TabControl para mostrar las pestañas -->
+    <TabControl Name="tabControlMenu">
+        <!-- Tab para Transportes -->
+        <TabItem Header="Transportes">
+            <TabItem.Background>
+                <SolidColorBrush Color="#BDE0FE" /> <!-- Verde agua pastel -->
+            </TabItem.Background>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="350" />
+                </Grid.ColumnDefinitions>
+                <DataGrid x:Name="DgridTransporte"
+                          Foreground="Black"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="False"
+                          BorderBrush="#BDE0FE"
+                          BorderThickness="1"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          Background="#FFFFFF"
+                          Margin="0 10 0 0"
+                          Height="500">
+                    <DataGrid.Styles>
+                        <!-- Estilo para los encabezados de columna -->
+                        <Style Selector="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#ADD8E6" /> <!-- Fondo azul claro -->
+                            <Setter Property="Foreground" Value="Black" />   <!-- Texto blanco -->
+                            <Setter Property="FontWeight" Value="Bold" />    <!-- Texto en negrita -->
+                            <Setter Property="HorizontalContentAlignment" Value="Center" /> <!-- Centrado -->
+                        </Style>
+                    </DataGrid.Styles>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="200" />
+                        <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="200" />
+                        <DataGridTextColumn Header="Cliente" Binding="{Binding Cliente.Nombre}" Width="200" />
+                        <DataGridTextColumn Header="Salida" Binding="{Binding FechaSalida,StringFormat=d}"
+                                            Width="200" />
+                        <DataGridTextColumn Header="Entrega" Binding="{Binding FechaEntrega,StringFormat=d}"
+                                            Width="200" />
+                    </DataGrid.Columns>
+                </DataGrid>
 
-        <!-- Parte izquierda (tabla y controles) -->
-        <StackPanel Grid.Column="0" Margin="10">
+                <!-- Barra de filtros lateral, independiente para cada tabitem -->
+                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Grid.Column="1">
+                    <!-- Contenido de cada lateral de filtro -->
+                    <StackPanel VerticalAlignment="Top">
+                        <!-- Barra azul en la parte superior -->
+                        <Grid>
+                            <!-- Etiqueta centrada -->
+                            <Label FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Foreground="Black">
+                                Búsquedas
+                            </Label>
+                        </Grid>
 
+                        <!-- Menú desplegable dentro de un cuadrado -->
+                        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="5" Margin="20" Padding="10"
+                                HorizontalAlignment="Center">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />  <!-- Primer StackPanel -->
+                                    <RowDefinition Height="Auto" />  <!-- Segundo StackPanel -->
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0">
+                                    <!-- Título del menú -->
+                                    <Label FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10">Opciones de Búsqueda</Label>
 
-            <!-- TabControl para mostrar las pestañas -->
-            <TabControl x:Name="TabControl">
-                <!-- Tab para Transportes -->
-                <TabItem Header="Transportes">
+                                    <!-- ComboBox para las opciones -->
+                                    <ComboBox Name="OpcionesComboBox1" Width="250"
+                                              HorizontalAlignment="Center">
+                                        <ComboBoxItem>Transportes pendientes</ComboBoxItem>
+                                        <ComboBoxItem>Disponibilidad</ComboBoxItem>
+                                        <ComboBoxItem>Reservas pasadas o pendientes</ComboBoxItem>
+                                        <ComboBoxItem>Reservas por camión</ComboBoxItem>
+                                        <ComboBoxItem>Reservas pendientes</ComboBoxItem>
+                                        <ComboBoxItem>Ocupación</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" x:Name="transportePendiente" IsVisible="False">
+                                    <Label FontWeight="Bold" FontSize="16">Buscar por:</Label>
+
+                                    <!-- ComboBox para seleccionar entre Flota y Camión -->
+                                    <ComboBox Name="BusquedaComboBox">
+                                        <ComboBoxItem Content="Flota" />
+                                        <ComboBoxItem Content="Vehiculo" />
+                                    </ComboBox>
+
+                                    <!-- ComboBox para seleccionar el tipo de camión (solo visible si se selecciona "Camión") -->
+                                    <Label Name="TipoCamionLabel" FontWeight="Bold" FontSize="14" IsVisible="False">
+                                        Tipo de Camión:
+                                    </Label>
+                                    <ComboBox Name="TipoCamionComboBox" Width="200" HorizontalAlignment="Left"
+                                              Margin="0,10,0,10" IsVisible="False">
+                                        <ComboBoxItem Content="Furgoneta" />
+                                        <ComboBoxItem Content="Camión" />
+                                        <ComboBoxItem Content="Camión Articulado" />
+                                    </ComboBox>
+
+                                    <!-- Botón para ejecutar la búsqueda -->
+                                    <Button Name="BuscarButton" Content="Buscar" Width="100" HorizontalAlignment="Left"
+                                            Click="BuscarButton_Click" />
+
+                                    <!-- ListBox para mostrar los resultados -->
+                                    <ListBox Name="ResultadosListBox" Margin="0,10,0,0">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </TabItem>
+
+        <!-- Tab para Clientes -->
+        <TabItem Header="Clientes">
+            <TabItem.Background>
+                <SolidColorBrush Color="#BDE0FE" /> <!-- Verde agua pastel -->
+            </TabItem.Background>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="250" />
+                </Grid.ColumnDefinitions>
+                <DataGrid x:Name="DgridClientes"
+                          Foreground="Black"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="False"
+                          BorderBrush="#BDE0FE"
+                          BorderThickness="1"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          Background="#FFFFFF"
+                          Margin="0 10 0 0"
+                          Height="500">
+                    <DataGrid.Styles>
+                        <!-- Estilo para los encabezados de columna -->
+                        <Style Selector="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#ADD8E6" /> <!-- Fondo azul claro -->
+                            <Setter Property="Foreground" Value="Black" />   <!-- Texto blanco -->
+                            <Setter Property="FontWeight" Value="Bold" />    <!-- Texto en negrita -->
+                            <Setter Property="HorizontalContentAlignment" Value="Center" /> <!-- Centrado -->
+                        </Style>
+                    </DataGrid.Styles>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="NIF" Binding="{Binding Nif}" Width="200" />
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="200" />
+                        <DataGridTextColumn Header="Telefono" Binding="{Binding Telefono}" Width="200" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email,StringFormat=d}" Width="200" />
+                        <DataGridTextColumn Header="Dir Postal"
+                                            Binding="{Binding DireccionPostal,StringFormat=d}"
+                                            Width="200" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Grid.Column="1">
+                    <StackPanel>
+                        <TextBlock Text="Filtros para Clientes" FontSize="18" FontWeight="Bold" />
+                        <TextBox Name="SearchTextBox" Margin="10" Watermark="Buscar..." KeyUp="OnSearchKeyUpCliente"/>
+                        <Button Content="+ Añadir" x:Name="AnadirCliente" Margin="10" BorderBrush="Gray"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </TabItem>
+
+        <!-- Tab para Flota -->
+        <TabItem Header="Flota">
+            <TabItem.Background>
+                <SolidColorBrush Color="#BDE0FE" /> <!-- Verde agua pastel -->
+            </TabItem.Background>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="250" />
+                </Grid.ColumnDefinitions>
+                <DataGrid x:Name="DgridFlota"
+                          Foreground="Black"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="False"
+                          BorderBrush="#BDE0FE"
+                          BorderThickness="1"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          Background="#FFFFFF"
+                          Margin="0 10 0 0"
+                          Height="500">
+                    <DataGrid.Styles>
+                        <!-- Estilo para los encabezados de columna -->
+                        <Style Selector="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#ADD8E6" /> <!-- Fondo azul claro -->
+                            <Setter Property="Foreground" Value="Black" />   <!-- Texto blanco -->
+                            <Setter Property="FontWeight" Value="Bold" />    <!-- Texto en negrita -->
+                            <Setter Property="HorizontalContentAlignment" Value="Center" /> <!-- Centrado -->
+                        </Style>
+                    </DataGrid.Styles>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="NIF" Binding="{Binding Matricula}" Width="200" />
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding Comodidades}" Width="200" />
+                        <DataGridTextColumn Header="Telefono" Binding="{Binding Disponible}" Width="200" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Grid.Column="1">
+                    <StackPanel>
+                        <TextBlock Text="Filtros para Transportes" FontSize="18" FontWeight="Bold" />
+                        <TextBlock Text="Por tipo:" />
+                        <ComboBox Width="200" />
+                        <TextBlock Text="Por cliente:" />
+                        <TextBox Width="200" />
+                        <Button Content="Aplicar Filtros" Width="200" Margin="0 10" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </TabItem>
+
+        <!-- Tab para Datos -->
+        <TabItem Header="Datos">
+            <TabItem.Background>
+                <SolidColorBrush Color="#BDE0FE" /> <!-- Verde agua pastel -->
+            </TabItem.Background>
+            <TabControl>
+                <!-- Tab para Exportar -->
+                <TabItem Header="Exportar">
                     <TabItem.Background>
-                        <SolidColorBrush Color="#BDE0FE"/> <!-- Verde agua pastel -->
+                        <SolidColorBrush Color="#BDE0FE" /> <!-- Azul pastel claro -->
                     </TabItem.Background>
-                    <DataGrid x:Name="Dgrid"
-                              Foreground="Black"  
-                              AutoGenerateColumns="False"
-                              IsReadOnly="False"
-                              BorderBrush="#BDE0FE"
-                              BorderThickness="1"
-                              HorizontalScrollBarVisibility="Auto"
-                              VerticalScrollBarVisibility="Auto"
-                              Background="#FFFFFF"
-                              Margin="0 10 0 0"
-                              Height="500"
-                              >
-                        <DataGrid.Styles>
-                            <!-- Estilo para los encabezados de columna -->
-                            <Style Selector="DataGridColumnHeader">
-                                <Setter Property="Background" Value="#ADD8E6"/> <!-- Fondo azul claro -->
-                                <Setter Property="Foreground" Value="Black"/>   <!-- Texto blanco -->
-                                <Setter Property="FontWeight" Value="Bold"/>    <!-- Texto en negrita -->
-                                <Setter Property="HorizontalContentAlignment" Value="Center"/> <!-- Centrado -->
-                            </Style>
-                        </DataGrid.Styles>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="200"/>
-                            <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="200"/>
-                            <DataGridTextColumn Header="Cliente" Binding="{Binding Cliente.Nombre}" Width="200"/>
-                            <DataGridTextColumn Header="Salida" Binding="{Binding FechaSalida,StringFormat=d}" Width="200"/>
-                            <DataGridTextColumn Header="Entrega" Binding="{Binding FechaEntrega,StringFormat=d}" Width="200"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Spacing="20" Margin="10">
+
+                        <!-- Descripción y botón para exportar clientes -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <TextBlock HorizontalAlignment="Left" Foreground="#1D3557" FontWeight="Bold">
+                                Crea una copia de seguridad detallada de cada cliente.
+                                <LineBreak />
+                                Con esta copia de seguridad se asegura que, en caso de una recuperación,
+                                <LineBreak />
+                                se pueda realizar sin pérdida alguna de los datos fundamentales para las altas, bajas, modificaciones y consultas de los clientes.
+                            </TextBlock>
+                            <Button Content="Exportar Clientes" Width="150" Height="40" Background="#1D3557"
+                                    Foreground="White" Click="ExportarClientes_Click" />
+                        </StackPanel>
+
+                        <!-- Descripción y botón para exportar flota -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <TextBlock HorizontalAlignment="Left" Foreground="#1D3557" FontWeight="Bold">
+                                Crea una copia de seguridad detallada de la flota de vehículos.
+                                <LineBreak />
+                                Los detalles de los vehículos, incluyendo tipo, matrícula, marca, modelo, y más, se guardan para recuperación.
+                            </TextBlock>
+                            <Button Content="Exportar Flota" Width="150" Height="40" Background="#1D3557"
+                                    Foreground="White" Click="ExportarFlota_Click" />
+                        </StackPanel>
+
+                        <!-- Descripción y botón para exportar transportes -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <TextBlock HorizontalAlignment="Left" Foreground="#1D3557" FontWeight="Bold">
+                                Crea una copia de seguridad de los transportes, incluyendo la información sobre reservas, fechas, importes, etc.
+                            </TextBlock>
+                            <Button Content="Exportar Transportes" Width="150" Height="40" Background="#1D3557"
+                                    Foreground="White" Click="ExportarTransporte_Click" />
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
 
-                <!-- Tab para Clientes -->
-                <TabItem Header="Clientes">
+                <!-- Tab para Importar -->
+                <TabItem Header="Importar">
                     <TabItem.Background>
-                        <SolidColorBrush Color="#BDE0FE"/> <!-- Salmón pastel -->
+                        <SolidColorBrush Color="#BDE0FE" /> <!-- Azul pastel claro -->
                     </TabItem.Background>
-                    <DataGrid x:Name="DgridCliente"
-                              Foreground="Black"  
-                              AutoGenerateColumns="False"
-                              IsReadOnly="False"
-                              BorderBrush="#BDE0FE"
-                              BorderThickness="1"
-                              HorizontalScrollBarVisibility="Auto"
-                              VerticalScrollBarVisibility="Auto"
-                              Background="#FFFFFF"
-                              Margin="0 10 0 0"
-                              Height="500"
-                    >
-                        <DataGrid.Styles>
-                            <!-- Estilo para los encabezados de columna -->
-                            <Style Selector="DataGridColumnHeader">
-                                <Setter Property="Background" Value="#ADD8E6"/> <!-- Fondo azul claro -->
-                                <Setter Property="Foreground" Value="Black"/>   <!-- Texto blanco -->
-                                <Setter Property="FontWeight" Value="Bold"/>    <!-- Texto en negrita -->
-                                <Setter Property="HorizontalContentAlignment" Value="Center"/> <!-- Centrado -->
-                            </Style>
-                        </DataGrid.Styles>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nif" Binding="{Binding Nif}" Width="200"/>
-                            <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="200"/>
-                            <DataGridTextColumn Header="Telefono" Binding="{Binding Telefono}" Width="200"/>
-                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="200"/>
-                            <DataGridTextColumn Header="Direccion" Binding="{Binding DireccionPostal}" Width="200"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Spacing="20" Margin="10">
+
+                        <!-- Descripción y botón para exportar clientes -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <TextBlock HorizontalAlignment="Left" Foreground="#1D3557" FontWeight="Bold">
+                                Recupera una copia de seguridad detallada cliente/s,
+                                <LineBreak />
+                                sin perder los Clientes ya existentes en la base de datos.
+                            </TextBlock>
+                            <Button Content="Importar Clientes" Width="150" Height="40" Background="#1D3557"
+                                    Foreground="White" Click="ImportarCliente_Click" />
+                        </StackPanel>
+
+                        <!-- Descripción y botón para exportar flota -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <TextBlock HorizontalAlignment="Left" Foreground="#1D3557" FontWeight="Bold">
+                                Recupera una copia de seguridad detallada de flota/s,
+                                <LineBreak />
+                                sin perder la Flota ya existente en la base de datos.
+                            </TextBlock>
+                            <Button Content="Importar Flota" Width="150" Height="40" Background="#1D3557"
+                                    Foreground="White" Click="ImportarFlota_Click" />
+                        </StackPanel>
+
+                        <!-- Descripción y botón para exportar transportes -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <TextBlock HorizontalAlignment="Left" Foreground="#1D3557" FontWeight="Bold">
+                                Recupera una copia de seguridad detallada de transporte/s,
+                                <LineBreak />
+                                sin perder los Transportes ya existentes en la base de datos.
+                            </TextBlock>
+                            <Button Content="Importar Transportes" Width="150" Height="40" Background="#1D3557"
+                                    Foreground="White" Click="ImportarTransporte_Click" />
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
 
-                <!-- Tab para Flota -->
-                <TabItem Header="Flota">
+                <!-- Tab para Importar Completo-->
+                <TabItem Header="Restaurar Base de datos">
                     <TabItem.Background>
-                        <SolidColorBrush Color="#BDE0FE"/> <!-- Amarillo pastel -->
+                        <SolidColorBrush Color="#BDE0FE" /> <!-- Azul pastel claro -->
                     </TabItem.Background>
-                    <TextBlock Text="Contenido de Flota" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1D3557"/>
-                </TabItem>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Spacing="20" Margin="10">
 
-                <!-- Tab para Datos -->
-                <TabItem Header="Datos">
-                    <TabItem.Background>
-                        <SolidColorBrush Color="#BDE0FE"/> <!-- Azul pastel claro -->
-                    </TabItem.Background>
-                    <TextBlock Text="Contenido de Datos" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1D3557"/>
-                </TabItem>
+                        <!-- Descripción y botón para exportar clientes -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <TextBlock HorizontalAlignment="Left" Foreground="#1D3557" FontWeight="Bold">
+                                Advertencia: Elimina y carga completamente la base de datos de Cliente.
+                            </TextBlock>
+                            <Button Content="Importar Clientes" Width="150" Height="40" Background="#1D3557"
+                                    Foreground="White" Click="RestaurarCliente_Click" />
+                        </StackPanel>
 
-                <!-- Tab para Gráficos -->
-                <TabItem Header="Gráficos">
-                    <TabItem.Background>
-                        <SolidColorBrush Color="#BDE0FE"/> <!-- Turquesa pastel -->
-                    </TabItem.Background>
-                    <TextBlock Text="Contenido de Gráficos" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#1D3557"/>
+                        <!-- Descripción y botón para exportar flota -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <TextBlock HorizontalAlignment="Left" Foreground="#1D3557" FontWeight="Bold">
+                                Advertencia: Elimina y carga completamente la base de datos de Flota.
+                            </TextBlock>
+                            <Button Content="Importar Flota" Width="150" Height="40" Background="#1D3557"
+                                    Foreground="White" Click="RestaurarFlota_Click" />
+                        </StackPanel>
+
+                        <!-- Descripción y botón para exportar transportes -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                            <TextBlock HorizontalAlignment="Left" Foreground="#1D3557" FontWeight="Bold">
+                                Advertencia: Elimina y carga completamente la base de datos de Transporte.
+                            </TextBlock>
+                            <Button Content="Importar Transportes" Width="150" Height="40" Background="#1D3557"
+                                    Foreground="White" Click="RestaurarTransporte_Click" />
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
             </TabControl>
-        </StackPanel>
-
-        <!-- Parte derecha (filtros) -->
-        <Border Grid.Column="1" Background="#FAD5A5" CornerRadius="20" Padding="20"> <!-- Fondo amarillo pastel con bordes más redondeados -->
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/> <!-- Filtros -->
-                    <RowDefinition Height="Auto"/> <!-- Botones -->
-                </Grid.RowDefinitions>
-
-                <StackPanel Grid.Row="0">
-                    <TextBlock Text="Filtros" FontSize="18" FontWeight="Bold" Margin="0 0 0 15" Foreground="#1D3557"/>
-
-                    <!-- Controles para los filtros -->
-                    <TextBlock Text="Por tipo:" FontSize="14" Margin="0 5" Foreground="#1D3557"/>
-                    <ComboBox x:Name="TipoFiltroComboBox" Width="200" Margin="0 5" Background="#FFF5E1" Foreground="#1D3557" BorderBrush="#1D3557" BorderThickness="1" CornerRadius="10"/> <!-- ComboBox redondeado -->
-
-                    <TextBlock Text="Por cliente:" FontSize="14" Margin="10 5" Foreground="#1D3557"/>
-                    <TextBox x:Name="ClienteFiltroTextBox" Width="200" Margin="0 5" Background="#FFF5E1" Foreground="#1D3557" BorderBrush="#1D3557" BorderThickness="1" CornerRadius="10"/> <!-- TextBox redondeado -->
-
-                    <Button Content="Aplicar Filtros" Background="#A8DADC" Foreground="#1D3557" Width="200" Height="35" CornerRadius="10" Margin="0 15"/> <!-- Botón redondeado -->
-                </StackPanel>
-
-                <!-- Barra de botones horizontales -->
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0 10 0 0" HorizontalAlignment="Left">
-                    <Button Content="🔍 Buscar" Background="#A8DADC" Foreground="#1D3557" Width="100" Height="35" CornerRadius="10"/> <!-- Botón redondeado -->
-                    <Button x:Name="AnadirButton" Content="+ Añadir" Background="#F4A261" Foreground="#1D3557" Width="100" Height="35" CornerRadius="10"/> <!-- Botón redondeado -->
-                </StackPanel>
-            </Grid>
-        </Border>
-
-    </Grid>
+        </TabItem>
+        <!-- Tab para Gráficos -->
+        <TabItem Header="Graficos">
+            <TabItem.Background>
+                <SolidColorBrush Color="#BDE0FE" /> <!-- Turquesa pastel -->
+            </TabItem.Background>
+            <TextBlock Text="Contenido de Graficos" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Foreground="#1D3557" />
+        </TabItem>
+    </TabControl>
 </Window>

@@ -16,6 +16,7 @@ namespace Transportes.UI
     {
         public Cliente _cliente;
         public Cliente _clienteOriginal;
+        public event Action<Cliente>? ClienteBorrado; //evento cuando se quiera editar cliente
         public ClienteDetailWindow(Cliente cliente, ObservableCollection<Transporte> transportes)
         {
             InitializeComponent();
@@ -30,6 +31,7 @@ namespace Transportes.UI
             };
             var btSave = this.GetControl<Button>("BtSave");
             var btCancel = this.GetControl<Button>("BtCancel");
+            var btBorrar = this.GetControl<Button>("BtBorrar");
 
             
             var ednif = this.GetControl<TextBox>("EdNif");
@@ -44,6 +46,7 @@ namespace Transportes.UI
             eddir.Text = cliente.DireccionPostal;
             
             btSave.Click += (_, _) => this.OnSaveClicked(ednif.Text, ednom.Text, edtel.Text, edemail.Text, eddir.Text, transportes,_clienteOriginal);
+            btBorrar.Click += (_, _) => this.Delete_Click();
             btCancel.Click += (_, _) => this.OnCancelClicked();
             this.IsCancelled = false;
         }
@@ -82,6 +85,14 @@ namespace Transportes.UI
             
             this.IsCancelled = false;
             this.OnExit();
+        }
+
+        void Delete_Click()
+        {
+            ClienteBorrado?.Invoke(_clienteOriginal);
+            Console.WriteLine("borrar");
+            this.IsCancelled = true;
+            this.Close();
         }
 
         void OnExit()

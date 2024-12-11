@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Transportes>
   <Transporte>
-    <Id>1234ABC20241103</Id>
+    <Id>1234ABC20231105</Id>
     <Tipo>Mudanza</Tipo>
     <FechaContratacion>2024-12-04</FechaContratacion>
     <KilometrosRecorridos>250</KilometrosRecorridos>
@@ -19,7 +19,7 @@
     </Cliente>
   </Transporte>
   <Transporte>
-    <Id>9876DFG20231205</Id>
+    <Id>5678DEF20231110</Id>
     <Tipo>Mercancia</Tipo>
     <FechaContratacion>2024-12-04</FechaContratacion>
     <KilometrosRecorridos>500</KilometrosRecorridos>

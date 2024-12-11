@@ -5,11 +5,10 @@
         Background="Black">
     <DockPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-            <Button Name="BtCancel" Margin="20">
-                <Image Width="15" Height="15" Source="/Res/cancel.png"/>
+            <Button Name="BtCancel" Margin="20" Content="Cancelar">
             </Button> 
-            <Button Name="BtSave" Margin="10">
-                <Image Width="15" Height="15" Source="/Res/save.png"/>
+            <Button Name="BtBorrar" Margin="10" Content="Borrar"/>
+            <Button Name="BtSave" Margin="10" Content="Guardar">
             </Button>       
         </StackPanel>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">

@@ -147,7 +147,7 @@ public class XmlImporter
                     FechaFabricacion = fechaDeFabricacion,
                     Comodidades = comodidades
                 };
-
+                Console.WriteLine(matricula);
                 flota.Add(nuevoVehiculo);
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace Transportes.Core;
 public enum TipoTransporte
 {
