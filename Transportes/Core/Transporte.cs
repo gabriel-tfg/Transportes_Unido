@@ -14,10 +14,10 @@ public enum TipoTransporte
         public TipoTransporte Tipo { get; set; }
         public Cliente Cliente { get; set; }
         public Vehiculo Vehiculo { get; set; }
-        public DateTime FechaContratacion { get; set; }
+        public DateTimeOffset FechaContratacion { get; set; }
         public double KilometrosRecorridos { get; set; }
-        public DateTime FechaSalida { get; set; }
-        public DateTime FechaEntrega { get; set; }
+        public DateTimeOffset FechaSalida { get; set; }
+        public DateTimeOffset FechaEntrega { get; set; }
         public double ImportePorDia { get; set; }
         public double ImportePorKilometro { get; set; }
         public double IvaAplicado { get; set; }
@@ -45,5 +45,10 @@ public enum TipoTransporte
         {
             string fecha = fechaContratacion.ToString("yyyyMMdd");
             return $"{matricula}{fecha}";
+        }
+
+        public override string ToString()
+        {
+            return "Dia de entrega " + FechaEntrega.Day;
         }
     }

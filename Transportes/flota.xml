@@ -5,9 +5,9 @@
     <Tipo>Furgoneta</Tipo>
     <Marca>Ford</Marca>
     <Modelo>Transit</Modelo>
-    <ConsumoPorKm>0.12</ConsumoPorKm>
-    <FechaAdquisicion>2021-05-12</FechaAdquisicion>
-    <FechaFabricacion>2020-03-10</FechaFabricacion>
+    <ConsumoPorKm>12</ConsumoPorKm>
+    <FechaAdquisicion>0001-01-01</FechaAdquisicion>
+    <FechaFabricacion>0001-01-01</FechaFabricacion>
     <Comodidades>
       <Comodidad>Wifi</Comodidad>
       <Comodidad>Aire acondicionado</Comodidad>
@@ -18,9 +18,9 @@
     <Tipo>Camion</Tipo>
     <Marca>Mercedes</Marca>
     <Modelo>Actros</Modelo>
-    <ConsumoPorKm>0.25</ConsumoPorKm>
-    <FechaAdquisicion>2019-07-20</FechaAdquisicion>
-    <FechaFabricacion>2018-11-05</FechaFabricacion>
+    <ConsumoPorKm>25</ConsumoPorKm>
+    <FechaAdquisicion>0001-01-01</FechaAdquisicion>
+    <FechaFabricacion>0001-01-01</FechaFabricacion>
     <Comodidades>
       <Comodidad>Conexión del móvil por Bluetooth</Comodidad>
       <Comodidad>Litera de descanso</Comodidad>

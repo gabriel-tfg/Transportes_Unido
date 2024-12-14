@@ -15,30 +15,30 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Transportes
-build_property.ProjectDir = C:\Users\Iago\RiderProjects\Transportes_Unido\Transportes\
+build_property.ProjectDir = E:\IMPORTANTES\Universidad\DIA\final\Transportes\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/AddTransportWindow.axaml]
+[E:/IMPORTANTES/Universidad/DIA/final/Transportes/UI/AddTransportWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/App.axaml]
+[E:/IMPORTANTES/Universidad/DIA/final/Transportes/UI/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/ConsultTransportWindow.axaml]
+[E:/IMPORTANTES/Universidad/DIA/final/Transportes/UI/ConsultTransportWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/DeleteTransportWindow.axaml]
+[E:/IMPORTANTES/Universidad/DIA/final/Transportes/UI/DataViewTransporte.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/GenerateInvoiceWindow.axaml]
+[E:/IMPORTANTES/Universidad/DIA/final/Transportes/UI/GenerateInvoiceWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/MainWindow.axaml]
+[E:/IMPORTANTES/Universidad/DIA/final/Transportes/UI/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/ModifyTransportWindow.axaml]
+[E:/IMPORTANTES/Universidad/DIA/final/Transportes/UI/ModifyTransportWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/ViewTransportsWindow.axaml]
+[E:/IMPORTANTES/Universidad/DIA/final/Transportes/UI/ViewTransportsWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

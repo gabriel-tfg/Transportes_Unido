@@ -1,0 +1,91 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Transportes.UI.DataViewTransporte"
+        Title="Información detallada"
+        Width="400" Height="450"
+        Background="Cornsilk">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Panel de información -->
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Padding="10" Background="White" CornerRadius="10"
+                BorderBrush="#CCCCCC" BorderThickness="1">
+            <ScrollViewer>
+                <StackPanel>
+                    <TextBlock Text="Detalles del Transporte" FontWeight="Bold" FontSize="16" Foreground="#374151"
+                               Margin="0,0,0,10" />
+
+                    <TextBlock Text="ID:" FontWeight="Bold" Foreground="#1F2937" />
+                    <TextBlock Text="{Binding Id}" Margin="0,0,0,10" Foreground="#4B5563" />
+
+                    <TextBlock Text="Tipo de Transporte:" FontWeight="Bold" Foreground="#1F2937" />
+                    <TextBlock Text="{Binding Tipo, Mode=TwoWay}" Margin="0,0,0,10"
+                               Foreground="#4B5563" />
+
+                    <TextBlock Text="Cliente:" FontWeight="Bold" Foreground="#1F2937" />
+                    <TextBlock x:Name="ClienteTextBox" Text="{Binding Cliente.Nombre, Mode=TwoWay}" Margin="0,0,0,10"
+                               Foreground="#4B5563" />
+
+                    <TextBlock Text="Vehículo:" FontWeight="Bold" Foreground="#1F2937" />
+                    <TextBlock x:Name="VehiculoTextBox" Text="{Binding Vehiculo, Mode=TwoWay}" Margin="0,0,0,10"
+                               Foreground="#4B5563" />
+
+                    <TextBlock Text="Fecha de Contratación:" FontWeight="Bold" Foreground="#1F2937" />
+                    <DatePicker Name="FechaContratacionTextBox" SelectedDate="{Binding FechaContratacion, Mode=TwoWay}"
+                                                                 Margin="0,0,0,10" Foreground="#4B5563" IsEnabled="false"/>
+
+                    <TextBlock Text="Kilómetros Recorridos:" FontWeight="Bold" Foreground="#1F2937" />
+                    <TextBox x:Name="KilometrosRecorridosTextBox" Text="{Binding KilometrosRecorridos, Mode=TwoWay}"
+                             Margin="0,0,0,10" Foreground="#4B5563" IsEnabled="false"/>
+
+                    <TextBlock Text="Fecha de Salida:" FontWeight="Bold" Foreground="#1F2937" />
+                    <DatePicker Name="FechaSalidaTextBox" SelectedDate="{Binding FechaSalida, Mode=TwoWay}" Margin="0,0,0,10"
+                             Foreground="#4B5563" IsEnabled="false"/>
+
+                    <TextBlock Text="Fecha de Entrega:" FontWeight="Bold" Foreground="#1F2937" />
+                    <DatePicker Name="FechaEntregaTextBox" SelectedDate="{Binding FechaEntrega, Mode=TwoWay}" Margin="0,0,0,10"
+                                                          Foreground="#4B5563" IsEnabled="false"/>
+
+                    <TextBlock Text="Importe por Día:" FontWeight="Bold" Foreground="#1F2937" />
+                    <TextBox x:Name="ImportePorDiaTextBox" Text="{Binding ImportePorDia, Mode=TwoWay}"
+                             Margin="0,0,0,10" Foreground="#4B5563" IsEnabled="false"/>
+
+                    <TextBlock Text="Importe por Kilómetro:" FontWeight="Bold" Foreground="#1F2937" />
+                    <TextBox x:Name="ImportePorKilometroTextBox" Text="{Binding ImportePorKilometro, Mode=TwoWay}"
+                             Margin="0,0,0,10" Foreground="#4B5563" IsEnabled="false"/>
+
+                    <TextBlock Text="IVA Aplicado:" FontWeight="Bold" Foreground="#1F2937" />
+                    <TextBox x:Name="IvaAplicadoTextBox" Text="{Binding IvaAplicado, Mode=TwoWay}" Margin="0,0,0,10"
+                             Foreground="#4B5563" IsEnabled="false"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Botones de acción -->
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10"
+                    Spacing="5">
+            <Button Content="Generar Factura" Click="OnGenerarFacturaClick" Padding="10,5" Background="#2563EB"
+                    Foreground="#FFFFFF" CornerRadius="5" />
+
+            <Button Name="ButtonEditar" Content="Editar"
+                Click="OnEditarClick" Padding="10,5" Background="#059669" Foreground="#FFFFFF" CornerRadius="5" />
+
+            <Button Content="Eliminar" Click="OnEliminarClick" Padding="10,5" Background="#DC2626" Foreground="#FFFFFF"
+                    CornerRadius="5">
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="¿Estás seguro?" Command="{Binding ConfirmarEliminarCommand}" />
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

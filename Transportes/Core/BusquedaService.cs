@@ -1,145 +1,161 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Transportes.Core;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 public class BusquedaService
 {
-    public ObservableCollection<Transporte> Transportes { get; set; }
-    public ObservableCollection<Vehiculo> Flota { get; set; }
-    public ObservableCollection<Cliente> Clientes { get; set; }
-
-    public BusquedaService(ObservableCollection<Transporte> transportes, ObservableCollection<Vehiculo> flota, ObservableCollection<Cliente> clientes)
+    public BusquedaService(ObservableCollection<Transporte> transportes, ObservableCollection<Vehiculo> flota,
+        ObservableCollection<Cliente> clientes)
     {
         Transportes = transportes;
         Flota = flota;
         Clientes = clientes;
+        
+        foreach (var t in transportes)
+        {
+            Console.WriteLine("Check = "+t.Vehiculo.Matricula);
+        }
     }
 
-    // 1. Transportes pendientes
-    public ObservableCollection<string> BuscarTransportesPendientes(bool porCamion, TipoVehiculo? tipoCamion = null)
-    {
-        DateTime fechaLimite = DateTime.Today.AddDays(5);
+    public ObservableCollection<Transporte> Transportes { get; set; }
+    public ObservableCollection<Vehiculo> Flota { get; set; }
+    public ObservableCollection<Cliente> Clientes { get; set; }
 
-        return new ObservableCollection<string>(
+    // 1. Transportes pendientes
+    public ObservableCollection<Transporte> BuscarTransportesPendientes(bool porCamion, TipoVehiculo? tipoCamion)
+    {
+        return new ObservableCollection<Transporte>(
             Transportes
                 .Where(t =>
                 {
-                    string matriculaTransporte = t.Id.ToString().Substring(0, 7).ToUpper();
-                    var camion = Flota.FirstOrDefault(c => ConvertirMatricula(c.Matricula) == matriculaTransporte);
+                    // Obtener la matrícula asociada al transporte
+                    var matriculaVehiculo = Flota.FirstOrDefault(c =>
+                        ConvertirMatricula(c.Matricula) == t.Id.ToString().Substring(0, 7).ToUpper());
 
-                    bool transporteValido = t.FechaSalida >= DateTime.Today && t.FechaSalida <= fechaLimite;
+                    // Verificar si la matrícula existe y cumple con los criterios
+                    if (matriculaVehiculo == null)
+                        return false;
+
+                    var tieneTransportesActivos = t.FechaEntrega >= DateTime.Today;
 
                     if (porCamion)
-                    {
-                        transporteValido &= camion != null && (!tipoCamion.HasValue || camion.Tipo == tipoCamion.Value);
-                    }
-
-                    return transporteValido;
-                })
-                .Select(t =>
-                {
-                    string matricula = t.Id.ToString().Substring(0, 7);
-                    return $"ID Transporte: {t.Id}, Fecha Salida: {t.FechaSalida.ToShortDateString()}, Matrícula: {matricula}";
+                        return tieneTransportesActivos && tipoCamion.HasValue && t.Vehiculo.Tipo == tipoCamion;
+                    return tieneTransportesActivos &&
+                           (!tipoCamion.HasValue || matriculaVehiculo.Tipo == tipoCamion.Value);
                 })
         );
     }
 
     // 2. Disponibilidad
-    public ObservableCollection<string> BuscarDisponibilidad(TipoVehiculo? tipoCamion)
+    public ObservableCollection<Vehiculo> BuscarDisponibilidad(TipoVehiculo? tipoCamion)
     {
-        return new ObservableCollection<string>(
+        return new ObservableCollection<Vehiculo>(
             Flota
                 .Where(c =>
                 {
-                    bool tieneTransportesActivos = Transportes.Any(t =>
+                    var tieneTransportesActivos = Transportes.Any(t =>
                         ConvertirMatricula(c.Matricula) == t.Id.ToString().Substring(0, 7).ToUpper() &&
                         t.FechaEntrega >= DateTime.Today);
 
                     return !tieneTransportesActivos && (!tipoCamion.HasValue || c.Tipo == tipoCamion.Value);
                 })
-                .Select(c =>
-                {
-                    var transporteMasReciente = Transportes
-                        .Where(t => ConvertirMatricula(c.Matricula) == t.Id.ToString().Substring(0, 7).ToUpper())
-                        .OrderByDescending(t => t.FechaEntrega)
-                        .FirstOrDefault();
-
-                    string fechaEntrega = transporteMasReciente?.FechaEntrega.ToShortDateString() ?? "Sin entregas";
-                    return $"Matrícula: {c.Matricula}, Tipo: {c.Tipo}, Marca: {c.Marca}, Última Fecha de Entrega: {fechaEntrega}";
-                })
         );
     }
 
     // 3. Reservas por cliente
-    public ObservableCollection<string> BuscarReservasPorCliente(Cliente cliente, int? anioFiltro)
+    public ObservableCollection<Transporte> BuscarReservasPorCliente(Cliente cliente, int? anioFiltro)
     {
-        return new ObservableCollection<string>(
+        return new ObservableCollection<Transporte>(
             Transportes
-                .Where(t => t.Cliente?.Nif == cliente.Nif && (!anioFiltro.HasValue || t.FechaContratacion.Year == anioFiltro.Value))
-                .Select(t =>
-                    $"Cliente: {cliente.Nombre}, Tipo Transporte: {t.Tipo}, Fecha Contratación: {t.FechaContratacion.ToShortDateString()}, Fecha Salida: {t.FechaSalida.ToShortDateString()}, Fecha Entrega: {t.FechaEntrega.ToShortDateString()}")
+                .Where(t => t.Cliente?.Nif == cliente.Nif &&
+                            (!anioFiltro.HasValue || t.FechaContratacion.Year == anioFiltro.Value))
         );
     }
 
-    // 4. Reservas por camión
-    public ObservableCollection<string> BuscarReservasPorCamion(TipoVehiculo? tipoCamion, int? anioFiltro)
+
+// 4. Reservas por camión
+    public ObservableCollection<Transporte> BuscarReservasPorCamion(TipoVehiculo? tipoCamion, int? anioFiltro)
     {
-        return new ObservableCollection<string>(
+        return new ObservableCollection<Transporte>(
             Transportes
                 .Where(t =>
                 {
-                    string matriculaTransporte = t.Id.ToString().Substring(0, 7).ToUpper();
+                    var matriculaTransporte = t.Id.ToString().Substring(0, 7).ToUpper();
                     var camion = Flota.FirstOrDefault(c => ConvertirMatricula(c.Matricula) == matriculaTransporte);
 
                     return camion != null &&
                            (!tipoCamion.HasValue || camion.Tipo == tipoCamion.Value) &&
                            (!anioFiltro.HasValue || t.FechaContratacion.Year == anioFiltro.Value);
                 })
-                .Select(t =>
-                {
-                    string matriculaTransporte = t.Id.ToString().Substring(0, 7).ToUpper();
-                    var camion = Flota.FirstOrDefault(c => ConvertirMatricula(c.Matricula) == matriculaTransporte);
-
-                    return $"Matrícula Camión: {matriculaTransporte}, Tipo: {camion?.Tipo}, Marca: {camion?.Marca}, Fecha Contratación: {t.FechaContratacion.ToShortDateString()}, Fecha Salida: {t.FechaSalida.ToShortDateString()}, Fecha Entrega: {t.FechaEntrega.ToShortDateString()}";
-                })
         );
     }
 
     // 5. Reservas para una persona
-    public ObservableCollection<string> BuscarReservasParaPersona(Cliente cliente, int? anioFiltro)
+    public ObservableCollection<Transporte> BuscarReservasParaPersona(Cliente cliente, int? anioFiltro)
     {
-        return new ObservableCollection<string>(
+        return new ObservableCollection<Transporte>(
             Transportes
-                .Where(t => t.Cliente?.Nif == cliente.Nif && t.FechaContratacion >= DateTime.Today && (!anioFiltro.HasValue || t.FechaContratacion.Year == anioFiltro.Value))
-                .Select(t => $"Matrícula Camión: {t.Id.Substring(0, 7)}, Fecha Contratación: {t.FechaContratacion.ToShortDateString()}, Fecha Salida: {t.FechaSalida.ToShortDateString()}")
+                .Where(t => t.Cliente?.Nif == cliente.Nif && t.FechaEntrega >= DateTime.Today &&
+                            (!anioFiltro.HasValue || t.FechaContratacion.Year == anioFiltro.Value))
         );
     }
 
     // 6. Ocupación
-    public ObservableCollection<string> BuscarOcupacion(DateTime? fechaEspecifica, int? anioFiltro)
+    public ObservableCollection<Vehiculo> BuscarOcupacion(DateTimeOffset? fechaEspecifica, bool porAnho)
     {
-        var transportesRealizados = Transportes
-            .Where(t =>
-                fechaEspecifica.HasValue
-                    ? t.FechaSalida.Date == fechaEspecifica.Value.Date
-                    : anioFiltro.HasValue && t.FechaSalida.Year == anioFiltro.Value)
-            .Select(t => t.Id.ToString().Substring(0, 7).ToUpper())
-            .Distinct();
+        var resultado = new ObservableCollection<Vehiculo>();
+        foreach (var t in Transportes)
+        {
+            Console.WriteLine("Matricula en trans = " + t.Vehiculo.Matricula);
+            if (porAnho)
+            {
+                Console.WriteLine("Matricula = " + t.Vehiculo.Matricula +"Entrega = " + t.FechaEntrega.Year + "; Anho = " + fechaEspecifica.Value.Year);
+                if (t.FechaEntrega.Year == fechaEspecifica.Value.Year)
+                {
+                    if (!contiene(resultado,t.Vehiculo))
+                    {
+                        resultado.Add(t.Vehiculo);
+                    }
+                } 
+            }
+            else
+            {
+                if (t.FechaEntrega == fechaEspecifica.Value)
+                {
+                    if (!contiene(resultado,t.Vehiculo))
+                    {
+                        resultado.Add(t.Vehiculo);
+                    }
+                }
+            }
+        }
 
-        return new ObservableCollection<string>(
-            Flota
-                .Where(c => transportesRealizados.Contains(ConvertirMatricula(c.Matricula)))
-                .Select(c => $"Matrícula: {c.Matricula}, Tipo: {c.Tipo}, Marca: {c.Marca}")
-        );
+        foreach (var v in resultado)
+        {
+            Console.WriteLine("Matricula = " + v.Matricula);
+        }
+        return resultado;
     }
 
+    private bool contiene(ObservableCollection<Vehiculo> vehiculos, Vehiculo vehiculo)
+    {
+        foreach (var v in vehiculos)
+        {
+            if (vehiculo.Matricula == v.Matricula)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     private string ConvertirMatricula(string matricula)
     {
-        string matriculaAux = matricula.Replace(" ", "");
+        var matriculaAux = matricula.Replace(" ", "");
         return matriculaAux.Substring(3, 4) + matriculaAux.Substring(0, 3);
     }
 }
