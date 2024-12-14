@@ -1,971 +1,156 @@
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Layout;
-using Avalonia.Markup.Xaml;
-using Avalonia.Media;
+using Transportes;
 using Transportes.Core;
-using Transportes.UI;
 
-namespace Transportes;
-
-public partial class MainWindow : Window
+namespace Transportes
 {
-    private static readonly string[] _ejeMes =
-        { "En", "Fb", "Ma", "Ab", "My", "Jn", "Jl", "Ag", "Sp", "Oc", "Nv", "Dc" };
-
-    private static readonly string[] _ejeAnho = { "2020", "2021", "2022", "2023", "2024" };
-    private static readonly string _labelMes = "Mes";
-    private static readonly string _labelAnho = "Año";
-
-    private readonly BusquedaService busqueda;
-
-    private readonly string rutaXml =
-        Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
-
-    private Chart.ChartType _chartType;
-    private int[] _dataAnho;
-    private int[] _dataMes;
-    private string _labelY = "Número transportes";
-
-    private string lastTabItem;
-
-
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
+        // Colecciones de datos
+        public ObservableCollection<Transporte> Transportes { get; set; }
+        public ObservableCollection<Cliente> Clientes { get; set; }
+        public ObservableCollection<Vehiculo> Vehiculos { get; set; }
 
-        var opcionesCmbn = this.FindControl<ComboBox>("OpcionesComboBox1");
-        var busquedaComb = this.FindControl<ComboBox>("BusquedaComboBox");
-        var busquedaCombRC = this.FindControl<ComboBox>("BusquedaComboBoxRC");
-        var cbFlota = this.FindControl<ComboBox>("OpcionesComboBoxFlota");
-        var rb = this.FindControl<RadioButton>("rbAnho");
-        var importer = new XmlImporter();
+        // Fuente de datos dinámica
+        public object ItemsSource { get; set; }
 
-        rb.IsCheckedChanged += (sender, args) => RadioButtonChanged();
-        cbFlota.SelectionChanged += (s, e) => SelectionChangedFlota(s, e);
-        Clientes = new ObservableCollection<Cliente>(
-            importer.CargarClientesXML(Path.Combine(rutaXml, "clientes.xml")));
-        Vehiculos = new ObservableCollection<Vehiculo>(importer.CargarFlotaXML(Path.Combine(rutaXml, "flota.xml")));
-        Transportes =
-            new ObservableCollection<Transporte>(
-                importer.CargarTransportesXML(Path.Combine(rutaXml, "transportes.xml")));
-
-        Chart = this.GetControl<Chart>("ChartW");
-        StartChart();
-
-        var tabC = this.FindControl<TabControl>("tabControlMenu");
-        if (tabC.SelectedItem is TabItem item) lastTabItem = item.Header.ToString();
-
-        tabC.SelectionChanged += (s, e) => TabControl_SelectionChanged(s, e);
-        UpdateDataGrid(Transportes, "DgridTransporte");
-        if (opcionesCmbn != null) opcionesCmbn.SelectionChanged += (s, e) => SelectionChanged(s, e);
-        if (busquedaComb != null)
-            busquedaComb.SelectionChanged += (s, e) => BusquedaComboBox_SelectionChanged(s, e);
-        if (busquedaCombRC != null)
-            busquedaCombRC.SelectionChanged += (s, e) => BusquedaComboBox_SelectionChangedRC(s, e);
-        busqueda = new BusquedaService(Transportes, Vehiculos, Clientes);
-        var button = this.GetControl<Button>("ButtonOp");
-        var rbMes = this.GetControl<RadioButton>("MesOp");
-        var rbAnho = this.GetControl<RadioButton>("AnhoOp");
-        var comboBox = this.GetControl<ComboBox>("OpGrafica");
-
-        comboBox.SelectionChanged += (_, _) => OnComboChanged();
-        button.Click += (_, _) => OnButtonClicked();
-        rbMes.IsCheckedChanged += (_, _) => OnChangeFilter();
-        rbAnho.IsCheckedChanged += (_, _) => OnChangeFilter();
-        
-        
-        // transporte click fila
-        var dgrid = this.FindControl<DataGrid>("DgridTransporte");
-        if (dgrid != null)
+        public MainWindow()
         {
+            InitializeComponent();
+
+            // Inicializar datos
+            Clientes = new ObservableCollection<Cliente>
+            {
+                new Cliente("1A", "Juan Pérez", "123456789", "juan@example.com", "Calle Falsa 123"),
+                new Cliente("2B", "Ana García", "987654321", "ana@example.com", "Avenida Siempreviva 742"),
+                new Cliente("3C", "Carlos López", "654321987", "carlos@example.com", "Calle del Sol 45"),
+                new Cliente("4D", "María Fernández", "321987654", "maria@example.com", "Plaza Mayor 89"),
+                new Cliente("5E", "Luis Martínez", "789123456", "luis@example.com", "Calle Luna 67"),
+                new Cliente("6F", "Laura Sánchez", "456789123", "laura@example.com", "Avenida del Parque 21"),
+                new Cliente("7G", "Pedro Gómez", "123789456", "pedro@example.com", "Camino Real 33"),
+                new Cliente("8H", "Elena Rodríguez", "987321654", "elena@example.com", "Paseo de las Flores 15")
+            };
+
+            Vehiculos = new ObservableCollection<Vehiculo>
+            {
+                new Vehiculo("1234ABC", TipoVehiculo.Furgoneta, "Ford", "Transit", 8.5, DateTime.Now.AddYears(-2), DateTime.Now.AddYears(-3)),
+                new Vehiculo("5678DEF", TipoVehiculo.Camion, "Mercedes", "Actros", 25.0, DateTime.Now.AddYears(-5), DateTime.Now.AddYears(-6)),
+                new Vehiculo("9101GHI", TipoVehiculo.Camion, "Volvo", "FH16", 30.0, DateTime.Now.AddYears(-4), DateTime.Now.AddYears(-5)),
+                new Vehiculo("1123JKL", TipoVehiculo.Furgoneta, "Volkswagen", "Crafter", 10.0, DateTime.Now.AddYears(-1), DateTime.Now.AddYears(-2)),
+                new Vehiculo("4567MNO", TipoVehiculo.Camion, "Scania", "R500", 28.0, DateTime.Now.AddYears(-6), DateTime.Now.AddYears(-7)),
+                new Vehiculo("8910PQR", TipoVehiculo.Furgoneta, "Peugeot", "Boxer", 9.0, DateTime.Now.AddYears(-3), DateTime.Now.AddYears(-4)),
+                new Vehiculo("3344STU", TipoVehiculo.Camion, "MAN", "TGX", 27.5, DateTime.Now.AddYears(-7), DateTime.Now.AddYears(-8)),
+                new Vehiculo("6677VWX", TipoVehiculo.Furgoneta, "Renault", "Master", 8.0, DateTime.Now.AddYears(-2), DateTime.Now.AddYears(-3))
+            };
+
+            Transportes = new ObservableCollection<Transporte>
+            {
+                new Transporte(
+                    TipoTransporte.Mudanza,
+                    Clientes[0],
+                    Vehiculos[0],
+                    DateTime.Now.AddDays(-30),
+                    150.0,
+                    DateTime.Now.AddDays(-28),
+                    DateTime.Now.AddDays(-25),
+                    50,
+                    0.20,
+                    21),
+                new Transporte(
+                    TipoTransporte.Mercancias,
+                    Clientes[1],
+                    Vehiculos[1],
+                    DateTime.Now.AddDays(-15),
+                    300.0,
+                    DateTime.Now.AddDays(-14),
+                    DateTime.Now.AddDays(-13),
+                    100,
+                    0.50,
+                    21),
+                new Transporte(
+                    TipoTransporte.Vehiculos,
+                    Clientes[2],
+                    Vehiculos[2],
+                    DateTime.Now.AddDays(-10),
+                    500.0,
+                    DateTime.Now.AddDays(-9),
+                    DateTime.Now.AddDays(-8),
+                    120,
+                    0.75,
+                    21)
+            };
+
+            // Mostrar transportes al iniciar
+            ItemsSource = Transportes;
+
+            // Vincular DataGrid
+            var dgrid = this.FindControl<DataGrid>("Dgrid");
             dgrid.ItemsSource = Transportes;
-            dgrid.SelectionChanged += (e, s) => Dgrid_SelectionChanged(e);
-        }
-    }
 
-    // Colecciones de datos
-    public ObservableCollection<Transporte> Transportes { get; set; }
-    public ObservableCollection<Cliente> Clientes { get; set; }
-    public ObservableCollection<Vehiculo> Vehiculos { get; set; }
-
-    // Fuente de datos dinámica
-    public object ItemsSource { get; set; }
-
-    private Chart Chart { get; }
-
-    private void OnComboChanged()
-    {
-        var comboBox = this.GetControl<ComboBox>("OpGrafica");
-        var labelOp = this.GetControl<Label>("LabelOp");
-        var textBox = this.GetControl<TextBox>("TextBox");
-        var button = this.GetControl<Button>("ButtonOp");
-        var spFilter = this.GetControl<StackPanel>("SPFilter");
-
-        if (comboBox.SelectedIndex == 0)
-        {
-            int[] values = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-            var cont = 0;
-
-            foreach (var t in Transportes)
-                if (t.FechaContratacion.Year == 2024)
-                    values[t.FechaContratacion.Month - 1]++;
-
-            _dataMes = values;
-
-            values = new[] { 0, 0, 0, 0, 0 };
-
-            foreach (var t in Transportes)
-                if (t.FechaContratacion.Year == 2024)
-                    values[4]++;
-                else if (t.FechaContratacion.Year == 2023)
-                    values[3]++;
-                else if (t.FechaContratacion.Year == 2022)
-                    values[2]++;
-                else if (t.FechaContratacion.Year == 2021)
-                    values[1]++;
-                else if (t.FechaContratacion.Year == 2020) values[0]++;
-
-            _dataAnho = values;
-            labelOp.IsVisible = false;
-            textBox.IsVisible = false;
-            button.IsVisible = false;
-            spFilter.IsVisible = true;
-
-            OnChangeFilter();
-        }
-        else if (comboBox.SelectedIndex == 1)
-        {
-            labelOp.Content = "Introduce el NIF del cliente";
-            labelOp.IsVisible = true;
-            textBox.IsVisible = true;
-            button.IsVisible = true;
-            spFilter.IsVisible = false;
-        }
-        else if (comboBox.SelectedIndex == 2)
-        {
-            labelOp.Content = "Introduce la matrícula del vehiculo";
-            labelOp.IsVisible = true;
-            textBox.IsVisible = true;
-            button.IsVisible = true;
-            spFilter.IsVisible = false;
-        }
-        else
-        {
-            labelOp.IsVisible = false;
-            textBox.IsVisible = false;
-            button.IsVisible = false;
-            spFilter.IsVisible = false;
-            DrawChart2();
-        }
-    }
-
-    private void OnButtonClicked()
-    {
-        var comboBox = this.GetControl<ComboBox>("OpGrafica");
-        var textBox = this.GetControl<TextBox>("TextBox");
-        var spFilter = this.GetControl<StackPanel>("SPFilter");
-
-        if (!string.IsNullOrEmpty(textBox.Text))
-        {
-            if (comboBox.SelectedIndex == 1)
-            {
-                DataClienteMes(textBox.Text);
-                DataClienteAnho(textBox.Text);
-                _labelY = "Número transportes";
-                spFilter.IsVisible = true;
-            }
-            else if (comboBox.SelectedIndex == 2)
-            {
-                DataCamionMes(textBox.Text);
-                DataCamionAnho(textBox.Text);
-                _labelY = "Número transportes";
-                spFilter.IsVisible = true;
-            }
-
-            OnChangeFilter();
-        }
-    }
-
-    private void DataCamionMes(string matricula)
-    {
-        int[] result = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-        foreach (var t in Transportes)
-        {
-            var aux = new string(t.Id.Trim().ToLower().ToCharArray(0, 7));
-            if (aux.Equals(matricula.Trim().ToLower()) && t.FechaContratacion.Year == 2024)
-            {
-                Console.WriteLine("Entro con matricula = " + matricula + " y aux = " + aux);
-                result[t.FechaContratacion.Month - 1]++;
-            }
+            // Configurar eventos de botones
+            ConfigureButtonEvents();
         }
 
-        _dataMes = result;
-    }
-
-    private void DataCamionAnho(string matricula)
-    {
-        int[] result = { 0, 0, 0, 0, 0 };
-
-        foreach (var t in Transportes)
+        private void ConfigureButtonEvents()
         {
-            var aux = new string(t.Id.Trim().ToLower().ToCharArray(0, 7));
-            if (aux.Equals(matricula.Trim().ToLower()))
-            {
-                if (t.FechaContratacion.Year == 2024)
-                    result[4]++;
-                else if (t.FechaContratacion.Year == 2023)
-                    result[3]++;
-                else if (t.FechaContratacion.Year == 2022)
-                    result[2]++;
-                else if (t.FechaContratacion.Year == 2021)
-                    result[1]++;
-                else if (t.FechaContratacion.Year == 2020) result[0]++;
-            }
+            var clientesButton = this.FindControl<Button>("ClientesButton");
+            var flotaButton = this.FindControl<Button>("FlotaButton");
+            var datosButton = this.FindControl<Button>("DatosButton");
+            var transportesButton = this.FindControl<Button>("TransportesButton");
+            var graficosButton = this.FindControl<Button>("GraficosButton");
+
+            if (clientesButton != null)
+                clientesButton.Click += (sender, e) => OnClientesClick();
+
+            if (flotaButton != null)
+                flotaButton.Click += (sender, e) => OnFlotaClick();
+
+            if (datosButton != null)
+                datosButton.Click += (sender, e) => OnDatosClick();
+
+            if (transportesButton != null)
+                transportesButton.Click += (sender, e) => OnTransportesClick();
+
+            if (graficosButton != null)
+                graficosButton.Click += (sender, e) => OnGraficosClick();
         }
 
-        _dataAnho = result;
-    }
-
-    private void DataClienteMes(string NIF)
-    {
-        int[] result = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-        foreach (var t in Transportes)
-            if (t.Cliente.Nif == NIF && t.FechaContratacion.Year == 2024)
-                result[t.FechaContratacion.Month - 1]++;
-
-        _dataMes = result;
-    }
-
-    private void DataClienteAnho(string NIF)
-    {
-        int[] result = { 0, 0, 0, 0, 0 };
-
-        foreach (var t in Transportes)
-            if (t.Cliente.Nif == NIF)
-            {
-                if (t.FechaContratacion.Year == 2024)
-                    result[4]++;
-                else if (t.FechaContratacion.Year == 2023)
-                    result[3]++;
-                else if (t.FechaContratacion.Year == 2022)
-                    result[2]++;
-                else if (t.FechaContratacion.Year == 2021)
-                    result[1]++;
-                else if (t.FechaContratacion.Year == 2020) result[0]++;
-            }
-
-        _dataAnho = result;
-    }
-
-    private void OnChangeFilter()
-    {
-        var rbMes = this.GetControl<RadioButton>("MesOp");
-        var rbAnho = this.GetControl<RadioButton>("AnhoOp");
-
-        if (rbMes.IsChecked == true)
-            DrawChart(0);
-        else if (rbAnho.IsChecked == true) DrawChart(1);
-    }
-
-
-    private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (sender is TabControl tabControl)
+        private void UpdateDataGrid()
         {
-            var selectedTab = tabControl.SelectedItem as TabItem;
-
-            if (selectedTab != null)
-            {
-                var header = selectedTab.Header.ToString();
-
-                if (header != lastTabItem)
-                {
-                    switch (header)
-                    {
-                        case "Transportes":
-
-                            UpdateDataGrid(Transportes, "DgridTransporte");
-                            break;
-
-                        case "Clientes":
-                            UpdateDataGrid(Clientes, "DgridClientes");
-                            break;
-
-                        case "Flota":
-                            UpdateDataGrid(Vehiculos, "DgridFlota");
-                            break;
-                    }
-
-                    lastTabItem = header;
-                }
-            }
-        }
-    }
-
-
-    private void UpdateDataGrid<T>(ObservableCollection<T> list, string control)
-    {
-        Console.WriteLine("UpdateDataGrid");
-      var dgrid = this.FindControl<DataGrid>(control);
-      if (dgrid != null)
-      {
-          dgrid.ItemsSource = null;
-          dgrid.ItemsSource = list;
-      }
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
-
-    private async Task<string?> cargarArchivo(object? sender, RoutedEventArgs e)
-    {
-        // Crear el cuadro de diálogo de apertura de archivo
-        var openFileDialog = new OpenFileDialog();
-
-        // Agregar filtros de archivo (opcional)
-        openFileDialog.Filters.Add(new FileDialogFilter { Name = "Archivos XML", Extensions = { "xml" } });
-
-        // Abrir el cuadro de diálogo y esperar la selección
-        var result = await openFileDialog.ShowAsync(this);
-
-        // Verificar si se seleccionó algún archivo
-        if (result != null && result.Length > 0)
-        {
-            var archivoSeleccionado = result[0]; // Tomar el primer archivo seleccionado
-            return archivoSeleccionado;
+            var dgrid = this.FindControl<DataGrid>("Dgrid");
+            if (dgrid != null) dgrid.ItemsSource = Transportes;
         }
 
-        return null;
-    }
-
-
-    private void ExportarClientes_Click(object sender, RoutedEventArgs e)
-    {
-        var xmlExporter = new XmlExporter();
-        xmlExporter.ExportarClientesXML(Clientes, Path.Combine(rutaXml, "clientes.xml"));
-    }
-
-    private void ExportarFlota_Click(object? sender, RoutedEventArgs e)
-    {
-        var xmlExporter = new XmlExporter();
-        xmlExporter.ExportarFlotaXML(Vehiculos, Path.Combine(rutaXml, "flota.xml"));
-    }
-
-    private void ExportarTransporte_Click(object? sender, RoutedEventArgs e)
-    {
-        var xmlExporter = new XmlExporter();
-        xmlExporter.ExportarTransportesXML(Transportes, Path.Combine(rutaXml, "transportes.xml"));
-    }
-
-    private async void ImportarCliente_Click(object? sender, RoutedEventArgs e)
-    {
-        var archivo = await cargarArchivo(sender, e);
-
-        if (archivo != null)
+        private void InitializeComponent()
         {
-            var importer = new XmlImporter();
-            var nuevosClientes = importer.CargarClientesXML(archivo);
-            // Verificar si ya existe un cliente en la colección antes de agregarlo
-            foreach (var cliente in nuevosClientes)
-                // Verificar si el cliente ya existe en la colección 'Clientes'
-                if (!Clientes.Any(c => c.Nif == cliente.Nif)) // NIF es unico para cliente.
-                    Clientes.Add(cliente); // Agregar el cliente si no existe
+            AvaloniaXamlLoader.Load(this);
         }
-        else
+        private void OnClientesClick()
         {
-            MostrarErrorSeleccionArchivo();
-        }
-    }
-
-    private async void ImportarFlota_Click(object? sender, RoutedEventArgs e)
-    {
-        var archivo = await cargarArchivo(sender, e);
-
-        if (archivo != null)
-        {
-            var importer = new XmlImporter();
-            var nuevasFlotas = importer.CargarFlotaXML(archivo);
-
-            foreach (var flota in nuevasFlotas)
-                if (!Vehiculos.Any(f => f.Matricula == flota.Matricula))
-                    Vehiculos.Add(flota);
-        }
-        else
-        {
-            MostrarErrorSeleccionArchivo(); // Llamar al método para mostrar el error
-        }
-    }
-
-    private async void ImportarTransporte_Click(object? sender, RoutedEventArgs e)
-    {
-        var archivo = await cargarArchivo(sender, e);
-
-        if (archivo != null)
-        {
-            var importer = new XmlImporter();
-            var nuevosTransportes = importer.CargarTransportesXML(archivo);
-
-            foreach (var transporte in nuevosTransportes)
-                if (!Transportes.Any(t => t.Id == transporte.Id))
-                    Transportes.Add(transporte);
-        }
-        else
-        {
-            MostrarErrorSeleccionArchivo(); // Llamar al método para mostrar el error
-        }
-    }
-
-    private async void RestaurarCliente_Click(object? sender, RoutedEventArgs e)
-    {
-        var archivo = await cargarArchivo(sender, e);
-
-        if (archivo != null)
-        {
-            var importer = new XmlImporter();
-            Clientes = new ObservableCollection<Cliente>(
-                importer.CargarClientesXML(archivo));
-        }
-        else
-        {
-            MostrarErrorSeleccionArchivo();
-        }
-    }
-
-    private async void RestaurarFlota_Click(object? sender, RoutedEventArgs e)
-    {
-        var archivo = await cargarArchivo(sender, e);
-
-        if (archivo != null)
-        {
-            var importer = new XmlImporter();
-            Vehiculos = new ObservableCollection<Vehiculo>(
-                importer.CargarFlotaXML(archivo));
-        }
-        else
-        {
-            MostrarErrorSeleccionArchivo();
-        }
-    }
-
-    private async void RestaurarTransporte_Click(object? sender, RoutedEventArgs e)
-    {
-        var archivo = await cargarArchivo(sender, e);
-
-        if (archivo != null)
-        {
-            var importer = new XmlImporter();
-            Transportes = new ObservableCollection<Transporte>(
-                importer.CargarTransportesXML(archivo));
-        }
-        else
-        {
-            MostrarErrorSeleccionArchivo();
-        }
-    }
-
-
-    private void MostrarErrorSeleccionArchivo()
-    {
-        var messageWindow = new Window
-        {
-            Title = "Archivo Seleccionado",
-            Width = 300,
-            Height = 150,
-            Content = new TextBlock
-            {
-                Text = "Error, ningun archivo seleccionado",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            }
-        };
-
-        messageWindow.ShowDialog(this); // Mostrar la ventana
-    }
-
-    private void SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        // Verificar si el ComboBox y el elemento seleccionado son válidos
-        var opcionesCmbn = this.FindControl<ComboBox>("OpcionesComboBox1");
-        if (opcionesCmbn.SelectedItem is ComboBoxItem selectedItem)
-        {
-            // Obtener el texto de la opción seleccionada
-            var seleccion = selectedItem.Content.ToString();
-            var PasPen = this.FindControl<StackPanel>("PasadasPendientes");
-            var tp = this.FindControl<StackPanel>("transportePendiente");
-            var sprc = this.FindControl<StackPanel>("SPRC");
-
-            // Tomar acciones según la selección
-            switch (seleccion)
-            {
-                case "Todos":
-                    if (tp != null) tp.IsVisible = false;
-                    if (PasPen != null) PasPen.IsVisible = false;
-                    if (sprc != null) sprc.IsVisible = false;
-                    UpdateDataGrid(Transportes, "DgridTransporte");
-                    break;
-                case "Transportes pendientes":
-
-                    if (tp != null) tp.IsVisible = true;
-                    if (PasPen != null) PasPen.IsVisible = false;
-                    if (sprc != null) sprc.IsVisible = false;
-                    Console.WriteLine("Opción seleccionada: Transportes pendientes");
-                    break;
-
-                case "Reservas pasadas o pendientes":
-                    Console.WriteLine("Opción seleccionada: Reservas pasadas o pendientes");
-
-                    if (PasPen != null) PasPen.IsVisible = true;
-                    if (tp != null) tp.IsVisible = false;
-                    if (sprc != null) sprc.IsVisible = false;
-                    break;
-
-                case "Reservas por camión":
-                    Console.WriteLine("Opción seleccionada: Reservas por camión");
-                    if (PasPen != null) PasPen.IsVisible = false;
-                    if (tp != null) tp.IsVisible = false;
-                    if (sprc != null) sprc.IsVisible = true;
-                    break;
-
-                case "Reservas pendientes":
-                    Console.WriteLine("Opción seleccionada: Reservas pendientes");
-                    if (PasPen != null) PasPen.IsVisible = true;
-                    if (tp != null) tp.IsVisible = false;
-                    if (sprc != null) sprc.IsVisible = false;
-                    break;
-
-                default:
-                    Console.WriteLine("Opción no reconocida.");
-                    break;
-            }
-        }
-        else
-        {
-            Console.WriteLine("No se seleccionó una opción válida.");
-        }
-    }
-
-
-    private void BusquedaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        var opcionesCmbn = this.FindControl<ComboBox>("BusquedaComboBox");
-        var opcionesCmbn2 = this.FindControl<ComboBox>("TipoCamionComboBox");
-        var TipoCamionLabel = this.FindControl<Label>("TipoCamionLabel");
-
-        if (opcionesCmbn?.SelectedItem is ComboBoxItem selectedItem)
-        {
-            var seleccion = selectedItem.Content?.ToString();
-            if (string.IsNullOrEmpty(seleccion))
-            {
-                Console.WriteLine("No se seleccionó un valor válido.");
-            }
-            else
-            {
-                var esBusquedaPorCamion =
-                    seleccion == "Vehiculo"; // esBusquedaPorCamion será true solo si "Camión" está seleccionado
-                opcionesCmbn2.IsVisible = esBusquedaPorCamion;
-                TipoCamionLabel.IsVisible = esBusquedaPorCamion;
-                Console.WriteLine($"Selección válida: {seleccion}");
-                // Lógica adicional basada en 'seleccion'.
-            }
-        }
-        else
-        {
-            Console.WriteLine("No se ha seleccionado ningún elemento en el ComboBox.");
-        }
-        // Determina si el usuario seleccionó "Camión" para mostrar el ComboBox de TipoCamion
-    }
-
-    private void BusquedaComboBox_SelectionChangedRC(object sender, SelectionChangedEventArgs e)
-    {
-        var opcionesCmbn = this.FindControl<ComboBox>("BusquedaComboBoxRC");
-        var opcionesCmbn2 = this.FindControl<ComboBox>("TipoCamionComboBoxRC");
-        var labelRC = this.FindControl<Label>("LabelRC");
-
-        if (opcionesCmbn?.SelectedItem is ComboBoxItem selectedItem)
-        {
-            var seleccion = selectedItem.Content?.ToString();
-            if (string.IsNullOrEmpty(seleccion))
-            {
-                Console.WriteLine("No se seleccionó un valor válido.");
-            }
-            else
-            {
-                var esBusquedaPorCamion =
-                    seleccion == "Vehiculo"; // esBusquedaPorCamion será true solo si "Camión" está seleccionado
-                opcionesCmbn2.IsVisible = esBusquedaPorCamion;
-                labelRC.IsVisible = esBusquedaPorCamion;
-                Console.WriteLine($"Selección válida: {seleccion}");
-                // Lógica adicional basada en 'seleccion'.
-            }
-        }
-        else
-        {
-            Console.WriteLine("No se ha seleccionado ningún elemento en el ComboBox.");
-        }
-        // Determina si el usuario seleccionó "Camión" para mostrar el ComboBox de TipoCamion
-    }
-
-    private Cliente checkDni(string dni)
-    {
-        foreach (var cli in Clientes)
-            if (cli.Nif == dni)
-                return cli;
-
-        return null;
-    }
-
-    private void SelectionChangedFlota(object sender, SelectionChangedEventArgs e)
-    {
-        var cbFlota = this.FindControl<ComboBox>("OpcionesComboBoxFlota");
-        var cbDis = this.FindControl<StackPanel>("SpDis");
-        var cbOcu = this.FindControl<StackPanel>("SpOcu");
-
-        if (cbFlota.SelectedItem is ComboBoxItem siFlota)
-            switch (siFlota.Content.ToString())
-            {
-                case "Todos":
-                    UpdateDataGrid(Vehiculos,"DgridFlota");
-                    if (cbDis != null) cbDis.IsVisible = false;
-                    if (cbOcu != null) cbOcu.IsVisible = false;
-                    break;
-                case "Disponibilidad de vehículos":
-                    if (cbDis != null) cbDis.IsVisible = true;
-                    if (cbOcu != null) cbOcu.IsVisible = false;
-                    break;
-                case "Ocupación":
-                    if (cbDis != null) cbDis.IsVisible = false;
-                    if (cbOcu != null) cbOcu.IsVisible = true;
-                    var dateP = this.FindControl<DatePicker>("DpOcu");
-                    var dateP2 = this.FindControl<DatePicker>("DpOcu2");
-                    
-                    dateP.SelectedDate = DateTime.Now;
-                    dateP2.SelectedDate = DateTime.Now;
-                    break;
-            }
-    }
-
-    private void RadioButtonChanged()
-    {
-        var rb = this.FindControl<RadioButton>("rbAnho");
-        var fecha = this.FindControl<DatePicker>("DpOcu");
-        var fecha2 = this.FindControl<DatePicker>("DpOcu2");
-
-        if (rb.IsChecked.Value)
-        {
-            fecha.IsVisible = true;
-            fecha2.IsVisible = false;
-        }
-        else
-        {
-            fecha.IsVisible = false;
-            fecha2.IsVisible = true;
-        }
-        
-        fecha.ApplyTemplate();
-        
-        
-    }
-
-    private void BuscarButton_ClickFlota(object sender, RoutedEventArgs e)
-    {
-        var rb = this.FindControl<RadioButton>("rbAnho");
-        var fecha = this.FindControl<DatePicker>("DpOcu");
-        var fecha2 = this.FindControl<DatePicker>("DpOcu2");
-        var porAnho = true;
-        var cbFlota = this.FindControl<ComboBox>("OpcionesComboBoxFlota");
-        var resultado = new ObservableCollection<Vehiculo>();
-
-        if (cbFlota.SelectedItem is ComboBoxItem siFlota)
-        {
-            switch (siFlota.Content.ToString())
-            {
-                case "Disponibilidad de vehículos" :
-                    var tvDis = this.FindControl<ComboBox>("tipoVDis");
-
-                    if (tvDis.SelectedItem is ComboBoxItem tipoDis)
-                    {
-                        TipoVehiculo? tipoVehiculo = tipoDis.Content switch
-                        {
-                            "Furgoneta" => TipoVehiculo.Furgoneta,
-                            "Camión" => TipoVehiculo.Camion,
-                            "Camión Articulado" => TipoVehiculo.CamionArticulado,
-                            _ => null // "Todos" o ninguna selección aplica null para obtener todos los tipos
-                        };
-
-                        resultado = busqueda.BuscarDisponibilidad(tipoVehiculo);
-                    }
-                    break;
-                case "Ocupación":
-                    var aux = fecha;
-                    if (rb.IsChecked.Value)
-                    {
-                        porAnho = true;
-                        aux = fecha;
-                    }
-                    else
-                    {
-                        aux = fecha2;
-                        porAnho = false;
-                    }
-
-                    if (fecha.SelectedDate != null)
-                    {
-                        resultado = busqueda.BuscarOcupacion(aux.SelectedDate, porAnho);
-                    }
-                    break;
-            }
-        }
-        
-        
-        UpdateDataGrid(resultado,"DgridFlota");
-        
-    }
-
-    private void BuscarButton_Click(object sender, RoutedEventArgs e)
-    {
-        //Determinar el tipo de búsqueda
-        var opCB = this.FindControl<ComboBox>("OpcionesComboBox1");
-        var bcb = this.FindControl<ComboBox>("BusquedaComboBox");
-        var tipoSeleccionado = this.FindControl<ComboBox>("TipoCamionComboBox");
-        var listBox2 = this.FindControl<ListBox>("ResultadosListBox");
-        var resultado = new ObservableCollection<Transporte>();
-        var tb = this.FindControl<TextBox>("DniCliente");
-        var anho = this.FindControl<DatePicker>("AnhoPP");
-        var toret = false;
-
-        if (opCB.SelectedItem is ComboBoxItem selectedItem)
-            switch (selectedItem.Content)
-            {
-                case "Transportes pendientes":
-                    if (bcb.SelectedItem is ComboBoxItem selectedItem2)
-                    {
-                        if (selectedItem2.Content.ToString() == "Vehiculo")
-                        {
-                            Console.WriteLine("Camion");
-
-                            // Filtra por el tipo de camión seleccionado
-                            if (tipoSeleccionado.SelectedItem is ComboBoxItem selectedItem3)
-                            {
-                                // Convertimos el tipo seleccionado a TipoCamion enum
-                                TipoVehiculo? tipoVehiculo = selectedItem3.Content switch
-                                {
-                                    "Furgoneta" => TipoVehiculo.Furgoneta,
-                                    "Camión" => TipoVehiculo.Camion,
-                                    "Camión Articulado" => TipoVehiculo.CamionArticulado,
-                                    _ => null // "Todos" o ninguna selección aplica null para obtener todos los tipos
-                                };
-                                Console.WriteLine("Value = " + tipoVehiculo.Value);
-
-                                // Llama al método centralizado para buscar transportes pendientes por camión
-                                resultado = busqueda.BuscarTransportesPendientes(true, tipoVehiculo);
-                            }
-                        }
-                        else if (selectedItem2.Content.ToString() == "Flota")
-                        {
-                            Console.WriteLine("Flota");
-                            // Llama al método centralizado para buscar transportes pendientes para toda la flota
-                            resultado = busqueda.BuscarTransportesPendientes(false, null);
-                        }
-                    }
-
-                    break;
-                case "Reservas pasadas o pendientes":
-                    var cliente = checkDni(tb.Text);
-                    if (cliente != null)
-                    {
-                        if (anho.SelectedDate == null)
-                            resultado = busqueda.BuscarReservasPorCliente(cliente,
-                                null);
-                        else
-                            resultado = busqueda.BuscarReservasPorCliente(cliente,
-                                anho.SelectedDate.Value.Year);
-                    }
-
-                    break;
-                case "Reservas por camión":
-                    var bc = this.FindControl<ComboBox>("BusquedaComboBoxRC");
-                    var anhorc = this.FindControl<DatePicker>("AnhoPPRC");
-                    var tipoV = this.FindControl<ComboBox>("TipoCamionComboBoxRC");
-
-                    if (bc.SelectedItem is ComboBoxItem selectedItemRC)
-                    {
-                        Console.WriteLine("Entro RC");
-                        if (selectedItemRC.Content.ToString() == "Flota")
-                        {
-                            Console.WriteLine("Entro flota RC");
-                            if (anhorc.SelectedDate == null)
-                            {
-                                Console.WriteLine("Flota- null");
-                                resultado = busqueda.BuscarReservasPorCamion(null,
-                                    null);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Flota- NOTnull");
-                                resultado = busqueda.BuscarReservasPorCamion(null,
-                                    anhorc.SelectedDate.Value.Year);
-                            }
-                        }
-                        else
-                        {
-                            if (tipoV.SelectedItem is ComboBoxItem tipoI)
-                            {
-                                TipoVehiculo? tipoVehiculo = tipoI.Content switch
-                                {
-                                    "Furgoneta" => TipoVehiculo.Furgoneta,
-                                    "Camión" => TipoVehiculo.Camion,
-                                    "Camión Articulado" => TipoVehiculo.CamionArticulado,
-                                    _ => null // "Todos" o ninguna selección aplica null para obtener todos los tipos
-                                };
-                                if (anhorc.SelectedDate == null)
-                                    resultado = busqueda.BuscarReservasPorCamion(tipoVehiculo,
-                                        null);
-                                else
-                                    resultado = busqueda.BuscarReservasPorCamion(tipoVehiculo,
-                                        anhorc.SelectedDate.Value.Year);
-                            }
-                        }
-                    }
-
-                    break;
-                case "Reservas pendientes":
-                    Console.WriteLine("Entro en reservas pendientes");
-                    var client = checkDni(tb.Text);
-                    if (client != null)
-                    {
-                        Console.WriteLine("Entro en el cliente no null");
-                        if (anho.SelectedDate == null)
-                        {
-                            Console.WriteLine("Entro en el año null");
-                            resultado = busqueda.BuscarReservasParaPersona(client,
-                                null);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Entro en el año null");
-                            resultado = busqueda.BuscarReservasParaPersona(client,
-                                anho.SelectedDate.Value.Year);
-                        }
-                    }
-
-                    Console.WriteLine("Count = " + resultado.Count);
-                    break;
-            }
-
-        // Mostrar los resultados en el ListBox
-        UpdateDataGrid(resultado, "DgridTransporte");
-    }
-
-    private void StartChart()
-    {
-        int[] values = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-        var cont = 0;
-
-        foreach (var t in Transportes)
-            if (t.FechaContratacion.Year == 2024)
-                values[t.FechaContratacion.Month - 1]++;
-
-        _dataMes = values;
-
-        values = new[] { 0, 0, 0, 0, 0 };
-
-        foreach (var t in Transportes)
-            if (t.FechaContratacion.Year == 2024)
-                values[4]++;
-            else if (t.FechaContratacion.Year == 2023)
-                values[3]++;
-            else if (t.FechaContratacion.Year == 2022)
-                values[2]++;
-            else if (t.FechaContratacion.Year == 2021)
-                values[1]++;
-            else if (t.FechaContratacion.Year == 2020) values[0]++;
-
-        _dataAnho = values;
-
-        Console.WriteLine("+++++++");
-
-        DrawChart(0);
-    }
-
-    private void DrawChart(int x)
-    {
-        Console.WriteLine("-------");
-        Chart.LegendY = _labelY;
-        Console.WriteLine("++++++++++");
-        if (x == 0)
-        {
-            Chart.LegendX = _labelMes;
-            Chart.Values = _dataMes;
-            Chart.Labels = _ejeMes;
-        }
-        else
-        {
-            Chart.LegendX = _labelAnho;
-            Chart.Values = _dataAnho;
-            Chart.Labels = _ejeAnho;
+            // Lógica para el botón Clientes
         }
 
-
-        _chartType = Chart.ChartType.Lines;
-        Chart.DataPen = new Pen(Brushes.Red, 2 * ((double?)2 ?? 1));
-        Chart.Draw();
-    }
-
-    private void DrawChart2()
-    {
-        Chart.LegendY = "Número camiones";
-        Chart.LegendX = "Comodidades";
-        Chart.Labels = new[] { "Bluetooth", "Wifi", "Litera", "AC", "TV" };
-
-        int[] values = { 0, 0, 0, 0, 0 };
-
-        foreach (var v in Vehiculos)
+        private void OnFlotaClick()
         {
-            if (v.Comodidades.Contains("Conexión del móbil por Bluetooth")) values[0]++;
-
-            if (v.Comodidades.Contains("Wifi")) values[1]++;
-
-            if (v.Comodidades.Contains("Litera de Descanso")) values[2]++;
-
-            if (v.Comodidades.Contains("Aire Acondicionado")) values[3]++;
-
-            if (v.Comodidades.Contains("TV")) values[4]++;
+            // Lógica para el botón Flota
         }
 
-        _dataMes = values;
-        _dataAnho = values;
-
-        Chart.Values = _dataMes;
-        _chartType = Chart.ChartType.Lines;
-        Chart.DataPen = new Pen(Brushes.Red, 2 * ((double?)2 ?? 1));
-        Chart.Draw();
-    }
-    
-    private async void Dgrid_SelectionChanged(object? sender)
-    {
-        if (sender is DataGrid dataGrid && dataGrid.SelectedItem is Transporte selectedTransporte)
+        private void OnDatosClick()
         {
-            // Deshabilitar temporalmente el evento SelectionChanged
-            var reservasPorCamionWindow = new DataViewTransporte(selectedTransporte);
-            Console.WriteLine("Editar view");
-            await reservasPorCamionWindow.ShowDialog(this);
-            
-            // Limpiar la selección y volver a habilitar el evento
-            Console.WriteLine("Editar view final");
-            Console.WriteLine("Nueva fecha = " + Transportes[0].FechaEntrega.Day);
-            UpdateDataGrid(Transportes, "DgridTransporte");
+            // Lógica para el botón Datos
+        }
+
+        private void OnTransportesClick()
+        {
+            // Lógica para el botón Transportes
+        }
+
+        private void OnGraficosClick()
+        {
+            // Lógica para el botón Gráficos
         }
     }
 }

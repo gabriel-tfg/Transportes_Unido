@@ -1,0 +1,28 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Transportes.UI.ClienteDetailWindow"
+        Title="Añadir Transporte" Width="700" Height="750"
+        Background="Black">
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+            <Button Name="BtCancel" Margin="20" Content="Cancelar">
+            </Button> 
+            <Button Name="BtBorrar" Margin="10" Content="Borrar"/>
+            <Button Name="BtSave" Margin="10" Content="Guardar">
+            </Button>       
+        </StackPanel>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">
+            <TextBlock HorizontalAlignment="Center" >Datos del Cliente: </TextBlock>
+            <Label Content="NIF"/>
+            <TextBox Name = "EdNif"/>
+            <Label Content="Nombre"/>
+            <TextBox Name = "EdNom"/>
+            <Label Content="Telefono"/>
+            <TextBox Name = "EdTel"/>
+            <Label Content ="Email"/>
+            <TextBox Name = "EdEmail"/>
+            <Label Content ="Direccion Postal"/>
+            <TextBox Name = "EdDir"/>
+        </StackPanel>
+    </DockPanel>
+</Window>

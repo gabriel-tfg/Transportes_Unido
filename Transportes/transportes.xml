@@ -6,22 +6,7 @@
     <FechaContratacion>2024-12-04</FechaContratacion>
     <KilometrosRecorridos>250</KilometrosRecorridos>
     <FechaSalida>2024-12-03</FechaSalida>
-    <FechaEntrega>2024-12-25</FechaEntrega>
     <ImportePorDia>100</ImportePorDia>
-    <ImportePorKilometro>5</ImportePorKilometro>
-	<Vehiculo>
-    <Matricula>ABC 1234</Matricula>
-    <Tipo>Furgoneta</Tipo>
-    <Marca>Ford</Marca>
-    <Modelo>Transit</Modelo>
-    <ConsumoPorKm>12</ConsumoPorKm>
-    <FechaAdquisicion>0001-01-01</FechaAdquisicion>
-    <FechaFabricacion>0001-01-01</FechaFabricacion>
-    <Comodidades>
-      <Comodidad>Wifi</Comodidad>
-      <Comodidad>Aire acondicionado</Comodidad>
-    </Comodidades>
-  </Vehiculo>
     <IVA>21</IVA>
     <Cliente>
       <NIF>12345678A</NIF>
@@ -39,20 +24,6 @@
     <FechaSalida>2024-12-02</FechaSalida>
     <FechaEntrega>2024-12-03</FechaEntrega>
     <ImportePorDia>150</ImportePorDia>
-    <ImportePorKilometro>7</ImportePorKilometro>
-	<Vehiculo>
-    <Matricula>DEF 5678</Matricula>
-    <Tipo>Furgoneta</Tipo>
-    <Marca>Ford</Marca>
-    <Modelo>Transit</Modelo>
-    <ConsumoPorKm>12</ConsumoPorKm>
-    <FechaAdquisicion>0001-01-01</FechaAdquisicion>
-    <FechaFabricacion>0001-01-01</FechaFabricacion>
-    <Comodidades>
-      <Comodidad>Wifi</Comodidad>
-      <Comodidad>Aire acondicionado</Comodidad>
-    </Comodidades>
-  </Vehiculo>
     <IVA>21</IVA>
     <Cliente>
       <NIF>87654321B</NIF>

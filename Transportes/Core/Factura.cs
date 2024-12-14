@@ -14,4 +14,3 @@ public class Factura
         SueldoporHora = sueldoporHora;
     }
 }
-
