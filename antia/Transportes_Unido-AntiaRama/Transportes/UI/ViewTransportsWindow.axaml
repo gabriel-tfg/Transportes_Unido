@@ -1,0 +1,64 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Transportes.UI.ViewTransportsWindow"
+        Title="Lista de Transportes"
+        Width="1200" Height="600"
+        Background="#F0F4F8">
+    <StackPanel Margin="20">
+        <TextBlock Text="Lista de Transportes" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   Foreground="#1D4ED8" 
+                   Margin="0,0,0,20" 
+                   HorizontalAlignment="Center"/>
+
+        <Border BorderBrush="#E5E7EB" 
+                BorderThickness="1" 
+                CornerRadius="10" 
+                Padding="10"
+                Background="#FFFFFF">
+            <DataGrid x:Name="Dgrid"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="False"
+                      CanUserResizeColumns="True"
+                      CanUserSortColumns="True"
+                      RowBackground="#F9FAFB"
+                      Foreground="#1F2937"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto"
+                      Background="#FFFFFF"
+                      Height="500">
+                <DataGrid.Columns>
+                    <!-- ID -->
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
+
+                    <!-- Tipo de Transporte -->
+                    <DataGridTextColumn Header="Tipo Transporte" Binding="{Binding Tipo}" Width="*"/>
+
+                    <!-- Cliente -->
+                    <DataGridTextColumn Header="Cliente (NIF)" Binding="{Binding Cliente.Nif}" Width="*"/>
+                    <DataGridTextColumn Header="Cliente (Nombre)" Binding="{Binding Cliente.Nombre}" Width="*"/>
+
+                    <!-- Vehículo -->
+                    <DataGridTextColumn Header="Vehículo (Matrícula)" Binding="{Binding Vehiculo.Matricula}" Width="*"/>
+                    <DataGridTextColumn Header="Vehículo (Modelo)" Binding="{Binding Vehiculo.Modelo}" Width="*"/>
+
+                    <!-- Fechas -->
+                    <DataGridTextColumn Header="Fecha Contratación" Binding="{Binding FechaContratacion, StringFormat='dd/MM/yyyy'}" Width="*"/>
+                    <DataGridTextColumn Header="Fecha Salida" Binding="{Binding FechaSalida, StringFormat='dd/MM/yyyy'}" Width="*"/>
+                    <DataGridTextColumn Header="Fecha Entrega" Binding="{Binding FechaEntrega, StringFormat='dd/MM/yyyy'}" Width="*"/>
+
+                    <!-- Kilómetros -->
+                    <DataGridTextColumn Header="Kilómetros Recorridos" Binding="{Binding KilometrosRecorridos}" Width="*"/>
+
+                    <!-- Importes -->
+                    <DataGridTextColumn Header="Importe por Día" Binding="{Binding ImportePorDia, StringFormat='C'}" Width="*"/>
+                    <DataGridTextColumn Header="Importe por Kilómetro" Binding="{Binding ImportePorKilometro, StringFormat='C'}" Width="*"/>
+
+                    <!-- IVA -->
+                    <DataGridTextColumn Header="IVA Aplicado" Binding="{Binding IvaAplicado, StringFormat='P'}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </StackPanel>
+</Window>

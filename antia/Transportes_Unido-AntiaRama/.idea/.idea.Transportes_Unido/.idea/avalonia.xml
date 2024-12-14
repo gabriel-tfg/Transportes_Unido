@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="Transportes/MainWindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/AddTransportWindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/AddTransportWindow2.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/App.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/ConsultTransportWindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/DeleteTransportWindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/GenerateInvoiceWindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/MainWindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/ModifyTransportWindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/Tranportewindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/TransporteViewModel.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/ViewTransportsWindow.axaml" value="Transportes/Transportes.csproj" />
+        <entry key="Transportes/UI/Window1.axaml" value="Transportes/Transportes.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Vehiculos>
+  <Vehiculo>
+    <Matricula>ABC 1234</Matricula>
+    <Tipo>Furgoneta</Tipo>
+    <Marca>Ford</Marca>
+    <Modelo>Transit</Modelo>
+    <ConsumoPorKm>0.12</ConsumoPorKm>
+    <FechaAdquisicion>2021-05-12</FechaAdquisicion>
+    <FechaFabricacion>2020-03-10</FechaFabricacion>
+    <Comodidades>
+      <Comodidad>Wifi</Comodidad>
+      <Comodidad>Aire acondicionado</Comodidad>
+    </Comodidades>
+  </Vehiculo>
+  <Vehiculo>
+    <Matricula>DEF 5678</Matricula>
+    <Tipo>Camion</Tipo>
+    <Marca>Mercedes</Marca>
+    <Modelo>Actros</Modelo>
+    <ConsumoPorKm>0.25</ConsumoPorKm>
+    <FechaAdquisicion>2019-07-20</FechaAdquisicion>
+    <FechaFabricacion>2018-11-05</FechaFabricacion>
+    <Comodidades>
+      <Comodidad>Conexión del móvil por Bluetooth</Comodidad>
+      <Comodidad>Litera de descanso</Comodidad>
+      <Comodidad>TV</Comodidad>
+    </Comodidades>
+  </Vehiculo>
+</Vehiculos>
