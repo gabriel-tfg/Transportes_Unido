@@ -19,13 +19,28 @@ build_property.ProjectDir = C:\Users\Iago\RiderProjects\Transportes_Unido\Transp
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
+[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/AddClienteWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/AddTransportWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/ClienteDetailWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/ConsultTransportWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/CrearVehiculoWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/DataViewFlota.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/DataViewTransporte.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/DeleteTransportWindow.axaml]
@@ -35,10 +50,4 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/MainWindow.axaml]
-build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
-
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/ModifyTransportWindow.axaml]
-build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
-
-[C:/Users/Iago/RiderProjects/Transportes_Unido/Transportes/UI/ViewTransportsWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

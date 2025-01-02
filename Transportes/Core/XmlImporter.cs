@@ -50,7 +50,7 @@ public class XmlImporter
         return clientes;
     }
 
-    public List<Transporte> CargarTransportesXML(string archivoXml)
+public List<Transporte> CargarTransportesXML(string archivoXml)
 {
     List<Transporte> transportes = new List<Transporte>();
 
@@ -65,11 +65,13 @@ public class XmlImporter
             string idTransporte = transporteXml.Element("Id")?.Value ?? "0";
             string tipo1 = transporteXml.Element("Tipo")?.Value;
             TipoTransporte tipo = (TipoTransporte)Enum.Parse(typeof(TipoTransporte), tipo1);
-            string nif = transporteXml.Element("Cliente")?.Element("NIF")?.Value;
-            string nombre = transporteXml.Element("Cliente")?.Element("Nombre")?.Value;
-            string telefono = transporteXml.Element("Cliente")?.Element("Telefono")?.Value;
-            string email = transporteXml.Element("Cliente")?.Element("Email")?.Value;
-            string direccion = transporteXml.Element("Cliente")?.Element("Direccion")?.Value;
+
+            var clienteXml = transporteXml.Element("Cliente");
+            string nif = clienteXml?.Element("NIF")?.Value;
+            string nombre = clienteXml?.Element("Nombre")?.Value;
+            string telefono = clienteXml?.Element("Telefono")?.Value;
+            string email = clienteXml?.Element("Email")?.Value;
+            string direccion = clienteXml?.Element("Direccion")?.Value;
 
             Cliente cliente = new Cliente
             {
@@ -78,6 +80,20 @@ public class XmlImporter
                 Telefono = telefono,
                 Email = email,
                 DireccionPostal = direccion
+            };
+
+            var vehiculoXml = transporteXml.Element("Vehiculo");
+            Vehiculo vehiculo = new Vehiculo
+            {
+                Matricula = vehiculoXml?.Element("Matricula")?.Value,
+                Tipo = (TipoVehiculo)Enum.Parse(typeof(TipoVehiculo), vehiculoXml?.Element("Tipo")?.Value ?? "Furgoneta"),
+                Marca = vehiculoXml?.Element("Marca")?.Value,
+                Modelo = vehiculoXml?.Element("Modelo")?.Value,
+                ConsumoPorKm = double.Parse(vehiculoXml?.Element("ConsumoPorKm")?.Value ?? "0"),
+                FechaAdquisicion = DateTime.Parse(vehiculoXml?.Element("FechaAdquisicion")?.Value ?? DateTime.MinValue.ToString()),
+                FechaFabricacion = DateTime.Parse(vehiculoXml?.Element("FechaFabricacion")?.Value ?? DateTime.MinValue.ToString()),
+                Disponible = bool.Parse(vehiculoXml?.Element("Disponible")?.Value ?? "true"),
+                Comodidades = vehiculoXml?.Element("Comodidades")?.Elements("Comodidad")?.Select(c => c.Value).ToList() ?? new List<string>()
             };
 
             DateTime fechaContratacion = DateTime.Parse(transporteXml.Element("FechaContratacion")?.Value ?? DateTime.MinValue.ToString());
@@ -92,7 +108,8 @@ public class XmlImporter
             {
                 Id = idTransporte,
                 Tipo = tipo,
-                Cliente = cliente, 
+                Cliente = cliente,
+                Vehiculo = vehiculo,
                 FechaContratacion = fechaContratacion,
                 KilometrosRecorridos = kilometrosRecorridos,
                 FechaSalida = fechaSalida,
@@ -112,6 +129,7 @@ public class XmlImporter
 
     return transportes;
 }
+
     public List<Vehiculo> CargarFlotaXML(string archivoXml)
     {
         List<Vehiculo> flota = new List<Vehiculo>();
@@ -130,12 +148,16 @@ public class XmlImporter
                 string marca = vehiculoXml.Element("Marca")?.Value;
                 string modelo = vehiculoXml.Element("Modelo")?.Value;
                 double consumoPorKm = double.Parse(vehiculoXml.Element("ConsumoPorKm")?.Value ?? "0");
-                DateTime fechaDeAdquisicion = DateTime.Parse(vehiculoXml.Element("FechaDeAdquisicion")?.Value ?? DateTime.MinValue.ToString());
-                DateTime fechaDeFabricacion = DateTime.Parse(vehiculoXml.Element("FechaDeFabricacion")?.Value ?? DateTime.MinValue.ToString());
+                // Obtener las fechas asegurándonos de que no son nulas o vacías
+                DateTime fechaDeAdquisicion = ObtenerFecha(vehiculoXml.Element("FechaAdquisicion")?.Value);
+                DateTime fechaDeFabricacion = ObtenerFecha(vehiculoXml.Element("FechaFabricacion")?.Value);
+
 
                 var comodidadesXml = vehiculoXml.Element("Comodidades")?.Elements("Comodidad");
                 List<string> comodidades = comodidadesXml?.Select(c => c.Value).ToList() ?? new List<string>();
+                Console.WriteLine($"Vehículo: {matricula}, Comodidades: {string.Join(", ", comodidades)}");
 
+               
                 Vehiculo nuevoVehiculo = new Vehiculo
                 {
                     Matricula = matricula,
@@ -157,6 +179,23 @@ public class XmlImporter
         }
 
         return flota;
+    }
+
+    private DateTime ObtenerFecha(string fechaStr)
+    {
+        if (!string.IsNullOrEmpty(fechaStr))
+        {
+            // Intentar parsear con múltiples formatos
+            var formatos = new[] { "dd/MM/yyyy", "yyyy-MM-dd", "MM/dd/yyyy", "yyyy-MM-ddTHH:mm:ss" };
+            if (DateTime.TryParseExact(fechaStr, formatos, System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None, out var fecha))
+            {
+                return fecha;
+            }
+        }
+
+        // Si no se puede parsear, se devuelve la fecha actual como ejemplo
+        return DateTime.Now;
     }
 
 

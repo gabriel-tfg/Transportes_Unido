@@ -1,39 +1,259 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Transportes>
   <Transporte>
-    <Id>1234ABC20231105</Id>
-    <Tipo>Mudanza</Tipo>
-    <FechaContratacion>2024-12-04</FechaContratacion>
-    <KilometrosRecorridos>250</KilometrosRecorridos>
-    <FechaSalida>2024-12-03</FechaSalida>
-    <FechaEntrega>2024-12-04</FechaEntrega>
-    <ImportePorDia>100</ImportePorDia>
-    <ImportePorKilometro>0.5</ImportePorKilometro>
-    <IVA>21</IVA>
+    <Id>4640FGH20241213</Id>
+    <Tipo>Mercancia</Tipo>
+    <FechaContratacion>2024-12-13</FechaContratacion>
+    <KilometrosRecorridos>33</KilometrosRecorridos>
+    <FechaSalida>2024-12-14</FechaSalida>
+    <FechaEntrega>2024-12-19</FechaEntrega>
+    <ImportePorDia>3</ImportePorDia>
+    <ImportePorKilometro>3</ImportePorKilometro>
+    <IVA>3</IVA>
     <Cliente>
-      <NIF>12345678A</NIF>
-      <Nombre>Juan Pérez</Nombre>
+      <NIF>15494682H</NIF>
+      <Nombre>Iago</Nombre>
       <Telefono>123456789</Telefono>
       <Email>juan@example.com</Email>
       <Direccion>Calle Falsa 123</Direccion>
     </Cliente>
+    <Vehiculo>
+      <Matricula>4640FGH</Matricula>
+      <Tipo>Camion</Tipo>
+      <Marca>asd</Marca>
+      <Modelo>asd</Modelo>
+      <ConsumoPorKm>12</ConsumoPorKm>
+      <FechaAdquisicion>2024-12-16</FechaAdquisicion>
+      <FechaFabricacion>2024-12-16</FechaFabricacion>
+      <Disponible>false</Disponible>
+      <Comodidades>
+        <Comodidad>Wifi</Comodidad>
+      </Comodidades>
+    </Vehiculo>
   </Transporte>
   <Transporte>
-    <Id>5678DEF20231110</Id>
+    <Id>1918DVF20231016</Id>
     <Tipo>Mercancia</Tipo>
-    <FechaContratacion>2024-12-04</FechaContratacion>
-    <KilometrosRecorridos>500</KilometrosRecorridos>
-    <FechaSalida>2024-12-02</FechaSalida>
-    <FechaEntrega>2024-12-03</FechaEntrega>
-    <ImportePorDia>150</ImportePorDia>
-    <ImportePorKilometro>0.7</ImportePorKilometro>
+    <FechaContratacion>2023-10-16</FechaContratacion>
+    <KilometrosRecorridos>89</KilometrosRecorridos>
+    <FechaSalida>2023-10-17</FechaSalida>
+    <FechaEntrega>2023-11-18</FechaEntrega>
+    <ImportePorDia>98</ImportePorDia>
+    <ImportePorKilometro>89</ImportePorKilometro>
     <IVA>21</IVA>
     <Cliente>
-      <NIF>87654321B</NIF>
-      <Nombre>Maria García</Nombre>
-      <Telefono>987654321</Telefono>
-      <Email>maria@example.com</Email>
-      <Direccion>Avenida Siempre Viva 742</Direccion>
+      <NIF>39988108B</NIF>
+      <Nombre>Cliente2001</Nombre>
+      <Telefono>613570252</Telefono>
+      <Email>cliente2001@example.com</Email>
+      <Direccion>Calle Nueva 2001</Direccion>
     </Cliente>
+    <Vehiculo>
+      <Matricula>1918DVF</Matricula>
+      <Tipo>Camion</Tipo>
+      <Marca>Renault</Marca>
+      <Modelo>Sprint</Modelo>
+      <ConsumoPorKm>12</ConsumoPorKm>
+      <FechaAdquisicion>2017-12-16</FechaAdquisicion>
+      <FechaFabricacion>2024-12-16</FechaFabricacion>
+      <Disponible>false</Disponible>
+      <Comodidades>
+        <Comodidad>Wifi</Comodidad>
+      </Comodidades>
+    </Vehiculo>
+  </Transporte>
+  <Transporte>
+    <Id>4567BCD20250123</Id>
+    <Tipo>Vehiculo</Tipo>
+    <FechaContratacion>2025-01-23</FechaContratacion>
+    <KilometrosRecorridos>74</KilometrosRecorridos>
+    <FechaSalida>2025-01-26</FechaSalida>
+    <FechaEntrega>2025-02-10</FechaEntrega>
+    <ImportePorDia>48</ImportePorDia>
+    <ImportePorKilometro>45</ImportePorKilometro>
+    <IVA>21</IVA>
+    <Cliente>
+      <NIF>11616578H</NIF>
+      <Nombre>Cliente2008</Nombre>
+      <Telefono>675207484</Telefono>
+      <Email>cliente2008@example.com</Email>
+      <Direccion>Calle Nueva 2008</Direccion>
+    </Cliente>
+    <Vehiculo>
+      <Matricula>4567BCD</Matricula>
+      <Tipo>Camion</Tipo>
+      <Marca>Escania</Marca>
+      <Modelo>Ford</Modelo>
+      <ConsumoPorKm>18</ConsumoPorKm>
+      <FechaAdquisicion>2023-12-16</FechaAdquisicion>
+      <FechaFabricacion>2016-12-16</FechaFabricacion>
+      <Disponible>false</Disponible>
+      <Comodidades>
+        <Comodidad>Wifi</Comodidad>
+        <Comodidad>Conexión del móvil por Bluetooth</Comodidad>
+        <Comodidad>Aire Acondicionado</Comodidad>
+        <Comodidad>Litera de Descanso</Comodidad>
+        <Comodidad>TV</Comodidad>
+      </Comodidades>
+    </Vehiculo>
+  </Transporte>
+  <Transporte>
+    <Id>1234ABC20201015</Id>
+    <Tipo>Mudanza</Tipo>
+    <FechaContratacion>2020-10-15</FechaContratacion>
+    <KilometrosRecorridos>32</KilometrosRecorridos>
+    <FechaSalida>2020-10-16</FechaSalida>
+    <FechaEntrega>2020-10-18</FechaEntrega>
+    <ImportePorDia>58</ImportePorDia>
+    <ImportePorKilometro>54</ImportePorKilometro>
+    <IVA>21</IVA>
+    <Cliente>
+      <NIF>96412857N</NIF>
+      <Nombre>Cliente2004</Nombre>
+      <Telefono>625485583</Telefono>
+      <Email>cliente2004@example.com</Email>
+      <Direccion>Calle Nueva 2004</Direccion>
+    </Cliente>
+    <Vehiculo>
+      <Matricula>1234ABC</Matricula>
+      <Tipo>Furgoneta</Tipo>
+      <Marca>Ford</Marca>
+      <Modelo>Luxure</Modelo>
+      <ConsumoPorKm>23</ConsumoPorKm>
+      <FechaAdquisicion>2022-12-16</FechaAdquisicion>
+      <FechaFabricacion>2020-12-16</FechaFabricacion>
+      <Disponible>false</Disponible>
+      <Comodidades>
+        <Comodidad>Wifi</Comodidad>
+        <Comodidad>Conexión del móvil por Bluetooth</Comodidad>
+      </Comodidades>
+    </Vehiculo>
+  </Transporte>
+  <Transporte>
+    <Id>4563DFG20241216</Id>
+    <Tipo>Mudanza</Tipo>
+    <FechaContratacion>2024-12-16</FechaContratacion>
+    <KilometrosRecorridos>45</KilometrosRecorridos>
+    <FechaSalida>2024-12-16</FechaSalida>
+    <FechaEntrega>2024-12-16</FechaEntrega>
+    <ImportePorDia>45</ImportePorDia>
+    <ImportePorKilometro>45</ImportePorKilometro>
+    <IVA>45</IVA>
+    <Cliente>
+      <NIF>30118718O</NIF>
+      <Nombre>Cliente2015</Nombre>
+      <Telefono>698312354</Telefono>
+      <Email>cliente2015@example.com</Email>
+      <Direccion>Calle Nueva 2015</Direccion>
+    </Cliente>
+    <Vehiculo>
+      <Matricula>4563DFG</Matricula>
+      <Tipo>Furgoneta</Tipo>
+      <Marca>Audi</Marca>
+      <Modelo>Giulia</Modelo>
+      <ConsumoPorKm>25</ConsumoPorKm>
+      <FechaAdquisicion>2008-12-16</FechaAdquisicion>
+      <FechaFabricacion>2021-10-15</FechaFabricacion>
+      <Disponible>false</Disponible>
+      <Comodidades>
+        <Comodidad>Wifi</Comodidad>
+        <Comodidad>TV</Comodidad>
+      </Comodidades>
+    </Vehiculo>
+  </Transporte>
+  <Transporte>
+    <Id>4789HGH20241216</Id>
+    <Tipo>Mudanza</Tipo>
+    <FechaContratacion>2024-12-16</FechaContratacion>
+    <KilometrosRecorridos>5</KilometrosRecorridos>
+    <FechaSalida>2024-12-16</FechaSalida>
+    <FechaEntrega>2024-12-16</FechaEntrega>
+    <ImportePorDia>54</ImportePorDia>
+    <ImportePorKilometro>54</ImportePorKilometro>
+    <IVA>45</IVA>
+    <Cliente>
+      <NIF>90641105Z</NIF>
+      <Nombre>Cliente2019</Nombre>
+      <Telefono>668669393</Telefono>
+      <Email>cliente2019@example.com</Email>
+      <Direccion>Calle Nueva 2019</Direccion>
+    </Cliente>
+    <Vehiculo>
+      <Matricula>4789HGH</Matricula>
+      <Tipo>Furgoneta</Tipo>
+      <Marca>Volkswagen</Marca>
+      <Modelo>Entusiast</Modelo>
+      <ConsumoPorKm>21</ConsumoPorKm>
+      <FechaAdquisicion>2022-10-11</FechaAdquisicion>
+      <FechaFabricacion>2023-12-16</FechaFabricacion>
+      <Disponible>false</Disponible>
+      <Comodidades>
+        <Comodidad>TV</Comodidad>
+      </Comodidades>
+    </Vehiculo>
+  </Transporte>
+  <Transporte>
+    <Id>1234ABC20241016</Id>
+    <Tipo>Mudanza</Tipo>
+    <FechaContratacion>2024-10-16</FechaContratacion>
+    <KilometrosRecorridos>33</KilometrosRecorridos>
+    <FechaSalida>2024-10-18</FechaSalida>
+    <FechaEntrega>2024-10-23</FechaEntrega>
+    <ImportePorDia>34</ImportePorDia>
+    <ImportePorKilometro>34</ImportePorKilometro>
+    <IVA>21</IVA>
+    <Cliente>
+      <NIF>15494682H</NIF>
+      <Nombre>Iago</Nombre>
+      <Telefono>123456789</Telefono>
+      <Email>juan@example.com</Email>
+      <Direccion>Calle Falsa 123</Direccion>
+    </Cliente>
+    <Vehiculo>
+      <Matricula>1234ABC</Matricula>
+      <Tipo>Furgoneta</Tipo>
+      <Marca>Ford</Marca>
+      <Modelo>Luxure</Modelo>
+      <ConsumoPorKm>23</ConsumoPorKm>
+      <FechaAdquisicion>2022-12-16</FechaAdquisicion>
+      <FechaFabricacion>2020-12-16</FechaFabricacion>
+      <Disponible>false</Disponible>
+      <Comodidades>
+        <Comodidad>Wifi</Comodidad>
+        <Comodidad>Conexión del móvil por Bluetooth</Comodidad>
+      </Comodidades>
+    </Vehiculo>
+  </Transporte>
+  <Transporte>
+    <Id>1234ABC20241216</Id>
+    <Tipo>Mudanza</Tipo>
+    <FechaContratacion>2024-12-16</FechaContratacion>
+    <KilometrosRecorridos>45</KilometrosRecorridos>
+    <FechaSalida>2024-12-18</FechaSalida>
+    <FechaEntrega>2025-01-03</FechaEntrega>
+    <ImportePorDia>50</ImportePorDia>
+    <ImportePorKilometro>32</ImportePorKilometro>
+    <IVA>21</IVA>
+    <Cliente>
+      <NIF>53197452Q</NIF>
+      <Nombre>david</Nombre>
+      <Telefono>231255</Telefono>
+      <Email>htdth</Email>
+      <Direccion>252525</Direccion>
+    </Cliente>
+    <Vehiculo>
+      <Matricula>1234ABC</Matricula>
+      <Tipo>Furgoneta</Tipo>
+      <Marca>Ford</Marca>
+      <Modelo>Luxure</Modelo>
+      <ConsumoPorKm>23</ConsumoPorKm>
+      <FechaAdquisicion>2022-12-16</FechaAdquisicion>
+      <FechaFabricacion>2020-12-16</FechaFabricacion>
+      <Disponible>false</Disponible>
+      <Comodidades>
+        <Comodidad>Wifi</Comodidad>
+        <Comodidad>Conexión del móvil por Bluetooth</Comodidad>
+      </Comodidades>
+    </Vehiculo>
   </Transporte>
 </Transportes>

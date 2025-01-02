@@ -1,0 +1,74 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Transportes.UI.DataViewFlota"
+        Title="Detalles del Vehículo"
+        Width="400" Height="600"
+        Background="Cornsilk">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Margin="10" Padding="10" Background="White" CornerRadius="10"
+                BorderBrush="#CCCCCC" BorderThickness="1">
+            <ScrollViewer>
+                <StackPanel>
+                    <TextBlock Text="Detalles del Vehículo" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Foreground="#374151"/>
+                    
+                    <TextBlock Text="Matrícula:" Margin="0,10" Foreground="#1F2937" FontWeight="Bold"/>
+                    <TextBox x:Name="MatriculaTextBox" Text="{Binding Matricula}" Width="300" Foreground="#4B5563"/>
+                    
+                    <TextBlock Text="Tipo de Vehículo:" Margin="0,10" Foreground="#1F2937" FontWeight="Bold"/>
+                    <ComboBox x:Name="TipoVehiculoComboBox" Width="300" Margin="0,5" 
+                              SelectedIndex="{Binding Tipo, Mode=TwoWay}" IsEnabled="False" Foreground="#4B5563">
+                        <ComboBoxItem Content="Furgoneta" />
+                        <ComboBoxItem Content="Camión" />
+                        <ComboBoxItem Content="Camión Articulado" />
+                    </ComboBox>
+
+
+                    <TextBlock Text="Marca:" Margin="0,10" Foreground="#1F2937" FontWeight="Bold"/>
+                    <TextBox x:Name="MarcaTextBox" Text="{Binding Marca}" Width="300" Foreground="#4B5563"/>
+
+                    <TextBlock Text="Modelo:" Margin="0,10" Foreground="#1F2937" FontWeight="Bold"/>
+                    <TextBox x:Name="ModeloTextBox" Text="{Binding Modelo}" Width="300" Foreground="#4B5563"/>
+
+                    <TextBlock Text="Consumo por Km:" Margin="0,10" Foreground="#1F2937" FontWeight="Bold"/>
+                    <TextBox x:Name="ConsumoPorKmTextBox" Text="{Binding ConsumoPorKm}" Width="300" Foreground="#4B5563"/>
+                    
+                    <TextBlock Text="Fecha de Adquisición:" Margin="0,10" Foreground="#1F2937" FontWeight="Bold"/>
+                    <DatePicker x:Name="FechaAdquisicionPicker"
+                                SelectedDate="{Binding FechaAdquisicionOffset, Mode=TwoWay}"
+                                Width="300" Margin="0,0,0,10" Foreground="#4B5563"/>
+                    
+                    <TextBlock Text="Fecha de Fabricación:" Margin="0,10" Foreground="#1F2937" FontWeight="Bold"/>
+                    <DatePicker x:Name="FechaFabricacionPicker"
+                                SelectedDate="{Binding FechaFabricacionOffset, Mode=TwoWay}"
+                                Width="300" Margin="0,0,0,10" Foreground="#4B5563"/>
+
+
+                    
+                    <DockPanel Margin="5">
+                        
+                        <StackPanel Margin="5">
+                            <TextBlock Text="Comodidades:" FontWeight="Bold" Margin="0,5" Foreground="#1F2937"/>
+                            <CheckBox x:Name="chkWifi" Content="Wifi" IsEnabled="False" Foreground="#4B5563"/>
+                            <CheckBox x:Name="chkBluetooth" Content="Conexión del móvil por Bluetooth" IsEnabled="False" Foreground="#4B5563"/>
+                            <CheckBox x:Name="chkAireAcondicionado" Content="Aire Acondicionado" IsEnabled="False" Foreground="#4B5563"/>
+                            <CheckBox x:Name="chkLitera" Content="Litera de Descanso" IsEnabled="False" Foreground="#4B5563"/>
+                            <CheckBox x:Name="chkTV" Content="TV" IsEnabled="False" Foreground="#4B5563"/>
+
+                        </StackPanel>
+
+                    </DockPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10" Spacing="5">
+            <Button x:Name="ButtonEditar" Content="Editar" Click="OnEditarClick" Padding="10,5" Background="#059669"/>
+            <Button Content="Eliminar" Click="OnEliminarClick" Padding="10,5" Background="#DC2626"/>
+        </StackPanel>
+    </Grid>
+</Window>

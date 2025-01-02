@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Transportes.UI.AddTransportWindow"
         Title="Añadir Transporte" Width="700" Height="750"
-        Background="#F0F4F8">
+        Background="#FEF7E3">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -11,41 +11,49 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="0,10" HorizontalAlignment="Center">
-                <TextBlock Text="Añadir Nuevo Transporte" FontSize="26" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,0,0,20"/>
+                <TextBlock Text="Añadir Nuevo Transporte" FontSize="26" FontWeight="Bold" Foreground="#1D3557" Margin="0,0,0,20"/>
 
-                <TextBlock Text="NIF del Cliente" FontWeight="Bold" FontSize="16" Foreground="#1F2937"/>
-                <TextBox x:Name="nifTextBox" Watermark="Introduce el NIF del cliente" Width="350" CornerRadius="10" Margin="0,5"/>
+                <!-- NIF del Cliente -->
+                <TextBlock Text="NIF del Cliente" FontWeight="Bold" FontSize="16" Foreground="#1D3557"/>
+                <TextBox x:Name="nifTextBox" Watermark="Introduce el NIF del cliente" Width="350" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10" Margin="0,5"/>
 
-                <TextBlock Text="Tipo de Transporte" FontWeight="Bold" FontSize="16" Foreground="#1F2937" Margin="0,10,0,0"/>
-                <ComboBox x:Name="tipoTransporteComboBox" Width="350" CornerRadius="10"/>
+                <!-- Tipo de Transporte -->
+                <TextBlock Text="Tipo de Transporte" FontWeight="Bold" FontSize="16" Foreground="#1D3557" Margin="0,10,0,0"/>
+                <ComboBox x:Name="tipoTransporteComboBox" Width="350" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
 
-                <TextBlock Text="Kilómetros recorridos" FontWeight="Bold" FontSize="16" Foreground="#1F2937" Margin="0,10,0,0"/>
-                <TextBox x:Name="kilometrosRecorridosTextBox" Width="350" CornerRadius="10"/>
+                <!-- Kilómetros Recorridos -->
+                <TextBlock Text="Kilómetros recorridos" FontWeight="Bold" FontSize="16" Foreground="#1D3557" Margin="0,10,0,0"/>
+                <TextBox x:Name="kilometrosRecorridosTextBox" Width="350" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
 
-                <TextBlock Text="Importe por Día" FontWeight="Bold" FontSize="16" Foreground="#1F2937" Margin="0,10,0,0"/>
-                <TextBox x:Name="importePorDiaTextBox" Width="350" CornerRadius="10"/>
+                <!-- Importe por Día -->
+                <TextBlock Text="Importe por Día" FontWeight="Bold" FontSize="16" Foreground="#1D3557" Margin="0,10,0,0"/>
+                <TextBox x:Name="importePorDiaTextBox" Width="350" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
 
-                <TextBlock Text="Importe por Kilómetro" FontWeight="Bold" FontSize="16" Foreground="#1F2937" Margin="0,10,0,0"/>
-                <TextBox x:Name="importePorKilometroTextBox" Width="350" CornerRadius="10"/>
+                <!-- Importe por Kilómetro -->
+                <TextBlock Text="Importe por Kilómetro" FontWeight="Bold" FontSize="16" Foreground="#1D3557" Margin="0,10,0,0"/>
+                <TextBox x:Name="importePorKilometroTextBox" Width="350" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
 
-                <TextBlock Text="IVA aplicado" FontWeight="Bold" FontSize="16" Foreground="#1F2937" Margin="0,10,0,0"/>
-                <TextBox x:Name="ivaAplicadoTextBox" Width="350" CornerRadius="10"/>
+                <!-- IVA Aplicado -->
+                <TextBlock Text="IVA aplicado" FontWeight="Bold" FontSize="16" Foreground="#1D3557" Margin="0,10,0,0"/>
+                <TextBox x:Name="ivaAplicadoTextBox" Width="350" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
 
-                <TextBlock Text="Fechas" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="#3B82F6"/>
-                
-                <TextBlock Text="Fecha de Contratación" FontWeight="Bold" FontSize="16" Foreground="#1F2937"/>
-                <DatePicker x:Name="fechaContratacionDatePicker" Width="350" CornerRadius="10"/>
+                <!-- Fechas -->
+                <TextBlock Text="Fechas" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="#1D3557"/>
 
-                <TextBlock Text="Fecha de Salida" FontWeight="Bold" FontSize="16" Foreground="#1F2937" Margin="0,10,0,0"/>
-                <DatePicker x:Name="fechaSalidaDatePicker" Width="350" CornerRadius="10"/>
+                <TextBlock Text="Fecha de Contratación" FontWeight="Bold" FontSize="16" Foreground="#1D3557"/>
+                <DatePicker x:Name="fechaContratacionDatePicker" Width="350" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
 
-                <TextBlock Text="Fecha de Entrega" FontWeight="Bold" FontSize="16" Foreground="#1F2937" Margin="0,10,0,0"/>
-                <DatePicker x:Name="fechaEntregaDatePicker" Width="350" CornerRadius="10"/>
+                <TextBlock Text="Fecha de Salida" FontWeight="Bold" FontSize="16" Foreground="#1D3557" Margin="0,10,0,0"/>
+                <DatePicker x:Name="fechaSalidaDatePicker" Width="350" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
+
+                <TextBlock Text="Fecha de Entrega" FontWeight="Bold" FontSize="16" Foreground="#1D3557" Margin="0,10,0,0"/>
+                <DatePicker x:Name="fechaEntregaDatePicker" Width="350" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
             </StackPanel>
         </ScrollViewer>
 
+        <!-- Botones de Acción -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
-            <Button Content="Añadir" Click="AceptarButton_Click" Width="120" Height="40" CornerRadius="20" Background="#3B82F6" Foreground="White" Margin="10"/>
+            <Button Content="Añadir" Click="AceptarButton_Click" Width="120" Height="40" CornerRadius="20" Background="#48B9A3" Foreground="White" Margin="10"/>
             <Button Content="Cancelar" Click="CancelarButton_Click" Width="120" Height="40" CornerRadius="20" Background="#EF4444" Foreground="White" Margin="10"/>
         </StackPanel>
     </Grid>

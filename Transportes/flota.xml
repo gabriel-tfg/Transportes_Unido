@@ -1,30 +1,82 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Vehiculos>
   <Vehiculo>
-    <Matricula>ABC 1234</Matricula>
+    <Matricula>1234ABC</Matricula>
     <Tipo>Furgoneta</Tipo>
     <Marca>Ford</Marca>
-    <Modelo>Transit</Modelo>
-    <ConsumoPorKm>0.12</ConsumoPorKm>
-    <FechaAdquisicion>2021-05-12</FechaAdquisicion>
-    <FechaFabricacion>2020-03-10</FechaFabricacion>
+    <Modelo>Luxure</Modelo>
+    <ConsumoPorKm>23</ConsumoPorKm>
+    <FechaAdquisicion>2022-12-16</FechaAdquisicion>
+    <FechaFabricacion>2020-12-16</FechaFabricacion>
     <Comodidades>
       <Comodidad>Wifi</Comodidad>
-      <Comodidad>Aire acondicionado</Comodidad>
+      <Comodidad>Conexión del móvil por Bluetooth</Comodidad>
     </Comodidades>
   </Vehiculo>
   <Vehiculo>
-    <Matricula>DEF 5678</Matricula>
+    <Matricula>4567BCD</Matricula>
     <Tipo>Camion</Tipo>
-    <Marca>Mercedes</Marca>
-    <Modelo>Actros</Modelo>
-    <ConsumoPorKm>0.25</ConsumoPorKm>
-    <FechaAdquisicion>2019-07-20</FechaAdquisicion>
-    <FechaFabricacion>2018-11-05</FechaFabricacion>
+    <Marca>Escania</Marca>
+    <Modelo>Ford</Modelo>
+    <ConsumoPorKm>18</ConsumoPorKm>
+    <FechaAdquisicion>2023-12-16</FechaAdquisicion>
+    <FechaFabricacion>2016-12-16</FechaFabricacion>
     <Comodidades>
+      <Comodidad>Wifi</Comodidad>
       <Comodidad>Conexión del móvil por Bluetooth</Comodidad>
-      <Comodidad>Litera de descanso</Comodidad>
+      <Comodidad>Aire Acondicionado</Comodidad>
+      <Comodidad>Litera de Descanso</Comodidad>
       <Comodidad>TV</Comodidad>
+    </Comodidades>
+  </Vehiculo>
+  <Vehiculo>
+    <Matricula>2589JGD</Matricula>
+    <Tipo>CamionArticulado</Tipo>
+    <Marca>Toyota</Marca>
+    <Modelo>YarisPlus</Modelo>
+    <ConsumoPorKm>15</ConsumoPorKm>
+    <FechaAdquisicion>2013-12-16</FechaAdquisicion>
+    <FechaFabricacion>2022-11-16</FechaFabricacion>
+    <Comodidades>
+      <Comodidad>Aire Acondicionado</Comodidad>
+      <Comodidad>Litera de Descanso</Comodidad>
+    </Comodidades>
+  </Vehiculo>
+  <Vehiculo>
+    <Matricula>4563DFG</Matricula>
+    <Tipo>Furgoneta</Tipo>
+    <Marca>Audi</Marca>
+    <Modelo>Giulia</Modelo>
+    <ConsumoPorKm>25</ConsumoPorKm>
+    <FechaAdquisicion>2008-12-16</FechaAdquisicion>
+    <FechaFabricacion>2021-10-15</FechaFabricacion>
+    <Comodidades>
+      <Comodidad>Wifi</Comodidad>
+      <Comodidad>TV</Comodidad>
+    </Comodidades>
+  </Vehiculo>
+  <Vehiculo>
+    <Matricula>4789HGH</Matricula>
+    <Tipo>Furgoneta</Tipo>
+    <Marca>Volkswagen</Marca>
+    <Modelo>Entusiast</Modelo>
+    <ConsumoPorKm>21</ConsumoPorKm>
+    <FechaAdquisicion>2022-10-11</FechaAdquisicion>
+    <FechaFabricacion>2023-12-16</FechaFabricacion>
+    <Comodidades>
+      <Comodidad>TV</Comodidad>
+    </Comodidades>
+  </Vehiculo>
+  <Vehiculo>
+    <Matricula>4569HJK</Matricula>
+    <Tipo>Furgoneta</Tipo>
+    <Marca>HGDF</Marca>
+    <Modelo>GYDD</Modelo>
+    <ConsumoPorKm>54</ConsumoPorKm>
+    <FechaAdquisicion>2024-12-16</FechaAdquisicion>
+    <FechaFabricacion>2024-12-16</FechaFabricacion>
+    <Comodidades>
+      <Comodidad>Wifi</Comodidad>
     </Comodidades>
   </Vehiculo>
 </Vehiculos>

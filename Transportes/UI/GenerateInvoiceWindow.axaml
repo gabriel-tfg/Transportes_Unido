@@ -3,26 +3,16 @@
         x:Class="Transportes.UI.GenerateInvoiceWindow"
         Title="Generar Factura"
         Width="500" Height="450"
-        Background="#F0F4F8">
+        Background="#FEF7E3">
     <StackPanel Margin="20">
-        <TextBlock Text="Generar Factura" FontSize="24" FontWeight="Bold" Foreground="#1D4ED8" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+        <TextBlock Text="Generar Factura" FontSize="26" FontWeight="Bold" Foreground="#1D3557" Margin="0,0,0,20" HorizontalAlignment="Center"/>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="ID del Transporte:" Width="150" VerticalAlignment="Center" Foreground="#6B7280"/>
-            <TextBox x:Name="TransportIdTextBox" Width="200" Background="White" Foreground="#1F2937"/>
+            <TextBlock Text="Precio del Combustible (€):" Width="200" VerticalAlignment="Center" Foreground="#1D3557"/>
+            <TextBox x:Name="FuelPriceTextBox" Width="200" Background="#B0BEC5" Foreground="White" CornerRadius="10"/>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Precio del Combustible (€):" Width="150" VerticalAlignment="Center" Foreground="#6B7280"/>
-            <TextBox x:Name="FuelPriceTextBox" Width="200" Background="White" Foreground="#1F2937"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Sueldo por Hora (€):" Width="150" VerticalAlignment="Center" Foreground="#6B7280"/>
-            <TextBox x:Name="HourlyWageTextBox" Width="200" Background="White" Foreground="#1F2937"/>
-        </StackPanel>
-
-        <Button x:Name="GenerateButton" Content="Generar Factura" Width="150" Background="#3B82F6" Foreground="White" Margin="0,20" HorizontalAlignment="Center"/>
+        <Button x:Name="GenerateButton" Content="Generar Factura" Width="150" Background="#48B9A3" Foreground="White" Margin="0,20" HorizontalAlignment="Center"/>
 
         <Border BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="10" Padding="10">
             <ScrollViewer>

@@ -1,0 +1,63 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Transportes.UI.CrearVehiculoWindow"
+        Title="Añadir Vehículo"
+        Width="400" Height="600"
+        Background="Cornsilk">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Spacing="15">
+                <TextBlock Text="Añadir Vehículo" FontSize="26" FontWeight="Bold" Foreground="#1D3557" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+
+                <!-- Matrícula -->
+                <TextBlock Text="Matrícula:" Foreground="#1D3557"/>
+                <TextBox x:Name="MatriculaTextBox" Width="300" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
+
+                <!-- Tipo de Vehículo -->
+                <TextBlock Text="Tipo de Vehículo:" Foreground="#1D3557"/>
+                <ComboBox x:Name="TipoVehiculoComboBox" Width="300" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10">
+                    <ComboBoxItem Content="Furgoneta"/>
+                    <ComboBoxItem Content="Camión"/>
+                    <ComboBoxItem Content="Camión Articulado"/>
+                </ComboBox>
+
+                <!-- Marca -->
+                <TextBlock Text="Marca:" Foreground="#1D3557"/>
+                <TextBox x:Name="MarcaTextBox" Width="300" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
+
+                <!-- Modelo -->
+                <TextBlock Text="Modelo:" Foreground="#1D3557"/>
+                <TextBox x:Name="ModeloTextBox" Width="300" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
+
+                <!-- Consumo -->
+                <TextBlock Text="Consumo por Km:" Foreground="#1D3557"/>
+                <TextBox x:Name="ConsumoPorKmTextBox" Width="300" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
+
+                <!-- Fechas -->
+                <TextBlock Text="Fecha de Adquisición:" Foreground="#1D3557"/>
+                <DatePicker x:Name="FechaAdquisicionPicker" Width="300" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
+
+                <TextBlock Text="Fecha de Fabricación:" Foreground="#1D3557"/>
+                <DatePicker x:Name="FechaFabricacionPicker" Width="300" Background="#B0BEC5" Foreground="#1D3557" CornerRadius="10"/>
+
+                <!-- Comodidades -->
+                <TextBlock Text="Comodidades:" FontWeight="Bold" Foreground="#1D3557"/>
+                <StackPanel>
+                    <CheckBox x:Name="chkWifi" Content="Wifi" Foreground="#1F2937"/>
+                    <CheckBox x:Name="chkBluetooth" Content="Conexión del móvil por Bluetooth" Foreground="#1F2937"/>
+                    <CheckBox x:Name="chkAireAcondicionado" Content="Aire Acondicionado" Foreground="#1F2937"/>
+                    <CheckBox x:Name="chkLitera" Content="Litera de Descanso" Foreground="#1F2937"/>
+                    <CheckBox x:Name="chkTV" Content="TV" Foreground="#1F2937"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Botón Añadir -->
+            <Button Grid.Row="1" Content="Añadir Vehículo" Width="150" Background="#48B9A3" Foreground="White" HorizontalAlignment="Right" CornerRadius="5" Click="OnAñadirVehiculoButtonClick"/>
+        </Grid>
+    </ScrollViewer>
+</Window>

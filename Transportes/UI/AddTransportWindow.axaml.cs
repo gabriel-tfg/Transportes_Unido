@@ -95,8 +95,7 @@ namespace Transportes.UI
             // Agregar el nuevo transporte a la lista
             _transportes.Add(NuevoTransporte);
 
-            // Confirmar que el cliente y su NIF están asociados
-            Console.WriteLine($"Nuevo transporte agregado con ID: {NuevoTransporte.Id} y NIF del cliente: {cliente.Nif}");
+
 
             // Cerrar la ventana
             Close();

@@ -1,31 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Clientes>
   <Cliente>
-    <NIF>12345678A</NIF>
-    <Nombre>Juan Pérez</Nombre>
-    <Telefono>123456789</Telefono>
-    <Email>juan@example.com</Email>
-    <Direccion>Calle Falsa 123</Direccion>
-  </Cliente>
-  <Cliente>
     <NIF>87654321B</NIF>
-    <Nombre>Maria García</Nombre>
+    <Nombre>Maria</Nombre>
     <Telefono>987654321</Telefono>
     <Email>maria@example.com</Email>
     <Direccion>Avenida Siempre Viva 742</Direccion>
   </Cliente>
   <Cliente>
-    <NIF>15494682h</NIF>
-    <Nombre>Iago Pérez</Nombre>
+    <NIF>15494682H</NIF>
+    <Nombre>Iago</Nombre>
     <Telefono>123456789</Telefono>
     <Email>juan@example.com</Email>
     <Direccion>Calle Falsa 123</Direccion>
   </Cliente>
   <Cliente>
-    <NIF>15494851J</NIF>
-    <Nombre>Loko Pérez</Nombre>
-    <Telefono>123456789</Telefono>
-    <Email>juan@example.com</Email>
-    <Direccion>Calle Falsa 123</Direccion>
+    <NIF>39988108B</NIF>
+    <Nombre>Cliente2001</Nombre>
+    <Telefono>613570252</Telefono>
+    <Email>cliente2001@example.com</Email>
+    <Direccion>Calle Nueva 2001</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>43446899L</NIF>
+    <Nombre>Cliente2003</Nombre>
+    <Telefono>676033344</Telefono>
+    <Email>cliente2003@example.com</Email>
+    <Direccion>Calle Nueva 2003</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>96412857N</NIF>
+    <Nombre>Cliente2004</Nombre>
+    <Telefono>625485583</Telefono>
+    <Email>cliente2004@example.com</Email>
+    <Direccion>Calle Nueva 2004</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>69351343R</NIF>
+    <Nombre>Cliente2005</Nombre>
+    <Telefono>679121515</Telefono>
+    <Email>cliente2005@example.com</Email>
+    <Direccion>Calle Nueva 2005</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>91111822U</NIF>
+    <Nombre>Cliente2006</Nombre>
+    <Telefono>630443858</Telefono>
+    <Email>cliente2006@example.com</Email>
+    <Direccion>Calle Nueva 2006</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>11616578H</NIF>
+    <Nombre>Cliente2008</Nombre>
+    <Telefono>675207484</Telefono>
+    <Email>cliente2008@example.com</Email>
+    <Direccion>Calle Nueva 2008</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>62588092E</NIF>
+    <Nombre>Cliente2009</Nombre>
+    <Telefono>619881559</Telefono>
+    <Email>cliente2009@example.com</Email>
+    <Direccion>Calle Nueva 2009</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>82561503D</NIF>
+    <Nombre>Cliente2010</Nombre>
+    <Telefono>670769685</Telefono>
+    <Email>cliente2010@example.com</Email>
+    <Direccion>Calle Nueva 2010</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>97001223N</NIF>
+    <Nombre>Cliente2011</Nombre>
+    <Telefono>676129521</Telefono>
+    <Email>cliente2011@example.com</Email>
+    <Direccion>Calle Nueva 2011</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>89222980V</NIF>
+    <Nombre>Cliente2013</Nombre>
+    <Telefono>690508321</Telefono>
+    <Email>cliente2013@example.com</Email>
+    <Direccion>Calle Nueva 2013</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>30118718O</NIF>
+    <Nombre>Cliente2015</Nombre>
+    <Telefono>698312354</Telefono>
+    <Email>cliente2015@example.com</Email>
+    <Direccion>Calle Nueva 2015</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>90641105Z</NIF>
+    <Nombre>Cliente2019</Nombre>
+    <Telefono>668669393</Telefono>
+    <Email>cliente2019@example.com</Email>
+    <Direccion>Calle Nueva 2019</Direccion>
+  </Cliente>
+  <Cliente>
+    <NIF>53197452Q</NIF>
+    <Nombre>david</Nombre>
+    <Telefono>231255</Telefono>
+    <Email>htdth</Email>
+    <Direccion>252525</Direccion>
   </Cliente>
 </Clientes>

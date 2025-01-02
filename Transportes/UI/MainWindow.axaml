@@ -1,12 +1,16 @@
 <Window Background="Cornsilk"
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:Transportes.UI"
         x:Class="Transportes.MainWindow"
         Title="Transportes"
         Width="1500" Height="700">
 
     <!-- TabControl para mostrar las pestañas -->
     <TabControl Name="tabControlMenu">
+     
+
+
         <!-- Tab para Transportes -->
         <TabItem Header="Transportes">
             <TabItem.Background>
@@ -20,7 +24,7 @@
                 <DataGrid x:Name="DgridTransporte"
                           Foreground="Black"
                           AutoGenerateColumns="False"
-                          IsReadOnly="False"
+                          IsReadOnly="True"
                           BorderBrush="#BDE0FE"
                           BorderThickness="1"
                           HorizontalScrollBarVisibility="Auto"
@@ -49,7 +53,7 @@
                 </DataGrid>
 
                 <!-- Barra de filtros lateral, independiente para cada tabitem -->
-                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Grid.Column="1">
+                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Margin="10" Grid.Column="1">
                     <!-- Contenido de cada lateral de filtro -->
                     <StackPanel VerticalAlignment="Top">
                         <!-- Barra azul en la parte superior -->
@@ -62,7 +66,7 @@
                         </Grid>
 
                         <!-- Menú desplegable dentro de un cuadrado -->
-                        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="5" Margin="20" Padding="10"
+                        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="5" Margin="10" Padding="10"
                                 HorizontalAlignment="Center">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -74,15 +78,49 @@
                                     <Label FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10">Opciones de Búsqueda</Label>
 
                                     <!-- ComboBox para las opciones -->
-                                    <ComboBox Name="OpcionesComboBox1" Width="250"
+                                    <ComboBox SelectedIndex="0" Name="OpcionesComboBox1" Width="250"
                                               HorizontalAlignment="Center">
+                                        <ComboBoxItem>Todos</ComboBoxItem>
                                         <ComboBoxItem>Transportes pendientes</ComboBoxItem>
-                                        <ComboBoxItem>Disponibilidad</ComboBoxItem>
                                         <ComboBoxItem>Reservas pasadas o pendientes</ComboBoxItem>
                                         <ComboBoxItem>Reservas por camión</ComboBoxItem>
                                         <ComboBoxItem>Reservas pendientes</ComboBoxItem>
-                                        <ComboBoxItem>Ocupación</ComboBoxItem>
                                     </ComboBox>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Name="SPRC" IsVisible="False">
+                                    <Label FontWeight="Bold" FontSize="16">Buscar en:</Label>
+                                    <ComboBox Name="BusquedaComboBoxRC">
+                                        <ComboBoxItem Content="Flota" />
+                                        <ComboBoxItem Content="Vehiculo" />
+                                    </ComboBox>
+                                    <Label Margin="0,5,0,0" FontWeight="Bold" FontSize="16" Name="LabelRC"
+                                           IsVisible="False">
+                                        Tipo de Camión:
+                                    </Label>
+                                    <ComboBox Name="TipoCamionComboBoxRC" Width="200" HorizontalAlignment="Left"
+                                              Margin="0,10,0,10" IsVisible="False">
+                                        <ComboBoxItem Content="Furgoneta" />
+                                        <ComboBoxItem Content="Camión" />
+                                        <ComboBoxItem Content="Camión Articulado" />
+                                    </ComboBox>
+                                    <Label FontWeight="Bold" FontSize="16">Limitar por año</Label>
+                                    <StackPanel>
+                                        <DatePicker Name="AnhoPPRC" DayVisible="False" MonthVisible="False" />
+                                    </StackPanel>
+                                    <Button Name="BuscarButtonRC" Margin="0,10,0,0" Content="Buscar" Width="100"
+                                            HorizontalAlignment="Left"
+                                            Click="BuscarButton_Click" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Name="PasadasPendientes" IsVisible="False">
+                                    <Label Name="LPP" FontWeight="Bold" FontSize="16">DNI del cliente</Label>
+                                    <TextBox Name="DniCliente" Width="250" />
+                                    <Label FontWeight="Bold" FontSize="16">Limitar por año</Label>
+                                    <StackPanel>
+                                        <DatePicker Name="AnhoPP" DayVisible="False" MonthVisible="False" />
+                                    </StackPanel>
+                                    <Button Name="BuscarButton2" Margin="0,10,0,0" Content="Buscar" Width="100"
+                                            HorizontalAlignment="Left"
+                                            Click="BuscarButton_Click" />
                                 </StackPanel>
                                 <StackPanel Grid.Row="1" x:Name="transportePendiente" IsVisible="False">
                                     <Label FontWeight="Bold" FontSize="16">Buscar por:</Label>
@@ -105,8 +143,10 @@
                                     </ComboBox>
 
                                     <!-- Botón para ejecutar la búsqueda -->
-                                    <Button Name="BuscarButton" Content="Buscar" Width="100" HorizontalAlignment="Left"
+                                    <Button Name="BuscarButton" Margin="0,10,0,0" Content="Buscar" Width="100"
+                                            HorizontalAlignment="Left"
                                             Click="BuscarButton_Click" />
+
 
                                     <!-- ListBox para mostrar los resultados -->
                                     <ListBox Name="ResultadosListBox" Margin="0,10,0,0">
@@ -119,6 +159,14 @@
                                 </StackPanel>
                             </Grid>
                         </Border>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Spacing="10" Margin="10 10 0 0">
+                            <Button x:Name="AddButton" Content="+ Añadir" Background="#F4A261" Foreground="White"
+                                    Width="100" Height="35" CornerRadius="5" />
+                            <StackPanel VerticalAlignment="Top">
+                                <TextBox Width="150" Name="SearchTransporteTextBox" Margin="0" Watermark="Buscar..."
+                                         KeyUp="OnSearchKeyUpTransporte" />
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -132,7 +180,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="350" />
                 </Grid.ColumnDefinitions>
                 <DataGrid x:Name="DgridClientes"
                           Foreground="Black"
@@ -164,14 +212,12 @@
                                             Width="200" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Grid.Column="1">
-                    <StackPanel>
-                        <TextBlock Text="Filtros para Transportes" FontSize="18" FontWeight="Bold" />
-                        <TextBlock Text="Por tipo:" />
-                        <ComboBox Width="200" />
-                        <TextBlock Text="Por cliente:" />
-                        <TextBox Width="200" />
-                        <Button Content="Aplicar Filtros" Width="200" Margin="0 10" />
+                <!-- Barra de filtros lateral, independiente para cada tabitem -->
+                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Margin="10" Grid.Column="1">
+                    <!-- Contenido de cada lateral de filtro -->
+                    <StackPanel VerticalAlignment="Top">
+                        <TextBox Name="SearchTextBox" Margin="10" Watermark="Buscar..." KeyUp="OnSearchKeyUpCliente" />
+                        <Button Content="+ Añadir" x:Name="AnadirCliente" Margin="10" BorderBrush="Gray" />
                     </StackPanel>
                 </Border>
             </Grid>
@@ -185,12 +231,12 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="350" />
                 </Grid.ColumnDefinitions>
                 <DataGrid x:Name="DgridFlota"
                           Foreground="Black"
                           AutoGenerateColumns="False"
-                          IsReadOnly="False"
+                          IsReadOnly="True"
                           BorderBrush="#BDE0FE"
                           BorderThickness="1"
                           HorizontalScrollBarVisibility="Auto"
@@ -208,19 +254,101 @@
                         </Style>
                     </DataGrid.Styles>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="NIF" Binding="{Binding Matricula}" Width="200" />
-                        <DataGridTextColumn Header="Nombre" Binding="{Binding Comodidades}" Width="200" />
-                        <DataGridTextColumn Header="Telefono" Binding="{Binding Disponible}" Width="200" />
+                        <DataGridTextColumn Header="Matrícula" Binding="{Binding Matricula}" Width="200" />
+                        <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="200" />
+                        <DataGridTextColumn Header="Marca" Binding="{Binding Marca}" Width="200" />
+                        <DataGridTextColumn Header="Modelo" Binding="{Binding Modelo}" Width="200" />
+                        <DataGridTextColumn Header="Consumo (Km/L)" Binding="{Binding ConsumoPorKm}" Width="200" />
+
+                        <DataGridTextColumn Header="FechaAdquisicion"
+                                            Binding="{Binding FechaAdquisicion,StringFormat=d}"
+                                            Width="200" />
+
                     </DataGrid.Columns>
                 </DataGrid>
-                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Grid.Column="1">
-                    <StackPanel>
-                        <TextBlock Text="Filtros para Transportes" FontSize="18" FontWeight="Bold" />
-                        <TextBlock Text="Por tipo:" />
-                        <ComboBox Width="200" />
-                        <TextBlock Text="Por cliente:" />
-                        <TextBox Width="200" />
-                        <Button Content="Aplicar Filtros" Width="200" Margin="0 10" />
+
+
+                <!-- Barra de filtros lateral, independiente para cada tabitem -->
+                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Margin="10" Grid.Column="1">
+                    <!-- Contenido de cada lateral de filtro -->
+                    <StackPanel VerticalAlignment="Top">
+                        <!-- Barra azul en la parte superior -->
+                        <Grid>
+                            <!-- Etiqueta centrada -->
+                            <Label FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Foreground="Black">
+                                Búsquedas
+                            </Label>
+                        </Grid>
+
+                        <!-- Menú desplegable dentro de un cuadrado -->
+                        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="5" Margin="10" Padding="10"
+                                HorizontalAlignment="Center">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />  <!-- Primer StackPanel -->
+                                    <RowDefinition Height="Auto" />  <!-- Segundo StackPanel -->
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0">
+                                    <!-- Título del menú -->
+                                    <Label FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10">Opciones de Búsqueda</Label>
+
+                                    <!-- ComboBox para las opciones -->
+                                    <ComboBox Name="OpcionesComboBoxFlota" Width="250"
+                                              HorizontalAlignment="Center" SelectedIndex="0">
+                                        <ComboBoxItem>Todos</ComboBoxItem>
+                                        <ComboBoxItem>Disponibilidad de vehículos</ComboBoxItem>
+                                        <ComboBoxItem>Ocupación</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Name="SpDis" IsVisible="False">
+                                    <Label FontWeight="Bold" FontSize="16">Tipo de vehículo</Label>
+                                    <ComboBox Name="tipoVDis" Width="250"
+                                              HorizontalAlignment="Center" SelectedIndex="0">
+                                        <ComboBoxItem Content="Todos" />
+                                        <ComboBoxItem Content="Furgoneta" />
+                                        <ComboBoxItem Content="Camión" />
+                                        <ComboBoxItem Content="Camión Articulado" />
+                                    </ComboBox>
+                                    <Button Name="BuscarButtonDis" Margin="0,10,0,0" Content="Buscar" Width="100"
+                                            HorizontalAlignment="Left"
+                                            Click="BuscarButton_ClickFlota" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Name="SpOcu" IsVisible="False">
+                                    <Label FontWeight="Bold" FontSize="16" Margin="0,5,0,0">Fecha</Label>
+                                    <StackPanel>
+                                        <DatePicker Name="DpOcu" DayVisible="False" MonthVisible="False" />
+                                        <DatePicker Name="DpOcu2" IsVisible="False" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,5,0,0">
+                                        <RadioButton Name="rbAnho" IsChecked="True" GroupName="RbOcu" Content="Año" />
+                                        <RadioButton Name="rbFecha" GroupName="RbOcu" Content="Fecha" />
+                                    </StackPanel>
+                                    <Button Name="BuscarButtonOcu" Margin="0,10,0,0" Content="Buscar" Width="100"
+                                            HorizontalAlignment="Left"
+                                            Click="BuscarButton_ClickFlota" />
+                                </StackPanel>
+
+
+                            </Grid>
+
+                        </Border>
+
+                        <StackPanel Orientation="Horizontal" Margin="10">
+                            <!-- Campo de búsqueda -->
+                            <TextBox x:Name="BuscarMatriculaTextBox" Width="200" />
+                            <Button Content="Buscar" Width="100" Margin="5,0,0,0" Click="OnBuscarVehiculoClick" />
+                        </StackPanel>
+
+
+                        <Button Content="Añadir Vehículo"
+                                Click="OnAñadirVehiculoClick"
+                                HorizontalAlignment="Left"
+                                Margin="10,0,0,10"
+                                Width="150"
+                                Grid.Row="1" />
+
                     </StackPanel>
                 </Border>
             </Grid>
@@ -358,8 +486,72 @@
             <TabItem.Background>
                 <SolidColorBrush Color="#BDE0FE" /> <!-- Turquesa pastel -->
             </TabItem.Background>
-            <TextBlock Text="Contenido de Graficos" VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Foreground="#1D3557" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="350" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Margin="40" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black">
+                    <ui:Chart
+                        Name="ChartW"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" />
+                </DockPanel>
+                <!-- Barra de filtros lateral, independiente para cada tabitem -->
+                <Border Background="#FAD5A5" CornerRadius="20" Padding="20" Margin="10" Grid.Column="1">
+                    <!-- Contenido de cada lateral de filtro -->
+                    <StackPanel VerticalAlignment="Top">
+                        <!-- Barra azul en la parte superior -->
+                        <Grid>
+                            <!-- Etiqueta centrada -->
+                            <Label FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Foreground="Black">
+                                Búsquedas
+                            </Label>
+                        </Grid>
+
+                        <!-- Menú desplegable dentro de un cuadrado -->
+                        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="5" Margin="10" Padding="10"
+                                HorizontalAlignment="Center">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />  <!-- Primer StackPanel -->
+                                    <RowDefinition Height="Auto" />  <!-- Segundo StackPanel -->
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel>
+                                        <!-- Título del menú -->
+                                        <Label FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10">Opciones de Búsqueda</Label>
+
+                                        <!-- ComboBox para las opciones -->
+                                        <ComboBox Name="OpGrafica" Width="250"
+                                                  HorizontalAlignment="Center"
+                                                  SelectedIndex="0">
+                                            <ComboBoxItem Name="CBag">Actividad General</ComboBoxItem>
+                                            <ComboBoxItem Name="CBacli">Actividad por cliente</ComboBoxItem>
+                                            <ComboBoxItem Name="CBacam">Actividad por camión</ComboBoxItem>
+                                            <ComboBoxItem Name="CBcc">Comodidades por camión</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Name="LabelOp" Content="" IsVisible="False" />
+                                        <TextBox HorizontalAlignment="Left" Name="TextBox" Width="120"
+                                                 IsVisible="False" />
+                                        <Button Name="ButtonOp" Margin="5" Content="Buscar" IsVisible="False" />
+                                    </StackPanel>
+                                    <StackPanel Name="SPFilter" Orientation="Vertical">
+                                        <Label Margin="5" Content="Filtro" />
+                                        <RadioButton Margin="5" Content="Mes" Name="MesOp" IsChecked="True" />
+                                        <RadioButton Margin="5" Content="Año" Name="AnhoOp" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
         </TabItem>
     </TabControl>
 </Window>
